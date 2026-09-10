@@ -1,2 +1,2 @@
-first line
+New line
 Second Line
