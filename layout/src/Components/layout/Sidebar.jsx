@@ -4,20 +4,22 @@ import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, Cre
 
 
 const menuItems = [
-    { label: 'Analytics', icon: Activity },
-    { label: 'Workspace', icon: LayoutDashboard },
-    { label: 'Resources', icon: BriefcaseBusiness },
-    { label: 'Payment', icon: CreditCard },
-    { label: 'Library', icon: BookOpen },
+    { label: 'Analytics', route: '/analytics', icon: Activity },
+    { label: 'Workspace', route: '/workspace', icon: LayoutDashboard },
+    { label: 'Resources', route: '/resources', icon: BriefcaseBusiness },
+    { label: 'Payment', route: '/payment', icon: CreditCard },
+    { label: 'Library', route: '/library', icon: BookOpen },
 ]
 
 const admin = [
-    { label: 'Subscription', icon: BadgeDollarSign },
-    { label: 'App Security', icon: ShieldCheck },
-    { label: 'Help & Docs', icon: CircleHelp },
+    { label: 'Subscription', route: '/subscription', icon: BadgeDollarSign },
+    { label: 'App Security', route: '/app-security', icon: ShieldCheck },
+    { label: 'Help & Docs', route: '/help-and-docs', icon: CircleHelp },
 ]
 
 export default function Sidebar({ isCollapsed }){
+    const currentPath = window.location.pathname
+
     return (
         <aside 
             className={`flex h-screen min-h-0 flex-col overflow-hidden ${isCollapsed ? 'w-[40px]' : 'w-[213px]'} shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
@@ -46,13 +48,17 @@ export default function Sidebar({ isCollapsed }){
                 )}
                 
                 <div className="mt-2 space-y-1 px-2">
-                    {menuItems.map(({ label, icon: Icon }) => (
-                        <button 
+                    {menuItems.map(({ label, route, icon: Icon }) => (
+                        <a 
                             key={label} 
-                            type="button" 
+                            href={route}
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium text-[#414141] transition-colors hover:bg-gray-100 hover:text-black ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium no-underline transition-colors ${
+                                currentPath === route
+                                    ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
+                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black'
+                            } ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
@@ -62,7 +68,7 @@ export default function Sidebar({ isCollapsed }){
                             }`}>
                                 {label}
                             </span>
-                        </button>
+                        </a>
                     ))}
                 </div>
             </div>
@@ -80,13 +86,17 @@ export default function Sidebar({ isCollapsed }){
                 )}
 
                 <div className="mt-2 space-y-1 px-2">
-                    {admin.map(({ label, icon: Icon }) => (
-                        <button 
+                    {admin.map(({ label, route, icon: Icon }) => (
+                        <a 
                             key={label} 
-                            type="button" 
+                            href={route}
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium text-[#414141] transition-colors hover:bg-gray-100 hover:text-black ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium no-underline transition-colors ${
+                                currentPath === route
+                                    ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
+                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black'
+                            } ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
@@ -96,16 +106,16 @@ export default function Sidebar({ isCollapsed }){
                             }`}>
                                 {label}
                             </span>
-                        </button>
+                        </a>
                     ))}
                 </div>
             </div>
             <div className={`mt-auto h-[48px] ${isCollapsed ? 'flex w-full justify-center pb-3' : 'w-[218px] p-3'}`}>
-                <button
-                    type="button"
+                <a
+                    href="/logout"
                     aria-label="Log out Peter Parker"
                     title={isCollapsed ? 'Log out Peter Parker' : undefined}
-                    className={`flex items-center rounded-md border border-gray-200 bg-white text-left shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
+                    className={`flex items-center rounded-md border border-gray-200 bg-white text-left no-underline shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
                         isCollapsed ? 'h-[35px] w-[35px] justify-center' : 'w-full -translate-y-6 gap-3 p-1.5'
                     }`}
                 >
@@ -126,7 +136,7 @@ export default function Sidebar({ isCollapsed }){
                         className={`shrink-0 text-[#ff5a63] ${isCollapsed ? 'hidden' : ''}`}
                         aria-hidden="true"
                     />
-                </button>
+                </a>
             </div>   
         </aside>
     );
