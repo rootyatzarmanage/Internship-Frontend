@@ -1,5 +1,5 @@
 import logo from '../Assets/logo.png'
-import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, ShieldCheck } from 'lucide-react'
+import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, ShieldCheck, MoreHorizontal } from 'lucide-react'
 
 const menuItems = [
     { label: 'Analytics', icon: Activity },
@@ -15,32 +15,85 @@ const admin = [
     { label: 'Help & Docs', icon: CircleHelp },
 ]
 
-export default function Sidebar(){
+export default function Sidebar({ isCollapsed }){
     return (
-        <aside className="min-h-screen w-60 border-r border-gray-300" aria-label="Sidebar">
-            <div className="flex h-16 items-center gap-3 px-5">
-                <img src={logo} alt="Yatzar Manage logo" className="h-7 w-7 object-contain" />
-                <span className="text-lg font-medium tracking-wide text-gray-800">YATZAR MANAGE</span>
+        <aside 
+            className={`${isCollapsed ? 'w-16' : 'w-60'} min-h-screen shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
+            aria-label="Sidebar"
+        >
+            {/* Header / Logo Section */}
+            <div className={`flex h-20 items-center px-4 ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
+                <img src={logo} alt="Yatzar Manage logo" className="h-7 w-7 shrink-0 object-contain" />
+                <span className={`text-lg font-medium tracking-wide text-gray-800 whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                    isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] opacity-100 scale-100'
+                }`}>
+                    YATZAR MANAGE
+                </span>
             </div>
+
+            {/* Main Menu Section */}
             <div className="py-3">
-                <p className="text-sm text-gray-400 px-5">MAIN MENU</p>
-                <div className="mt-2 space-y-1">
+                {isCollapsed ? (
+                    <div className="flex justify-center py-1 text-gray-400" title="Main Menu">
+                        <MoreHorizontal size={18} />
+                    </div>
+                ) : (
+                    <p className="px-5 text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap overflow-hidden transition-all duration-300">
+                        Main Menu
+                    </p>
+                )}
+                
+                <div className="mt-2 space-y-1 px-2">
                     {menuItems.map(({ label, icon: Icon }) => (
-                        <button key={label} type="button" className="flex w-full items-center gap-3 px-5 py-2.5 text-left text-sm text-black">
-                            <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
-                            <span>{label}</span>
+                        <button 
+                            key={label} 
+                            type="button" 
+                            aria-label={label} 
+                            title={isCollapsed ? label : undefined} 
+                            className={`flex w-full items-center rounded-md py-2.5 text-left text-sm text-black transition-colors hover:bg-gray-100 ${
+                                isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
+                            }`}
+                        >
+                            <Icon size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
+                                isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
+                            }`}>
+                                {label}
+                            </span>
                         </button>
                     ))}
                 </div>
             </div>
 
+            {/* Admin Section */}
             <div className="py-3">
-                <p className="text-sm text-gray-400 px-5">ADMIN</p>
-                <div className="mt-2 space-y-1">
+                {isCollapsed ? (
+                    <div className="flex justify-center py-1 text-gray-400" title="Admin">
+                        <MoreHorizontal size={18} />
+                    </div>
+                ) : (
+                    <p className="px-5 text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap overflow-hidden transition-all duration-300">
+                        Admin
+                    </p>
+                )}
+
+                <div className="mt-2 space-y-1 px-2">
                     {admin.map(({ label, icon: Icon }) => (
-                            <button key={label} type="button" className="flex w-full items-center gap-3 px-5 py-2.5 text-left text-sm text-black">
-                            <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
-                            <span>{label}</span>
+                        <button 
+                            key={label} 
+                            type="button" 
+                            aria-label={label} 
+                            title={isCollapsed ? label : undefined} 
+                            className={`flex w-full items-center rounded-md py-2.5 text-left text-sm text-black transition-colors hover:bg-gray-100 ${
+                                isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
+                            }`}
+                        >
+                            <Icon size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
+                                isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
+                            }`}>
+                                {label}
+                            </span>
                         </button>
                     ))}
                 </div>

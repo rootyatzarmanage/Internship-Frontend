@@ -1,12 +1,19 @@
+import { useState } from 'react'
 import Sidebar from './Dashboard/Sidebar'
 import Header from './Dashboard/Header'
 
 function App() {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+
+  const handleToggleSidebar = () => {
+    setIsSidebarCollapsed((prev) => !prev)
+  }
+
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar isCollapsed={isSidebarCollapsed} />
       <main className="flex-1">
-        <Header />
+        <Header onToggleSidebar={handleToggleSidebar} />
       </main>
     </div>
   )
