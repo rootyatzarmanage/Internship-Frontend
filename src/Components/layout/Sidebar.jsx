@@ -1,5 +1,5 @@
-import logo from '../Assets/logo.png'
-import peter from '../Assets/peterparker.jpeg'
+import logo from '../../Assets/logo.png'
+import peter from '../../Assets/peterparker.jpeg'
 import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, LogOut, ShieldCheck, MoreHorizontal } from 'lucide-react'
 
 
