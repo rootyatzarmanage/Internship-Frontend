@@ -1,5 +1,7 @@
 import logo from '../Assets/logo.png'
-import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, ShieldCheck, MoreHorizontal } from 'lucide-react'
+import peter from '../Assets/peterparker.jpeg'
+import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, LogOut, ShieldCheck, MoreHorizontal } from 'lucide-react'
+
 
 const menuItems = [
     { label: 'Analytics', icon: Activity },
@@ -18,7 +20,7 @@ const admin = [
 export default function Sidebar({ isCollapsed }){
     return (
         <aside 
-            className={`${isCollapsed ? 'w-16' : 'w-60'} min-h-screen shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
+            className={`flex flex-col ${isCollapsed ? 'w-20' : 'w-60'} min-h-screen shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
             aria-label="Sidebar"
         >
             {/* Header / Logo Section */}
@@ -50,11 +52,11 @@ export default function Sidebar({ isCollapsed }){
                             type="button" 
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full items-center rounded-md py-2.5 text-left text-sm text-black transition-colors hover:bg-gray-100 ${
+                            className={`flex w-full items-center rounded-md py-2.5 text-left text-regular font-medium text-black transition-colors hover:bg-blue-50 hover:text-blue-600 ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
-                            <Icon size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={22} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -84,11 +86,11 @@ export default function Sidebar({ isCollapsed }){
                             type="button" 
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full items-center rounded-md py-2.5 text-left text-sm text-black transition-colors hover:bg-gray-100 ${
+                            className={`flex w-full items-center rounded-md py-2.5 text-left text-regular font-medium text-black transition-colors hover:bg-blue-50 hover:text-blue-600 ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
-                            <Icon size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={22} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -98,6 +100,34 @@ export default function Sidebar({ isCollapsed }){
                     ))}
                 </div>
             </div>
+            <div className="mt-auto p-3">
+                <button
+                    type="button"
+                    aria-label="Log out Peter Parker"
+                    title={isCollapsed ? 'Log out Peter Parker' : undefined}
+                    className={`flex w-full items-center rounded-2xl border border-gray-200 bg-white text-left shadow-sm transition-colors hover:bg-blue-50 cursor-pointer ${
+                        isCollapsed ? 'justify-center p-2' : 'gap-3 px-3 py-3'
+                    }`}
+                >
+                    <img
+                        src={peter}
+                        alt="Peter Parker"
+                        className={`shrink-0 rounded-xl object-cover ${isCollapsed ? 'h-10 w-10' : 'h-12 w-12'}`}
+                    />
+                    <span className={`min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out ${
+                        isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100'
+                    }`}>
+                        <span className="block truncate text-sm font-semibold text-gray-700">Peter Parker</span>
+                        <span className="mt-0.5 block truncate text-xs font-normal text-gray-400">Administration</span>
+                    </span>
+                    <LogOut
+                        size={25}
+                        strokeWidth={1.8}
+                        className={`shrink-0 text-[#ff5a63] ${isCollapsed ? 'hidden' : ''}`}
+                        aria-hidden="true"
+                    />
+                </button>
+            </div>   
         </aside>
     );
 }
