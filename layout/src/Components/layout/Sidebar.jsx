@@ -20,14 +20,14 @@ const admin = [
 export default function Sidebar({ isCollapsed }){
     return (
         <aside 
-            className={`flex flex-col ${isCollapsed ? 'w-20' : 'w-60'} min-h-screen shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
+            className={`flex h-screen min-h-0 flex-col overflow-hidden ${isCollapsed ? 'w-[40px]' : 'w-[213px]'} shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
             aria-label="Sidebar"
         >
             {/* Header / Logo Section */}
-            <div className={`flex h-20 items-center px-4 ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
-                <img src={logo} alt="Yatzar Manage logo" className="h-7 w-7 shrink-0 object-contain" />
-                <span className={`text-lg font-medium tracking-wide text-gray-800 whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
-                    isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] opacity-100 scale-100'
+            <div className={`flex h-20 items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'}`}>
+                <img src={logo} alt="Yatzar Manage logo" className={`shrink-0 object-contain ${isCollapsed ? 'h-[21px] w-[32px]' : 'h-[25px] w-[21px]'}`} />
+                <span className={`text-[18px] font-medium tracking-normal text-gray-800 whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                    isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] flex-none opacity-100 scale-100'
                 }`}>
                     YATZAR MANAGE
                 </span>
@@ -40,7 +40,7 @@ export default function Sidebar({ isCollapsed }){
                         <MoreHorizontal size={18} />
                     </div>
                 ) : (
-                    <p className="px-5 text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap overflow-hidden transition-all duration-300">
+                    <p className="px-5 text-[10px] font-semibold uppercase tracking-wider text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[18px]">
                         Main Menu
                     </p>
                 )}
@@ -52,11 +52,11 @@ export default function Sidebar({ isCollapsed }){
                             type="button" 
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full items-center rounded-md py-2.5 text-left text-regular font-medium text-black transition-colors hover:bg-blue-50 hover:text-blue-600 ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium text-[#414141] transition-colors hover:bg-gray-100 hover:text-black ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
-                            <Icon size={22} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -74,7 +74,7 @@ export default function Sidebar({ isCollapsed }){
                         <MoreHorizontal size={18} />
                     </div>
                 ) : (
-                    <p className="px-5 text-xs font-semibold uppercase tracking-wider text-gray-400 whitespace-nowrap overflow-hidden transition-all duration-300">
+                    <p className="px-5 text-[10px] font-semibold uppercase tracking-wider text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[18px]">
                         Admin
                     </p>
                 )}
@@ -86,11 +86,11 @@ export default function Sidebar({ isCollapsed }){
                             type="button" 
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full items-center rounded-md py-2.5 text-left text-regular font-medium text-black transition-colors hover:bg-blue-50 hover:text-blue-600 ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium text-[#414141] transition-colors hover:bg-gray-100 hover:text-black ${
                                 isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
                             }`}
                         >
-                            <Icon size={22} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -100,28 +100,28 @@ export default function Sidebar({ isCollapsed }){
                     ))}
                 </div>
             </div>
-            <div className="mt-auto p-3">
+            <div className={`mt-auto h-[48px] ${isCollapsed ? 'flex w-full justify-center pb-3' : 'w-[218px] p-3'}`}>
                 <button
                     type="button"
                     aria-label="Log out Peter Parker"
                     title={isCollapsed ? 'Log out Peter Parker' : undefined}
-                    className={`flex w-full items-center rounded-2xl border border-gray-200 bg-white text-left shadow-sm transition-colors hover:bg-blue-50 cursor-pointer ${
-                        isCollapsed ? 'justify-center p-2' : 'gap-3 px-3 py-3'
+                    className={`flex items-center rounded-md border border-gray-200 bg-white text-left shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
+                        isCollapsed ? 'h-[35px] w-[35px] justify-center' : 'w-full -translate-y-6 gap-3 p-1.5'
                     }`}
                 >
                     <img
                         src={peter}
                         alt="Peter Parker"
-                        className={`shrink-0 rounded-xl object-cover ${isCollapsed ? 'h-10 w-10' : 'h-12 w-12'}`}
+                        className={`shrink-0 rounded object-cover ${isCollapsed ? 'h-[23px] w-[23px]' : 'h-[35px] w-[35px]'}`}
                     />
                     <span className={`min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out ${
                         isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100'
                     }`}>
-                        <span className="block truncate text-sm font-semibold text-gray-700">Peter Parker</span>
-                        <span className="mt-0.5 block truncate text-xs font-normal text-gray-400">Administration</span>
+                        <span className="block truncate text-[14px] font-semibold text-gray-700">Peter Parker</span>
+                        <span className="mt-0.5 block truncate text-[10px] font-normal text-gray-400">Administration</span>
                     </span>
                     <LogOut
-                        size={25}
+                        size={24}
                         strokeWidth={1.8}
                         className={`shrink-0 text-[#ff5a63] ${isCollapsed ? 'hidden' : ''}`}
                         aria-hidden="true"
