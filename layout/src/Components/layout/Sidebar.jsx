@@ -1,6 +1,6 @@
 import logo from '../../Assets/logo.png'
 import peter from '../../Assets/peterparker.jpeg'
-import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, LogOut, ShieldCheck, MoreHorizontal } from 'lucide-react'
+import { Activity, BadgeDollarSign, BookOpen, BriefcaseBusiness, CircleHelp, CreditCard, LayoutDashboard, LogOut, MoreHorizontal, ShieldCheck } from 'lucide-react'
 
 
 const menuItems = [
@@ -21,45 +21,46 @@ export default function Sidebar({ isCollapsed }){
     const currentPath = window.location.pathname
 
     return (
-        <aside 
-            className={`flex h-screen min-h-0 flex-col overflow-hidden ${isCollapsed ? 'w-[40px]' : 'w-[213px]'} shrink-0 border-r border-gray-300 transition-all duration-300 ease-in-out select-none`} 
+            <aside 
+                className={`flex h-screen min-h-0 flex-col overflow-hidden ${isCollapsed ? 'w-[40px]' : 'w-[213px]'} shrink-0 border-r border-gray-300 bg-white transition-all duration-300 ease-in-out select-none`} 
             aria-label="Sidebar"
         >
             {/* Header / Logo Section */}
-            <div className={`flex h-20 items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'}`}>
+            <a href="/" aria-label="Yatzar Manage home" className={`flex h-20 items-center no-underline ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'}`}>
                 <img src={logo} alt="Yatzar Manage logo" className={`shrink-0 object-contain ${isCollapsed ? 'h-[21px] w-[32px]' : 'h-[25px] w-[21px]'}`} />
                 <span className={`text-[18px] font-medium tracking-normal text-gray-800 whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
                     isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] flex-none opacity-100 scale-100'
                 }`}>
                     YATZAR MANAGE
                 </span>
-            </div>
+            </a>
 
-            {/* Main Menu Section */}
-            <div className="py-3">
+            <nav aria-label="Main navigation" className="flex-1 overflow-y-auto">
+                {/* Main Menu Section */}
+                <div className="py-1 px-2">
                 {isCollapsed ? (
-                    <div className="flex justify-center py-1 text-gray-400" title="Main Menu">
-                        <MoreHorizontal size={18} />
+                    <div className="flex justify-center py-1 text-gray-800" title="Main Menu">
+                        <MoreHorizontal size={18} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
-                    <p className="px-5 text-[10px] font-semibold uppercase tracking-wider text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[18px]">
+                    <p className="px-2 text-[10px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px]">
                         Main Menu
                     </p>
                 )}
                 
-                <div className="mt-2 space-y-1 px-2">
+                <div className={`mt-0.5 space-y-[3px] ${isCollapsed ? 'px-0' : 'px-3'}`}>
                     {menuItems.map(({ label, route, icon: Icon }) => (
                         <a 
                             key={label} 
                             href={route}
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium no-underline transition-colors ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[14px] font-medium no-underline transition-colors ${
                                 currentPath === route
                                     ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
                                     : 'text-[#414141] hover:bg-gray-100 hover:text-black'
                             } ${
-                                isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
+                                isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
                         >
                             <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
@@ -73,31 +74,31 @@ export default function Sidebar({ isCollapsed }){
                 </div>
             </div>
 
-            {/* Admin Section */}
-            <div className="py-3">
+                {/* Admin Section */}
+                <div className="py-1 px-2">
                 {isCollapsed ? (
-                    <div className="flex justify-center py-1 text-gray-400" title="Admin">
-                        <MoreHorizontal size={18} />
+                    <div className="flex justify-center py-1 text-gray-800" title="Admin">
+                        <MoreHorizontal size={18} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
-                    <p className="px-5 text-[10px] font-semibold uppercase tracking-wider text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[18px]">
+                    <p className="px-2 text-[10px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px]">
                         Admin
                     </p>
                 )}
 
-                <div className="mt-2 space-y-1 px-2">
+                <div className={`mt-0.5 space-y-[3px] ${isCollapsed ? 'px-0' : 'px-3.5'}`}>
                     {admin.map(({ label, route, icon: Icon }) => (
                         <a 
                             key={label} 
                             href={route}
                             aria-label={label} 
                             title={isCollapsed ? label : undefined} 
-                            className={`flex w-full cursor-pointer items-center rounded-md py-2.5 text-left text-sm font-medium no-underline transition-colors ${
+                            className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[14px] font-medium no-underline transition-colors ${
                                 currentPath === route
                                     ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
                                     : 'text-[#414141] hover:bg-gray-100 hover:text-black'
                             } ${
-                                isCollapsed ? 'justify-center px-2' : 'gap-3 px-3'
+                                isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
                         >
                             <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
@@ -109,14 +110,15 @@ export default function Sidebar({ isCollapsed }){
                         </a>
                     ))}
                 </div>
-            </div>
-            <div className={`mt-auto h-[48px] ${isCollapsed ? 'flex w-full justify-center pb-3' : 'w-[218px] p-3'}`}>
+                </div>
+            </nav>
+            <div className={`mt-auto ${isCollapsed ? 'flex w-full justify-center pb-3' : 'w-full px-2 pb-2'}`}>
                 <a
                     href="/logout"
                     aria-label="Log out Peter Parker"
                     title={isCollapsed ? 'Log out Peter Parker' : undefined}
                     className={`flex items-center rounded-md border border-gray-200 bg-white text-left no-underline shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
-                        isCollapsed ? 'h-[35px] w-[35px] justify-center' : 'w-full -translate-y-6 gap-3 p-1.5'
+                        isCollapsed ? 'h-[28px] w-[28px] justify-center' : 'w-full gap-3 p-1.5'
                     }`}
                 >
                     <img
