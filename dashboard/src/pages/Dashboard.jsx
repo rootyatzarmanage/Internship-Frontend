@@ -11,7 +11,7 @@ export default function Dashboard({ isSidebarCollapsed, onToggleSidebar }) {
       <Sidebar isCollapsed={isSidebarCollapsed} />
       <main className="min-w-0 flex-1">
         <Header onToggleSidebar={onToggleSidebar} />
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-[30px] px-6 py-7 xl:grid-cols-[1.35fr_0.9fr]">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-x-[30px] gap-y-[30px] px-6 py-7 xl:grid-cols-[1.35fr_0.9fr]">
           <SummaryCards />
           <OverallView />
           <PaymentChart />

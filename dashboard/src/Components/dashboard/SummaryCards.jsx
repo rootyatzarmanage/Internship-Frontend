@@ -28,12 +28,13 @@ export default function SummaryCards() {
   return (
     <section aria-label="Workspace summary" className="grid grid-cols-1 gap-x-[30px] gap-y-[40px] sm:grid-cols-2">
       {summaryCards.map(({ label, value, change, trend }) => (
-        <article key={label} className="flex h-[155px] w-[292px] items-center justify-between rounded-md border border-[#d9d9d9] bg-[#f8f8f8] px-4 py-3 shadow-[0_0_0_1px_rgba(0,0,0,0.01)]">
+        <article key={label} className="flex h-[155px] w-[292px] items-center justify-between rounded-lg border border-[#bbbbbb] bg-[#f8f8f8] px-4 py-3 shadow-[0_0_0_1px_rgba(0,0,0,0.01)]">
           <div>
-            <h2 className="text-[12px] font-semibold text-[#2a2a2a]">{label}</h2>
-            <p className="mt-2 text-[33px] font-semibold leading-none text-[#121212]">{value}</p>
-            <p className={`mt-1 text-[9px] ${trend === 'up' ? 'text-[#59c76a]' : 'text-[#f2676d]'}`}>
-              <span className="font-semibold">{change}</span> vs last month
+            <h2 className="text-[14px] font-semibold text-[#2a2a2a]">{label}</h2>
+            <p className="mt-2 text-[48px] font-semibold leading-none text-[#121212]">{value}</p>
+            <p className="mt-2 text-[14px] text-[#111111]">
+              <span className={`text-[10px] ${trend === 'up' ? 'font-medium text-[#00bd59]' : 'font-medium text-[#ff3d48]'}`}>{change}</span>
+           <span className='text-[10px]'>vs last month</span>   
             </p>
           </div>
           <TrendLine direction={trend} />

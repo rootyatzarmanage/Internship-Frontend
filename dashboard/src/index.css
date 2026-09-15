@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Instrument Sans", sans-serif;
+}
+
+:root {
+	font-family: "Instrument Sans", sans-serif;
+}
+
+*,
+button,
+input,
+textarea,
+select {
+	font-family: inherit;
+}

@@ -10,9 +10,9 @@ export default function OverallView() {
   let offset = 0
 
   return (
-    <section className="h-[350px] w-[477px] rounded-md border border-[#d9d9d9] bg-[#f8f8f8] p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.01)]" aria-labelledby="overall-view-title">
+    <section className="flex h-[350px] w-[477px] flex-col rounded-lg border border-[#bbbbbb] bg-[#f8f8f8] p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.01)]" aria-labelledby="overall-view-title">
       <h2 id="overall-view-title" className="text-[18px] font-semibold text-[#2a2a2a]">Overall View</h2>
-      <div className="mt-4 flex items-center justify-center gap-6 sm:gap-8">
+      <div className="mt-4 flex min-h-0 flex-1 items-center justify-center gap-6 sm:gap-8">
         <div
           className="relative h-[190px] w-[190px] shrink-0 rounded-full"
           style={{
