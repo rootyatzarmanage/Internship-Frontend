@@ -1,18 +1,12 @@
-import { useState } from 'react'
-import Dashboard from './pages/Dashboard'
+import Layout from './Components/Layout'
+import './App.css'
 
 function App() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
-
-  const handleToggleSidebar = () => {
-    setIsSidebarCollapsed((prev) => !prev)
-  }
-
   return (
-    <Dashboard
-      isSidebarCollapsed={isSidebarCollapsed}
-      onToggleSidebar={handleToggleSidebar}
-    />
+    <Layout>
+      <div className="flex min-h-full items-center justify-center p-8 bg-[#F8F8F8] text-gray-500">
+      </div>
+    </Layout>
   )
 }
 
