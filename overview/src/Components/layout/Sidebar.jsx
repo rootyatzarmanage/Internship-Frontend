@@ -27,7 +27,7 @@ export default function Sidebar({ isCollapsed }){
 
     return (
         <aside 
-            className={`flex h-screen min-h-0 flex-col overflow-hidden ${isCollapsed ? 'w-[40px]' : 'w-[213px]'} shrink-0 border-r border-gray-300 bg-white transition-all duration-300 ease-in-out select-none`} 
+            className={`overview-sidebar ${isCollapsed ? 'overview-sidebar--collapsed w-[40px]' : 'overview-sidebar--expanded w-[213px]'} flex h-screen min-h-0 flex-col overflow-hidden shrink-0 border-r border-gray-300 bg-white transition-all duration-300 ease-in-out select-none`} 
             aria-label="Sidebar"
         >
             {/* Header / Logo Section */}

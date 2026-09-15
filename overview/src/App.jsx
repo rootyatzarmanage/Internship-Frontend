@@ -1,21 +1,33 @@
 import { useState } from 'react'
 import Sidebar from './Components/layout/Sidebar'
 import Header from './Components/layout/Header'
-import ProjectDetails from './Components/overview/ProjectDetails'
-import ProjectImage from './Components/overview/ProjectImage'
-import ProjectMap from './Components/overview/ProjectMap'
+import ProjectDetails from './Components/cards/ProjectDetails'
+import ProjectImage from './Components/cards/ProjectImage'
+import ProjectMap from './Components/cards/ProjectMap'
+import './App.css'
+
+const SIDEBAR_STORAGE_KEY = 'overview-sidebar-collapsed'
 
 function App() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
-  const [leftPanelWidth, setLeftPanelWidth] = useState(58)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => (
+    window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
+  ))
+  const [leftPanelWidth, setLeftPanelWidth] = useState(64)
+  const [isDividerDragging, setIsDividerDragging] = useState(false)
 
   const handleToggleSidebar = () => {
-    setIsSidebarCollapsed((prev) => !prev)
+    setIsSidebarCollapsed((prev) => {
+      const nextState = !prev
+      window.localStorage.setItem(SIDEBAR_STORAGE_KEY, String(nextState))
+      return nextState
+    })
   }
 
   const handleDividerPointerDown = (event) => {
-    event.currentTarget.setPointerCapture(event.pointerId)
-    const content = event.currentTarget.parentElement
+    const divider = event.currentTarget
+    divider.setPointerCapture(event.pointerId)
+    setIsDividerDragging(true)
+    const content = divider.parentElement
 
     const handlePointerMove = (moveEvent) => {
       const bounds = content.getBoundingClientRect()
@@ -24,29 +36,45 @@ function App() {
     }
 
     const handlePointerUp = () => {
-      event.currentTarget.releasePointerCapture(event.pointerId)
-      event.currentTarget.removeEventListener('pointermove', handlePointerMove)
-      event.currentTarget.removeEventListener('pointerup', handlePointerUp)
+      if (divider.hasPointerCapture(event.pointerId)) {
+        divider.releasePointerCapture(event.pointerId)
+      }
+      divider.removeEventListener('pointermove', handlePointerMove)
+      divider.removeEventListener('pointerup', handlePointerUp)
+      divider.removeEventListener('pointercancel', handlePointerUp)
+      setIsDividerDragging(false)
     }
 
-    event.currentTarget.addEventListener('pointermove', handlePointerMove)
-    event.currentTarget.addEventListener('pointerup', handlePointerUp)
+    divider.addEventListener('pointermove', handlePointerMove)
+    divider.addEventListener('pointerup', handlePointerUp)
+    divider.addEventListener('pointercancel', handlePointerUp)
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="overview-shell flex h-screen min-h-0 overflow-hidden">
       <Sidebar isCollapsed={isSidebarCollapsed} />
-      <main className="min-w-0 flex-1 bg-[#f7f7f7]">
+      {!isSidebarCollapsed && (
+        <button
+          type="button"
+          aria-label="Close sidebar"
+          className="overview-sidebar-backdrop"
+          onClick={() => setIsSidebarCollapsed(true)}
+        />
+      )}
+      <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#f7f7f7]">
         <Header onToggleSidebar={handleToggleSidebar} />
-        <div className="grid min-h-[calc(100vh-36px)]" style={{ gridTemplateColumns: `minmax(0, ${leftPanelWidth}fr) 8px minmax(0, ${100 - leftPanelWidth}fr)` }}>
-          <section className="min-w-0 overflow-y-auto px-5 py-9 xl:px-9">
+        <div className="overview-panels grid min-h-0 flex-1" style={{ '--left-panel-width': `${leftPanelWidth}fr`, '--right-panel-width': `${100 - leftPanelWidth}fr` }}>
+          <section className="min-h-0 min-w-0 overflow-y-auto px-5 py-9 xl:px-9">
             <ProjectDetails />
           </section>
-          <button type="button" aria-label="Resize project overview panels" onPointerDown={handleDividerPointerDown} className="group relative z-10 h-full w-2 cursor-col-resize bg-transparent p-0 touch-none">
+          <button type="button" aria-label="Resize project overview panels horizontally" onPointerDown={handleDividerPointerDown} className={`overview-divider group relative z-10 h-full w-2 cursor-col-resize bg-transparent p-0 touch-none${isDividerDragging ? ' is-dragging' : ''}`}>
             <span className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-[#bcbcbc] transition-colors group-hover:bg-[#008cd2] group-active:bg-[#008cd2]" />
           </button>
-          <section className="min-w-0 overflow-y-auto px-5 py-9 xl:px-8">
-            <div className="mx-auto flex max-w-[430px] flex-col gap-16">
+          <section className="overview-right-panel min-h-0 min-w-0 overflow-hidden px-5 py-9 xl:px-8">
+            <div
+              className="grid h-full min-h-0 w-full gap-16"
+              style={{ gridTemplateRows: 'auto minmax(0, 1fr)' }}
+            >
               <ProjectImage />
               <ProjectMap />
             </div>

@@ -1,12 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-	--font-sans: "Instrument Sans", sans-serif;
+	--font-sans: "Outfit", sans-serif;
 }
 
 :root {
-	font-family: "Instrument Sans", sans-serif;
+	font-family: "Outfit", sans-serif;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+	overflow: hidden;
 }
 
 *,
