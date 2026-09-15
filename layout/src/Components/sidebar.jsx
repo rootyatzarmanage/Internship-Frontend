@@ -40,7 +40,7 @@ export default function Sidebar({ isCollapsed }){
                 <div className="py-1 px-2">
                 {isCollapsed ? (
                     <div className="flex justify-center py-1 text-gray-800" title="Main Menu">
-                        <MoreHorizontal size={18} strokeWidth={1.8} aria-hidden="true" />
+                        <MoreHorizontal size={17} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
                     <p className="px-2 text-[10px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px]">
@@ -63,7 +63,7 @@ export default function Sidebar({ isCollapsed }){
                                 isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
                         >
-                            <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={17} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -78,7 +78,7 @@ export default function Sidebar({ isCollapsed }){
                 <div className="py-1 px-2">
                 {isCollapsed ? (
                     <div className="flex justify-center py-1 text-gray-800" title="Admin">
-                        <MoreHorizontal size={18} strokeWidth={1.8} aria-hidden="true" />
+                        <MoreHorizontal size={17} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
                     <p className="px-2 text-[10px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px]">
@@ -101,7 +101,7 @@ export default function Sidebar({ isCollapsed }){
                                 isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
                         >
-                            <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={17} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[150px] opacity-100 scale-100'
                             }`}>
@@ -118,19 +118,19 @@ export default function Sidebar({ isCollapsed }){
                     aria-label="Log out Peter Parker"
                     title={isCollapsed ? 'Log out Peter Parker' : undefined}
                     className={`flex items-center rounded-md border border-gray-200 bg-white text-left no-underline shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
-                        isCollapsed ? 'h-[28px] w-[28px] justify-center' : 'w-full gap-3 p-1.5'
+                        isCollapsed ? 'h-[20px] w-[20px] justify-center' : 'w-full gap-3 p-1.5'
                     }`}
                 >
                     <img
                         src={peter}
                         alt="Peter Parker"
-                        className={`shrink-0 rounded object-cover ${isCollapsed ? 'h-[23px] w-[23px]' : 'h-[35px] w-[35px]'}`}
+                        className={`shrink-0 rounded object-cover ${isCollapsed ? 'h-[18px] w-[18px]' : 'h-[30px] w-[30px]'}`}
                     />
                     <span className={`min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out ${
                         isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100'
                     }`}>
-                        <span className="block truncate text-[14px] font-semibold text-gray-700">Peter Parker</span>
-                        <span className="mt-0.5 block truncate text-[10px] font-normal text-gray-400">Administration</span>
+                        <span className="block truncate text-[12px] font-semibold text-gray-700">Peter Parker</span>
+                        <span className="mt-0.5 block truncate text-[9px] font-normal text-gray-400">Administration</span>
                     </span>
                     <LogOut
                         size={24}
