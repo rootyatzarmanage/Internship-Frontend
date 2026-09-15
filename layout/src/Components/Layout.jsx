@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import Header from './header'
 import Sidebar from './sidebar'
+import { useTheme } from './theme'
 
 const SIDEBAR_STORAGE_KEY = 'layout-sidebar-collapsed'
 
 export default function Layout({ children }) {
+  const { isDarkMode, toggleTheme } = useTheme()
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => (
     window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
   ))
@@ -15,7 +17,7 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div className={`layout-shell relative flex min-h-screen w-full overflow-x-hidden bg-white ${isSidebarCollapsed ? 'layout-shell--sidebar-collapsed' : 'layout-shell--sidebar-expanded'}`}>
+    <div className={`layout-shell relative flex min-h-screen w-full overflow-x-hidden bg-white text-gray-900 transition-colors dark:bg-[#080808] dark:text-gray-100 ${isSidebarCollapsed ? 'layout-shell--sidebar-collapsed' : 'layout-shell--sidebar-expanded'}`}>
       <Sidebar isCollapsed={isSidebarCollapsed} />
       {!isSidebarCollapsed && (
         <button
@@ -26,7 +28,11 @@ export default function Layout({ children }) {
         />
       )}
       <div className="layout-content relative z-0 flex min-w-0 flex-1 flex-col">
-        <Header onToggleSidebar={() => updateSidebarState(!isSidebarCollapsed)} />
+        <Header
+          isDarkMode={isDarkMode}
+          onToggleSidebar={() => updateSidebarState(!isSidebarCollapsed)}
+          onToggleTheme={toggleTheme}
+        />
         <main className="min-h-0 flex-1">{children}</main>
       </div>
     </div>

@@ -22,13 +22,13 @@ export default function Sidebar({ isCollapsed }){
 
     return (
             <aside 
-                className={`layout-sidebar ${isCollapsed ? 'layout-sidebar--collapsed w-[40px]' : 'layout-sidebar--expanded w-[213px]'} flex h-screen min-h-0 flex-col overflow-hidden shrink-0 border-r border-gray-300 bg-white transition-all duration-300 ease-in-out select-none`} 
+                className={`layout-sidebar ${isCollapsed ? 'layout-sidebar--collapsed w-[40px]' : 'layout-sidebar--expanded w-[213px]'} flex h-screen min-h-0 shrink-0 flex-col overflow-hidden border-r border-gray-300 bg-white transition-all duration-300 ease-in-out select-none dark:border-[#252525] dark:bg-[#151515]`} 
             aria-label="Sidebar"
         >
             {/* Header / Logo Section */}
             <a href="/" aria-label="Yatzar Manage home" className={`flex h-20 items-center no-underline ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'}`}>
-                <img src={logo} alt="Yatzar Manage logo" className={`shrink-0 object-contain ${isCollapsed ? 'h-[21px] w-[32px]' : 'h-[25px] w-[21px]'}`} />
-                <span className={`text-[18px] font-medium tracking-normal text-gray-800 whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                <img src={logo} alt="Yatzar Manage logo" className={`shrink-0 object-contain dark:brightness-0 dark:invert ${isCollapsed ? 'h-[21px] w-[32px]' : 'h-[25px] w-[21px]'}`} />
+                    <span className={`whitespace-nowrap overflow-hidden text-[18px] font-medium tracking-normal text-gray-800 transition-all duration-300 ease-in-out dark:text-gray-100 ${
                     isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] flex-none opacity-100 scale-100'
                 }`}>
                     YATZAR MANAGE
@@ -39,7 +39,7 @@ export default function Sidebar({ isCollapsed }){
                 {/* Main Menu Section */}
                 <div className="py-1 px-2">
                 {isCollapsed ? (
-                    <div className="flex justify-center py-1 text-gray-800" title="Main Menu">
+                    <div className="flex justify-center py-1 text-gray-800 dark:text-gray-100" title="Main Menu">
                         <MoreHorizontal size={17} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
@@ -57,8 +57,8 @@ export default function Sidebar({ isCollapsed }){
                             title={isCollapsed ? label : undefined} 
                             className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[14px] font-medium no-underline transition-colors ${
                                 currentPath === route
-                                    ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
-                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black'
+                                    ? 'bg-[#dbeafe] text-[#2563eb] hover:bg-[#dbeafe] hover:text-[#2563eb] dark:bg-[#1e3a5f] dark:text-[#dbeafe] dark:hover:bg-[#1e3a5f] dark:hover:text-[#dbeafe]'
+                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-[#242424] dark:hover:text-white'
                             } ${
                                 isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
@@ -77,7 +77,7 @@ export default function Sidebar({ isCollapsed }){
                 {/* Admin Section */}
                 <div className="py-1 px-2">
                 {isCollapsed ? (
-                    <div className="flex justify-center py-1 text-gray-800" title="Admin">
+                    <div className="flex justify-center py-1 text-gray-800 dark:text-gray-100" title="Admin">
                         <MoreHorizontal size={17} strokeWidth={1.8} aria-hidden="true" />
                     </div>
                 ) : (
@@ -95,8 +95,8 @@ export default function Sidebar({ isCollapsed }){
                             title={isCollapsed ? label : undefined} 
                             className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[14px] font-medium no-underline transition-colors ${
                                 currentPath === route
-                                    ? 'bg-[#008CD21A] text-[#008CD2] hover:bg-[#008CD21A] hover:text-[#008CD2]'
-                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black'
+                                    ? 'bg-[#dbeafe] text-[#2563eb] hover:bg-[#dbeafe] hover:text-[#2563eb] dark:bg-[#1e3a5f] dark:text-[#dbeafe] dark:hover:bg-[#1e3a5f] dark:hover:text-[#dbeafe]'
+                                    : 'text-[#414141] hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-[#242424] dark:hover:text-white'
                             } ${
                                 isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
@@ -117,7 +117,7 @@ export default function Sidebar({ isCollapsed }){
                     href="/logout"
                     aria-label="Log out Peter Parker"
                     title={isCollapsed ? 'Log out Peter Parker' : undefined}
-                    className={`flex items-center rounded-md border border-gray-200 bg-white text-left no-underline shadow-sm transition-colors hover:bg-gray-100 hover:text-black cursor-pointer ${
+                    className={`flex cursor-pointer items-center rounded-md border border-gray-200 bg-white text-left no-underline shadow-sm transition-colors hover:bg-gray-100 hover:text-black dark:border-[#2b2b2b] dark:bg-[#1d1d1d] dark:hover:bg-[#272727] dark:hover:text-white ${
                         isCollapsed ? 'h-[20px] w-[20px] justify-center' : 'w-full gap-3 p-1.5'
                     }`}
                 >
@@ -129,8 +129,8 @@ export default function Sidebar({ isCollapsed }){
                     <span className={`min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out ${
                         isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100'
                     }`}>
-                        <span className="block truncate text-[12px] font-semibold text-gray-700">Peter Parker</span>
-                        <span className="mt-0.5 block truncate text-[9px] font-normal text-gray-400">Administration</span>
+                        <span className="block truncate text-[12px] font-semibold text-gray-700 dark:text-gray-100">Peter Parker</span>
+                        <span className="mt-0.5 block truncate text-[9px] font-normal text-gray-400 dark:text-gray-400">Administration</span>
                     </span>
                     <LogOut
                         size={24}
