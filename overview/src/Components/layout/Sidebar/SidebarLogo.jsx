@@ -13,7 +13,7 @@ export default function SidebarLogo({ isCollapsed }) {
                 className="shrink-0 h-[30px] w-[36px] object-contain dark:brightness-0 dark:invert"
             />
             <span
-                className={`whitespace-nowrap overflow-hidden text-[18px] font-medium tracking-normal text-gray-800 transition-all duration-300 ease-in-out ${
+                className={`whitespace-nowrap overflow-hidden text-[18px] font-medium tracking-normal text-gray-800 transition-all duration-300 ease-in-out dark:text-gray-100 ${
                     isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] flex-none opacity-100 scale-100'
                 }`}
             >

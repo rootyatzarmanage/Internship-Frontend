@@ -10,7 +10,7 @@ export default function HeaderSearch() {
                 aria-label="Search projects"
                 className="min-w-0 flex-1 bg-transparent text-xs text-[#414141] outline-none placeholder:text-[#aeb0b4] dark:text-gray-100 dark:placeholder:text-gray-400"
             />
-            <div className="shrink-0 items-center justify-center rounded-[2px] bg-white px-1.5 pt-0.5 text-[12px] leading-none text-[#aeb0b4] dark:border-[#3a3a3a] dark:bg-[#202020] dark:text-gray-300 sm:ml-auto sm:flex">
+            <div className="shrink-0 items-center justify-center rounded-[2px] bg-white px-1.5 pt-0.5 text-[12px] leading-none text-[#aeb0b4] dark:border-[#3a3a3a] dark:bg-[#151515] dark:text-gray-300 sm:ml-auto sm:flex">
                 ⌘K
             </div>
         </label>
