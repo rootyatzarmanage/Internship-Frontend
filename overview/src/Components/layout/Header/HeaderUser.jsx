@@ -29,7 +29,7 @@ export default function HeaderUser() {
     }, [])
 
     return (
-        <div ref={userMenuRef} className="relative z-40 shrink-0">
+        <div ref={userMenuRef} className="layout-header-user relative z-40 shrink-0">
             <button
                 type="button"
                 aria-expanded={isUserMenuOpen}
@@ -44,7 +44,7 @@ export default function HeaderUser() {
             </button>
 
             {isUserMenuOpen && (
-                <div role="menu" className="absolute right-0 top-full z-50 mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]">
+                <div role="menu" className="layout-user-menu absolute right-0 top-full z-50 mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]">
                     <div className="border-b border-[#d2d2d2] px-1 pb-4 dark:border-[#404040]">
                         <p className="text-[14px] font-semibold leading-tight text-[#404040] dark:text-gray-100">{currentUser.name}</p>
                         <p className="mt-1 truncate text-[12px] font-semibold text-[#a3a3a3]">{currentUser.email}</p>

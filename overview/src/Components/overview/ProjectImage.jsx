@@ -49,7 +49,7 @@ export default function ProjectImage() {
           </div>
         )}
       </div>
-      <div className="mx-auto mt-5 h-40 w-full max-w-[668px] overflow-hidden rounded-xl sm:h-48 lg:h-56 xl:h-64">
+      <div className="project-image-media mx-auto mt-5 h-40 w-full max-w-[668px] overflow-hidden rounded-xl sm:h-48 lg:h-56 xl:h-64">
         <img className="h-full w-full object-cover" src={image} alt="Project" />
       </div>
       <p className="mt-3 text-center text-[11px] leading-4 text-[#b7b7b7]">Recommended ratio 16:9, max 10MB.<br />Supports PNG, JPG.</p>

@@ -22,7 +22,7 @@ function App() {
   }
 
   return (
-    <div className="overview-shell flex h-screen min-h-0 overflow-hidden bg-white text-gray-900 transition-colors dark:bg-[#080808] dark:text-gray-100">
+    <div className={`overview-shell relative flex h-screen min-h-0 w-full overflow-hidden bg-white text-gray-900 transition-colors dark:bg-[#080808] dark:text-gray-100 ${isSidebarCollapsed ? 'overview-shell--sidebar-collapsed' : 'overview-shell--sidebar-expanded'}`}>
       <Sidebar isCollapsed={isSidebarCollapsed} />
       {!isSidebarCollapsed && (
         <button
@@ -32,8 +32,8 @@ function App() {
           onClick={() => setIsSidebarCollapsed(true)}
         />
       )}
-      <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#f7f7f7] transition-colors dark:bg-[#0d0d0d]">
-        <Header isDarkMode={isDarkMode} onToggleSidebar={handleToggleSidebar} onToggleTheme={toggleTheme} />
+      <main className="overview-content relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#f7f7f7] transition-colors dark:bg-[#0d0d0d]">
+        <Header isDarkMode={isDarkMode} isSidebarOpen={!isSidebarCollapsed} onToggleSidebar={handleToggleSidebar} onToggleTheme={toggleTheme} />
         <Page />
       </main>
     </div>
