@@ -19,6 +19,7 @@ export default function Header({ isDarkMode, onToggleSidebar, onToggleTheme }) {
             <HeaderActions
                 isDarkMode={isDarkMode}
                 onToggleTheme={onToggleTheme}
+                className="mr-3"
             />
             <HeaderUser />
         </header>
