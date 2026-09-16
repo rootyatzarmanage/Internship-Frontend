@@ -10,10 +10,10 @@ export default function SidebarLogo({ isCollapsed }) {
             <img
                 src={logo}
                 alt="Yatzar Manage logo"
-                className={`shrink-0 object-contain dark:brightness-0 dark:invert ${isCollapsed ? 'h-[21px] w-[32px]' : 'h-[25px] w-[21px]'}`}
+                className={`shrink-0 object-contain dark:brightness-0 dark:invert ${isCollapsed ? 'h-[30px] w-[36px]' : 'h-[30px] w-[36px]'}`}
             />
             <span
-                className={`whitespace-nowrap overflow-hidden text-[18px] font-medium tracking-normal text-gray-800 transition-all duration-300 ease-in-out dark:text-gray-100 ${
+                className={`pl-0 whitespace-nowrap overflow-hidden text-[18px] font-medium tracking-normal text-black transition-all duration-300 ease-in-out dark:text-gray-100 ${
                     isCollapsed ? 'max-w-0 opacity-0 scale-90' : 'max-w-[180px] flex-none opacity-100 scale-100'
                 }`}
             >
