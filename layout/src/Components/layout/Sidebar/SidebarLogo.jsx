@@ -5,7 +5,7 @@ export default function SidebarLogo({ isCollapsed }) {
         <a
             href="/"
             aria-label="Yatzar Manage home"
-            className={`flex h-20 items-center no-underline ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'}`}
+            className={`flex h-20 items-center no-underline ${isCollapsed ? 'justify-center px-0' : 'gap-2 px-3'}`}
         >
             <img
                 src={logo}

@@ -2,7 +2,7 @@ import { Search } from 'lucide-react'
 
 export default function HeaderSearch() {
     return (
-        <label className="flex h-[35px] w-[300px] max-w-[45vw] min-w-0 items-center gap-2 rounded-[6px] border-[0.5px] border-[#bbbbbb] bg-white px-2 text-black dark:border-[#303030] dark:bg-[#151515] dark:text-gray-100">
+        <label className="layout-header-search flex h-[35px] w-[300px] max-w-[45vw] min-w-0 items-center gap-2 rounded-[6px] border-[0.5px] border-[#bbbbbb] bg-white px-2 text-black dark:border-[#303030] dark:bg-[#151515] dark:text-gray-100">
             <Search size={14} strokeWidth={1.8} aria-hidden="true" />
             <input
                 type="search"

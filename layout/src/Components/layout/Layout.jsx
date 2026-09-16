@@ -30,6 +30,7 @@ export default function Layout({ children }) {
       <div className="layout-content relative z-0 flex min-w-0 flex-1 flex-col">
         <Header
           isDarkMode={isDarkMode}
+          isSidebarOpen={!isSidebarCollapsed}
           onToggleSidebar={() => updateSidebarState(!isSidebarCollapsed)}
           onToggleTheme={toggleTheme}
         />
