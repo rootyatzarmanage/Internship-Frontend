@@ -27,7 +27,7 @@ export default function Layout({ children }) {
           onClick={() => updateSidebarState(true)}
         />
       )}
-      <div className="layout-content relative z-0 flex min-w-0 flex-1 flex-col">
+      <div className="layout-content relative flex min-w-0 flex-1 flex-col">
         <Header
           isDarkMode={isDarkMode}
           isSidebarOpen={!isSidebarCollapsed}
