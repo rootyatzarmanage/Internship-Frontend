@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Header from './header'
-import Sidebar from './sidebar'
-import { useTheme } from './theme'
+import Header from './Header/Header'
+import Sidebar from './Sidebar/Sidebar'
+import { useTheme } from '../theme/theme'
 
 const SIDEBAR_STORAGE_KEY = 'layout-sidebar-collapsed'
 
