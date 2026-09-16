@@ -61,7 +61,7 @@ export default function Sidebar({ isCollapsed }){
                                 isCollapsed ? 'justify-center px-0' : 'gap-3 px-2'
                             }`}
                         >
-                            <Icon size={18} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
+                            <Icon size={17} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                             <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out origin-left ${
                                 isCollapsed ? 'max-w-0 opacity-0 scale-95' : 'max-w-[120px] opacity-100 scale-100'
                             }`}>
@@ -92,12 +92,12 @@ export default function Sidebar({ isCollapsed }){
                                 <img
                                     src={peter}
                                     alt="Peter Parker"
-                                    className={`shrink-0 rounded object-cover ${isCollapsed ? 'h-[23px] w-[23px]' : 'h-[35px] w-[35px]'}`}
+                                    className={`shrink-0 rounded object-cover ${isCollapsed ? 'h-[18px] w-[18px]' : 'h-[30px] w-[30px]'}`}
                                 />
                                 <span className={`min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out ${
                                     isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100'
                                 }`}>
-                                    <span className="block truncate text-[14px] font-semibold text-gray-700">Peter Parker</span>
+                                    <span className="block truncate text-[12px] font-semibold text-gray-700">Peter Parker</span>
                                     <span className="mt-0.5 block truncate text-[10px] font-normal text-gray-400">Administration</span>
                                 </span>
                                 <LogOut
