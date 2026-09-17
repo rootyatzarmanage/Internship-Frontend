@@ -379,3 +379,15 @@
     border-right-color: var(--border);
   }
 }
+
+@media (max-width: 426px) {
+  .layout-sidebar--collapsed {
+    width: 0 !important;
+    border-right: 0;
+    box-shadow: none;
+  }
+
+  .layout-shell--sidebar-collapsed .layout-backdrop {
+    display: none;
+  }
+}

@@ -9,13 +9,31 @@ const SIDEBAR_STORAGE_KEY = 'overview-sidebar-collapsed'
 
 function App() {
   const { isDarkMode, toggleTheme } = useTheme()
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => (
-    window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
-  ))
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    const isMobile = window.innerWidth < 426
+    if (isMobile) {
+        return true
+    }
+    return window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
+})
 
   useEffect(() => {
     window.localStorage.setItem(SIDEBAR_STORAGE_KEY, String(isSidebarCollapsed))
-  }, [isSidebarCollapsed])
+}, [isSidebarCollapsed])
+
+useEffect(() => {
+    const handleResize = () => {
+        if (window.innerWidth < 426) {
+            setIsSidebarCollapsed(true)
+        }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+        window.removeEventListener('resize', handleResize)
+    }
+}, [])
 
   const handleToggleSidebar = () => {
     setIsSidebarCollapsed((prev) => !prev)
