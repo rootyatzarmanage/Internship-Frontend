@@ -74,7 +74,7 @@ export default function ProjectImage() {
       </div>
 
       {/* Image with rounded bottom corners taking full width of the card */}
-      <div className="w-full">
+      <div className="project-image-media w-full">
         <img 
           className="h-60 w-full object-cover sm:h-72 lg:h-80" 
           src={image} 

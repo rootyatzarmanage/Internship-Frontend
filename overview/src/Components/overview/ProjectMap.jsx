@@ -31,7 +31,7 @@ export default function ProjectMap({ pin, onPinChange }) {
 
   return (
     <section 
-      className="flex h-full min-h-[380px] w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" 
+      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" 
       aria-labelledby="project-location-title"
     >
       {/* Header section with padding matching reference image */}

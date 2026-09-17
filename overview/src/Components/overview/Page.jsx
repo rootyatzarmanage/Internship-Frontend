@@ -24,7 +24,7 @@ export default function Page() {
 	}
 
 	return (
-		<div className="overview-panels grid min-h-0 flex-1 overflow-hidden" style={{ '--left-panel-width': `${leftPanelWidth}fr`, '--right-panel-width': `${100 - leftPanelWidth}fr`, gridTemplateColumns: isCompact ? 'minmax(0, 1fr)' : 'minmax(0, var(--left-panel-width)) 8px minmax(0, var(--right-panel-width))', gridTemplateRows: isCompact ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)', height: '100%', minHeight: 0 }}>
+		<div className="overview-panels grid min-h-0 flex-1 overflow-hidden" style={{ '--left-panel-width': `${leftPanelWidth}fr`, '--right-panel-width': `${100 - leftPanelWidth}fr`, gridTemplateColumns: isCompact ? 'minmax(0, 1fr)' : 'minmax(0, var(--left-panel-width)) 8px minmax(0, var(--right-panel-width))', height: '100%', minHeight: 0 }}>
 			<section className="overview-left-column min-h-0 min-w-0 overflow-hidden px-5 py-9 xl:px-9">
 				<ProjectDetails project={project} onProjectChange={handleProjectChange} />
 			</section>
