@@ -29,30 +29,58 @@ export default function ProjectImage() {
   }, [])
 
   return (
-    <section className="flex w-full flex-col overflow-hidden rounded-xl border border-[#bbbbbb] bg-white p-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]" aria-labelledby="project-image-title">
-      <div className="relative flex items-center justify-between" ref={menuRef}>
-        <h2 id="project-image-title" className="text-[20px] font-medium text-[#414141]">Project image</h2>
+    <section className="flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" aria-labelledby="project-image-title">
+      <div className="relative flex items-center justify-between px-4 pt-4 pb-3" ref={menuRef}>
+        <h2 id="project-image-title" className="text-base font-semibold text-gray-900 dark:text-gray-100">
+          Project Image
+        </h2>
+        
         <button
           type="button"
           aria-label="Project image options"
           aria-expanded={isMenuOpen}
           aria-haspopup="menu"
-          className="cursor-pointer rounded-md p-1 text-[#686868] transition-colors hover:text-black dark:text-gray-400 dark:hover:text-white"
+          className="cursor-pointer rounded-lg p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-white"
           onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
         >
           <MoreVertical size={18} />
         </button>
+
+        {/* Dropdown Menu */}
         {isMenuOpen && (
-          <div className="absolute right-0 top-10 z-20 w-40 rounded-2xl border border-[#e0e4e8] bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.1)] dark:bg-black" role="menu" aria-label="Project image actions">
-            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2] dark:text-white dark:hover:bg-gray-400 dark:hover:text-black" onClick={() => setIsMenuOpen(false)}>View More</button>
-            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2] dark:text-white dark:hover:bg-gray-400 dark:hover:text-black" onClick={() => setIsMenuOpen(false)}>Delete</button>
+          <div 
+            className="absolute right-0 top-9 z-20 w-40 rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg dark:border-gray-700 dark:bg-gray-800" 
+            role="menu" 
+            aria-label="Project image actions"
+          >
+            <button 
+              type="button" 
+              role="menuitem" 
+              className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700" 
+              onClick={() => setIsMenuOpen(false)}
+            >
+              View More
+            </button>
+            <button 
+              type="button" 
+              role="menuitem" 
+              className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30" 
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Delete
+            </button>
           </div>
         )}
       </div>
-      <div className="project-image-media mx-auto mt-5 h-40 w-full max-w-[668px] overflow-hidden rounded-xl sm:h-48 lg:h-56 xl:h-64">
-        <img className="h-full w-full object-cover" src={image} alt="Project" />
+
+      {/* Image with rounded bottom corners taking full width of the card */}
+      <div className="w-full">
+        <img 
+          className="h-60 w-full object-cover sm:h-72 lg:h-80" 
+          src={image} 
+          alt="Project preview" 
+        />
       </div>
-      <p className="mt-3 text-center text-[11px] leading-4 text-[#b7b7b7]">Recommended ratio 16:9, max 10MB.<br />Supports PNG, JPG.</p>
     </section>
   )
 }
