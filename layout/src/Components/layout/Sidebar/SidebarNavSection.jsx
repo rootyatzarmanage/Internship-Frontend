@@ -5,7 +5,7 @@ export default function SidebarNavSection({ title, items, isCollapsed, currentPa
         <div className="py-1 px-2">
             {isCollapsed ? (
                 <div className="flex justify-center py-1 text-gray-800 dark:text-gray-100" title={title}>
-                    <MoreHorizontal size={17} strokeWidth={1.8} aria-hidden="true" />
+                    <MoreHorizontal size={21} strokeWidth={1.8} aria-hidden="true" />
                 </div>
             ) : (
                 <p className="px-2 text-[12px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px]">

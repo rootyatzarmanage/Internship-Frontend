@@ -7,7 +7,7 @@ export default function SidebarNavGroup({ label: groupLabel, items, isCollapsed,
                 className={`px-2 text-[12px] font-medium uppercase tracking-wide text-[#BBBBBB] whitespace-nowrap overflow-hidden transition-all duration-300 leading-[16px] ${isCollapsed ? 'flex justify-center' : ''}`}
             >
                 {isCollapsed ? (
-                    <MoreHorizontal size={18} strokeWidth={1.8} className="text-gray-800" aria-hidden="true" />
+                    <MoreHorizontal size={21} strokeWidth={1.8} className="text-gray-800" aria-hidden="true" />
                 ) : (
                     groupLabel
                 )}
