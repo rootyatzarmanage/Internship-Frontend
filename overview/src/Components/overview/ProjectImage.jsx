@@ -37,15 +37,15 @@ export default function ProjectImage() {
           aria-label="Project image options"
           aria-expanded={isMenuOpen}
           aria-haspopup="menu"
-          className="cursor-pointer rounded-md p-1 text-[#686868] transition-colors hover:text-black"
+          className="cursor-pointer rounded-md p-1 text-[#686868] transition-colors hover:text-black dark:text-gray-400 dark:hover:text-white"
           onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
         >
           <MoreVertical size={18} />
         </button>
         {isMenuOpen && (
-          <div className="absolute right-0 top-10 z-20 w-40 rounded-2xl border border-[#e0e4e8] bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.1)]" role="menu" aria-label="Project image actions">
-            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2]" onClick={() => setIsMenuOpen(false)}>View More</button>
-            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2]" onClick={() => setIsMenuOpen(false)}>Delete</button>
+          <div className="absolute right-0 top-10 z-20 w-40 rounded-2xl border border-[#e0e4e8] bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.1)] dark:bg-black" role="menu" aria-label="Project image actions">
+            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2] dark:text-white dark:hover:bg-gray-400 dark:hover:text-black" onClick={() => setIsMenuOpen(false)}>View More</button>
+            <button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-[13px] text-[#52627a] transition-colors hover:bg-[#f5f7f9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#008cd2] dark:text-white dark:hover:bg-gray-400 dark:hover:text-black" onClick={() => setIsMenuOpen(false)}>Delete</button>
           </div>
         )}
       </div>
