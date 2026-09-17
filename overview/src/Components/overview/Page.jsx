@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import ProjectDetails from './ProjectDetails/ProjectDetails'
+import ProjectDetails from './ProjectDetails'
 import ProjectImage from '../../Components/overview/ProjectImage'
 import ProjectMap from './ProjectMap'
 import ResizableDivider from './ResizableDivider'
 
 export default function Page() {
-	const [leftPanelWidth, setLeftPanelWidth] = useState(64)
+	const [leftPanelWidth, setLeftPanelWidth] = useState(66)
 	const [isCompact, setIsCompact] = useState(() => window.innerWidth < 1280)
 	const [project, setProject] = useState({ name: 'PSG - Y - Block', type: 'PIM', description: 'PSG-Y-Block Description', location: 'Peelamedu, Coimbatore', latitude: 11.016, longitude: 76.955, status: 'Active', createdDate: '2026-07-27', workspace: 'PSG' })
 

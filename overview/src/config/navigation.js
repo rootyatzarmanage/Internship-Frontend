@@ -15,7 +15,7 @@ export const navigationGroups = [
     {
         label: 'Project',
         items: [
-            { label: 'Analystic', route: '/analytics', icon: LayoutGrid },
+            { label: 'Analytics', route: '/analytics', icon: LayoutGrid },
             { label: 'Team', route: '/team', icon: Users },
             { label: 'Documents', route: '/documents', icon: Folder },
         ],
