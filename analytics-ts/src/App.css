@@ -380,7 +380,7 @@
   }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 1280px) {
   .layout-sidebar--collapsed {
     width: 0 !important;
     border-right: 0;
@@ -391,4 +391,3 @@
     display: none;
   }
 }
-
