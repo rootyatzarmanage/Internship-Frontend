@@ -11,7 +11,7 @@
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1280px) {
   .layout-shell {
     position: relative;
     width: 100%;
@@ -391,4 +391,3 @@
     display: none;
   }
 }
-
