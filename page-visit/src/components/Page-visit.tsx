@@ -532,7 +532,7 @@ function ToolbarMenu({
   }, [open])
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative [scrollbar-width:none] [scrollbar-color:#d4d4d4_transparent]">
       <IconButton
         label={label}
         d={d}
