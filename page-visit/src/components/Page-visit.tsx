@@ -5,6 +5,9 @@ import { menuItems } from './config/Visitors'
 import { analyticsData } from './config/LiveUpdate'
 import type { AnalyticsRecord } from './config/LiveUpdate'
 import type { ReactNode } from 'react'
+import * as XLSX from 'xlsx'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 import {
   columnFilteringFeature,
@@ -88,13 +91,13 @@ function Visit({ className = '' }: VisitProp) {
 
   return (
     <div
-      className={`grid md:grid-cols-3 grid-cols-1 gap-3 w-full ${className}`}
+      className={`grid sm:grid-cols-3 grid-cols-1 gap-3 w-full ${className}`}
     >
       {projects.map((item) => (
         <div
           key={item.label}
           className="relative
-            bg-white
+            bg-[#FAFAFA]
             border border-[#D4D4D4]
             rounded-[8px]
             px-5 py-8
@@ -105,15 +108,15 @@ function Visit({ className = '' }: VisitProp) {
             dark:border-neutral-800
           "
         >
-          <p className="text-[18px] font-medium text-gray-900 dark:text-gray-100">
+          <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
             {item.label}
           </p>
 
-          <div className="relative text-[48px] font-bold text-gray-900 leading-none dark:text-white">
+          <div className="relative text-[32px] font-bold text-gray-900 leading-none dark:text-white mb-2">
             {item.number}
           </div>
 
-          <div className="absolute bottom-4 right-4 flex items-center gap-1.5 text-[12px] font-normal leading-none">
+          <div className="absolute bottom-4 right-4 flex items-center text-[12px] font-normal leading-none">
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
               {item.percent}
             </span>
@@ -686,42 +689,58 @@ function toCsvCell(value: unknown): string {
   return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
 }
 
-function downloadFile(filename: string, content: string, type: string) {
-  const url = URL.createObjectURL(new Blob([content], { type }))
-  const link = document.createElement('a')
-  link.href = url
-  link.download = filename
-  document.body.appendChild(link)
-  link.click()
-  link.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 0)
+function getExportData<TData extends RowData>(
+  table: TableInstance<TData>,
+  getExportValue?: (row: TableRow<TData>, columnId: string) => unknown
+) {
+  const exportColumns = table.getVisibleLeafColumns()
+
+  const headers = exportColumns.map((column) =>
+    getColumnLabel(column)
+  )
+
+  const rows = table.getPrePaginatedRowModel().rows.map((row) =>
+    exportColumns.map((column) => {
+      const value = getExportValue
+        ? getExportValue(row, column.id)
+        : row.getValue(column.id)
+
+      return value ?? ''
+    })
+  )
+
+  return { headers, rows }
 }
 
-// Exports every row that matches the current search / filters / sort (not just
-// the visible page), using only the columns that are currently shown.
-function exportTableAsCsv<TData extends RowData>(
+function exportTableAsExcel<TData extends RowData>(
   table: TableInstance<TData>,
   fileName: string,
   getExportValue?: (row: TableRow<TData>, columnId: string) => unknown
 ) {
-  const exportColumns = table.getVisibleLeafColumns()
-  const header = exportColumns.map((column) => toCsvCell(getColumnLabel(column)))
-
-  const lines = table.getPrePaginatedRowModel().rows.map((row) =>
-    exportColumns
-      .map((column) =>
-        toCsvCell(
-          getExportValue ? getExportValue(row, column.id) : row.getValue(column.id)
-        )
-      )
-      .join(',')
+  const { headers, rows } = getExportData(
+    table,
+    getExportValue
   )
 
-  const csv = [header.join(','), ...lines].join('\r\n')
+  const worksheet = XLSX.utils.aoa_to_sheet([
+    headers,
+    ...rows,
+  ])
+
+  const workbook = XLSX.utils.book_new()
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    'Data'
+  )
+
   const date = new Date().toISOString().slice(0, 10)
 
-  // The BOM makes Excel read the file as UTF-8.
-  downloadFile(`${fileName}-${date}.csv`, `\uFEFF${csv}`, 'text/csv;charset=utf-8;')
+  XLSX.writeFile(
+    workbook,
+    `${fileName}-${date}.xlsx`
+  )
 }
 
 /* ---------- filter panel (opens from the Filter icon) ---------- */
@@ -1019,7 +1038,59 @@ function Pagination<TData extends RowData>({
     </div>
   )
 }
+function exportTableAsPdf<TData extends RowData>(
+  table: TableInstance<TData>,
+  fileName: string,
+  getExportValue?: (row: TableRow<TData>, columnId: string) => unknown
+) {
+  const exportColumns = table.getVisibleLeafColumns()
 
+  const headers = exportColumns.map((column) =>
+    getColumnLabel(column)
+  )
+
+  const rows = table.getPrePaginatedRowModel().rows.map((row) =>
+    exportColumns.map((column) => {
+      const value = getExportValue
+        ? getExportValue(row, column.id)
+        : row.getValue(column.id)
+
+      return value ?? ''
+    })
+  )
+
+  const pdf = new jsPDF({
+    orientation: 'landscape',
+    unit: 'mm',
+    format: 'a4',
+  })
+
+  autoTable(pdf, {
+    head: [headers],
+    body: rows.map((row) =>
+      row.map((value) => String(value))
+    ),
+    startY: 15,
+    styles: {
+      fontSize: 6,
+      cellPadding: 2,
+    },
+    headStyles: {
+      fontSize: 6,
+      fontStyle: 'bold',
+    },
+    theme: 'grid',
+    margin: {
+      top: 15,
+      left: 5,
+      right: 5,
+    },
+  })
+
+  const date = new Date().toISOString().slice(0, 10)
+
+  pdf.save(`${fileName}-${date}.pdf`)
+}
 /* ---------- LIVE TABLE: toolbar + table + pagination ---------- */
 
 type LiveTableProps<TData extends RowData> = {
@@ -1084,12 +1155,46 @@ function LiveTable<TData extends RowData>({
             />
             <ColumnsMenu table={table} />
             <SortMenu table={table} />
-            <IconButton
-              label="Export"
-              d={iconPaths.export}
-              disabled={table.getPrePaginatedRowModel().rows.length === 0}
-              onClick={() => exportTableAsCsv(table, exportName, getExportValue)}
-            />
+            <ToolbarMenu
+            label="Export"
+            d={iconPaths.export}
+          >
+            <div className="px-2 pb-1 pt-1">
+              <span className={menuTitleClass}>
+                Export as
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                exportTableAsPdf(
+                  table,
+                  exportName,
+                  getExportValue
+                )
+              }
+              className={menuItemClass}
+            >
+              <span>Export as PDF</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                exportTableAsExcel(
+                  table,
+                  exportName,
+                  getExportValue
+                )
+              }
+              className={menuItemClass}
+            >
+              <span>Export as Excel</span>
+
+              
+            </button>
+          </ToolbarMenu>
           </div>
         </div>
 
@@ -1345,7 +1450,7 @@ function AcquisitionChannel() {
   )
 
   return (
-    <div className="w-full min-w-0 h-[500px] bg-white border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
+    <div className="w-full min-w-0 h-[500px] bg-[#FAFAFA] border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
       <h3 className="text-xl font-semibold text-[#404040] dark:text-gray-100">
         Acquisition Channel
       </h3>
@@ -1445,7 +1550,7 @@ function SessionsByDevice() {
   )
 
   return (
-    <div className="w-full min-w-0 h-[500px] bg-white border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
+    <div className="w-full min-w-0 h-[500px] bg-[#FAFAFA] border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
       <h3 className="text-[18px] font-semibold text-gray-900 dark:text-gray-100">
         Sessions By Device
       </h3>
