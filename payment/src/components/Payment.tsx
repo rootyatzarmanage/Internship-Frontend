@@ -202,7 +202,7 @@ function TotalValues({ className = '' }: VisitProp) {
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
               {item.percent}
             </span>
-            <span className="text-gray-600 font-medium dark:text-white">{item.time}</span>
+            <span className="p-1 text-gray-600 font-medium dark:text-white">{item.time}</span>
           </div>
         </div>
       ))}

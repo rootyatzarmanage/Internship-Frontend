@@ -120,7 +120,7 @@ function Visit({ className = '' }: VisitProp) {
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
               {item.percent}
             </span>
-            <span className="text-gray-600 font-medium dark:text-white">
+            <span className="p-1 text-gray-600 font-medium dark:text-white">
               vs Last Month
             </span>
           </div>
@@ -131,7 +131,7 @@ function Visit({ className = '' }: VisitProp) {
 }
 
 /* =========================================================
-   LIVE UPDATE
+   LIVE UPDATE  
    ========================================================= */
 
 // Everything the tables need: sizing, filtering, column visibility,
@@ -683,11 +683,11 @@ function SortMenu<TData extends RowData>({
 
 // Quotes cells that need it, and defuses spreadsheet formulas (=, +, -, @)
 // because visitor-controlled text such as page URLs ends up in this file.
-function toCsvCell(value: unknown): string {
-  let text = value === null || value === undefined ? '' : String(value)
-  if (typeof value === 'string' && /^[=+\-@\t\r]/.test(text)) text = `'${text}`
-  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
-}
+// function toCsvCell(value: unknown): string {
+//   let text = value === null || value === undefined ? '' : String(value)
+//   if (typeof value === 'string' && /^[=+\-@\t\r]/.test(text)) text = `'${text}`
+//   return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
+// }
 
 function getExportData<TData extends RowData>(
   table: TableInstance<TData>,
