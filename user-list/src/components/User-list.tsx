@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import {
   columnFilteringFeature,
@@ -18,10 +18,38 @@ import {
   useTable,
 } from '@tanstack/react-table'
 import type { ReactTable, Row } from '@tanstack/react-table'
-
+import { ChevronDown } from 'lucide-react'
 import { menuItems } from './config/Visitors'
 import { userListData } from './config/UserData'
 import type { User } from './config/UserData'
+import Chart from 'react-apexcharts'
+import type { ApexOptions } from 'apexcharts'
+
+function useIsDark() {
+  const [isDark, setIsDark] = useState(
+    () =>
+      typeof document !== 'undefined' &&
+      document.documentElement.classList.contains('dark')
+  )
+
+  useEffect(() => {
+    const el = document.documentElement
+    const update = () => setIsDark(el.classList.contains('dark'))
+
+    update()
+    const observer = new MutationObserver(update)
+    observer.observe(el, { attributes: true, attributeFilter: ['class'] })
+
+    return () => observer.disconnect()
+  }, [])
+
+  return isDark
+}
+
+const chartTheme = {
+  light: { text: '#374151', grid: '#e5e7eb', stroke: '#ffffff' },
+  dark: { text: '#9ca3af', grid: '#262626', stroke: '#171717' },
+}
 
 /* -------------------------------------------------------------------------- */
 /*  Stat cards                                                                */
@@ -495,7 +523,7 @@ function UserTable() {
       className="w-full rounded-2xl border border-[#D4D4D4] bg-[#FAFAFA] p-5 sm:px-6 sm:py-7
         dark:border-neutral-800 dark:bg-neutral-900"
     >
-      <h2 className="text-2xl font-medium text-neutral-700 dark:text-neutral-100">User List</h2>
+      <h2 className="text-2xl font-semibold text-neutral-700 dark:text-neutral-100">User List</h2>
 
       {/* Toolbar */}
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
@@ -773,11 +801,253 @@ function UserTable() {
   )
 }
 
+type ChannelSeries = {
+  name: string
+  color: string
+  data: number[]
+}
+
+const acquisitionMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']
+
+const acquisitionChannels: ChannelSeries[] = [
+  { name: 'Verified', color: '#BDE8FF', data: [55, 85, 38, 102, 71, 48, 91, 53, 45] },
+  { name: 'Not Verified', color: '#0082D1', data: [95, 82, 80, 58, 36, 151, 141, 80, 48] },
+]
+
+//barchart
+type ChartLegendItemProps = {
+  name: string
+  color: string
+}
+
+function ChartLegendItem({ name, color }: ChartLegendItemProps) {
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className="w-3.5 h-3.5 rounded-[3px] shrink-0"
+        style={{ backgroundColor: color }}
+      />
+
+      <span className="text-[13px] font-medium text-[#404040] dark:text-gray-300">
+        {name}
+      </span>
+    </div>
+  )
+}
+
+function AcquisitionChannel() {
+  const [selectedYear, setSelectedYear] = useState('2026')
+  const isDark = useIsDark()
+  const theme = isDark ? chartTheme.dark : chartTheme.light
+  const stackedSeries = useMemo(() => [...acquisitionChannels].reverse(), [])
+
+  const options: ApexOptions = useMemo(
+    () => ({
+      chart: {
+        type: 'bar',
+        stacked: true,
+        toolbar: { show: false },
+        fontFamily: 'inherit',
+        foreColor: theme.text,
+        background: 'transparent',
+      },
+
+      colors: stackedSeries.map((series) => series.color),
+
+      plotOptions: {
+        bar: {
+          columnWidth: '45%',
+          borderRadius: 12,
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'all',
+        },
+      },
+
+      dataLabels: { enabled: false },
+
+      xaxis: {
+        categories: acquisitionMonths,
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+        labels: { style: { fontSize: '12px' } },
+      },
+
+      yaxis: {
+        min: 0,
+        max: 240,
+        tickAmount: 6,
+        labels: { style: { fontSize: '12px' } },
+      },
+
+      grid: {
+        borderColor: theme.grid,
+        strokeDashArray: 0,
+        xaxis: { lines: { show: false } },
+      },
+
+      legend: { show: false },
+
+      tooltip: { theme: 'dark' },
+
+      states: { hover: { filter: { type: 'none' } } },
+    }),
+    [theme, stackedSeries]
+  )
+
+  return (
+    <div className="w-full min-w-0 h-[500px] bg-[#FAFAFA] border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
+      {/* Header Container with Title and Dropdown */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-semibold text-[#404040] dark:text-gray-100">
+          Verified Status
+        </h3>
+
+        {/* Year Select Dropdown */}
+        <div className="relative inline-block">
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="appearance-none bg-white dark:bg-neutral-800 border border-[#d4d4d4] dark:border-neutral-700 rounded-[8px] pl-3.5 pr-8 py-1.5 text-sm font-medium text-[#404040] dark:text-gray-200 cursor-pointer outline-none transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-750"
+          >
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-[#404040] dark:text-gray-300" />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4 sm:gap-5 flex-wrap mt-3">
+        {acquisitionChannels.map((item) => (
+          <ChartLegendItem
+            key={item.name}
+            name={item.name}
+            color={item.color}
+          />
+        ))}
+      </div>
+
+      <div className="flex-1 min-h-0 min-w-0 w-full mt-2">
+        <Chart
+          options={options}
+          series={stackedSeries.map(({ name, data }) => ({ name, data }))}
+          type="bar"
+          width="100%"
+          height="100%"
+        />
+      </div>
+    </div>
+  )
+}
+
+//donut
+
+type DeviceSlice = {
+  name: string
+  color: string
+  value: number
+}
+
+// Replace the numbers with real session counts.
+const deviceSessions: DeviceSlice[] = [
+  { name: 'Deactive', color: '#B8E6FE', value: 37 },
+  { name: 'Offline', color: '#00BCFF', value: 63 },
+  { name: 'Active', color: '#0082D1', value: 63 },
+]
+
+function SessionsByPayment() {
+  const isDark = useIsDark()
+  const theme = isDark ? chartTheme.dark : chartTheme.light
+
+  const options: ApexOptions = useMemo(
+    () => ({
+      chart: {
+        type: 'donut',
+        foreColor: theme.text,
+        fontFamily: 'inherit',
+        redrawOnWindowResize: true,
+        background: 'transparent',
+      },
+
+      labels: deviceSessions.map((item) => item.name),
+
+      colors: deviceSessions.map((item) => item.color),
+
+      // Slice gaps match the card background in each mode
+      stroke: {
+        show: true,
+        width: 4,
+        colors: [theme.stroke],
+      },
+
+      plotOptions: {
+        pie: {
+          expandOnClick: false,
+          customScale: 0.8,
+          donut: {
+            size: '57%',
+            labels: { show: false },
+          },
+          borderRadius: 12,
+        },
+      },
+
+      dataLabels: { enabled: false },
+
+      legend: { show: false },
+
+      tooltip: {
+        enabled: true,
+        theme: 'dark',
+        y: {
+          formatter: (value: number) =>
+            `${value.toLocaleString('en-IN')}`,
+        },
+      },
+
+      states: { hover: { filter: { type: 'none' } } },
+    }),
+    [theme]
+  )
+
+  return (
+    <div className="w-full min-w-0 h-[500px] bg-[#FAFAFA] border border-[#d4d4d4] rounded-[8px] p-6 flex flex-col dark:bg-neutral-900 dark:border-neutral-800 transition-colors duration-200">
+      <h3 className="text-2xl font-semibold text-[#404040] dark:text-gray-100">
+        Sessions By Status
+      </h3>
+
+      <div className="flex-2 min-h-0 min-w-0 w-full my-2">
+        <Chart
+          options={options}
+          series={deviceSessions.map((item) => item.value)}
+          type="donut"
+          width="100%"
+          height="100%"
+        />
+      </div>
+
+      <div className="flex items-center justify-center gap-5 sm:gap-8 flex-wrap">
+        {deviceSessions.map((item) => (
+          <ChartLegendItem
+            key={item.name}
+            name={item.name}
+            color={item.color}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function UserList() {
   return (
     <div className="flex w-full flex-col gap-5">
       <Visit />
       <UserTable />
+      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-5 items-stretch">
+        <AcquisitionChannel />
+        <SessionsByPayment />
+      </div>
     </div>
   )
 }
