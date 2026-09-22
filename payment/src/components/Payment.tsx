@@ -277,8 +277,8 @@ const columns = columnHelper.columns([
       const user = getValue()
       return (
         <div className="flex flex-col items-center">
-          <span className="font-medium text-neutral-800 dark:text-neutral-100">{user.name}</span>
-          <span className="text-xs text-neutral-800 dark:text-neutral-400">{user.email}</span>
+          <span className="font-regular text-[#404040] dark:text-neutral-100">{user.name}</span>
+          <span className="text-xs text-[#404040] dark:text-neutral-400">{user.email}</span>
         </div>
       )
     },
