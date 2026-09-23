@@ -11,21 +11,13 @@ import {
   Sun,
   UserRound,
 } from 'lucide-react'
-import peterAvatar from '../assets/peterparker.jpeg'
+import { currentUser } from '../mock/profileMock'
 
 type HeaderProps = {
   isDarkMode: boolean
   isSidebarOpen: boolean
   onToggleSidebar: () => void
   onToggleTheme: () => void
-}
-
-export const currentUser = {
-    name: 'Peter Parker',
-    email: 'peterparker@company.com',
-    role: 'Administration',
-    avatar: peterAvatar,
-    logoutRoute: '/logout',
 }
 
 // ---------------------------------------------------------------------------

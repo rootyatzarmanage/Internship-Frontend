@@ -1,15 +1,6 @@
 import { useId, useState } from 'react'
 import { ChevronDown, Pencil, Save, Trash2 } from 'lucide-react'
-import peterAvatar from '../assets/peterparker.jpeg'
-
-const currentUser = {
-  name: 'Peter Parker',
-  userId: 'USR-4562',
-  email: 'peterparker@company.com',
-  avatar: peterAvatar,
-  number: '+91 94867 88921',
-  location: 'Tamil Nadu, India',
-}
+import { currentUser } from '../mock/profileMock'
 
 // ---------------------------------------------------------------------------
 // Small reusable form pieces
@@ -300,7 +291,7 @@ function AddressForm({
 // ---------------------------------------------------------------------------
 
 function SecuritySettings() {
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false)
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(currentUser.twoFactorEnabled)
 
   return (
     <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
@@ -311,7 +302,7 @@ function SecuritySettings() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 first:pt-0 px-1">
           <div>
             <div className="text-sm font-medium text-gray-900">Change Password</div>
-            <div className="text-sm text-gray-500">Last change 3 months ago</div>
+            <div className="text-sm text-gray-500">{`Last change ${new Date(currentUser.lastPasswordChange).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`}</div>
           </div>
           <button
             type="button"
