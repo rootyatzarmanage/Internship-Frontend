@@ -35,14 +35,17 @@ const Hero: React.FC = () => {
         title.querySelectorAll('div > span')
       );
       const statItems = stats ? gsap.utils.toArray<HTMLElement>(stats.children) : [];
+      const ctaButtons = cta ? gsap.utils.toArray<HTMLElement>(cta.children) : [];
+      const [getStartedBtn, learnMoreBtn] = ctaButtons;
 
       // --- Initial state: nothing visible but the plain background image ---
       gsap.set(titleLines, { x: 150, opacity: 0 });
       if (overlay) gsap.set(overlay, { opacity: 0 });
       if (badge) gsap.set(badge, { y: -60, opacity: 0 });
       gsap.set(subtitle, { y: 30, opacity: 0 });
-      if (cta) gsap.set(cta, { opacity: 0 });
       if (statItems.length) gsap.set(statItems, { y: 60, opacity: 0 });
+      if (getStartedBtn) gsap.set(getStartedBtn, { x: -100, opacity: 0 });
+      if (learnMoreBtn) gsap.set(learnMoreBtn, { x: 100, opacity: 0 });
 
       // --- After a 2s hold on the bare image, headline slides in ---
       // "Design," animates first, then "Coordinate," and "Deliver."
@@ -50,15 +53,27 @@ const Hero: React.FC = () => {
       // gap between each word.
       const tl = gsap.timeline({ delay: 0.5 });
 
-      tl.to(titleLines, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        stagger: 0.80,
-        ease: 'power3.out',
-      });
+      // Soft centre glow fades in alongside the headline. Added first (and
+      // the headline second, at the same start time via '<') so the
+      // timeline's "end of this phase" marker lands on whichever of the
+      // two actually finishes last — the headline, since it's longer.
+      if (overlay) {
+        tl.to(overlay, { opacity: 1, duration: 1.5, ease: 'power2.out' }, 0);
+      }
 
-      // Once all three words are in, the subtitle settles in underneath them.
+      tl.to(
+        titleLines,
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.8,
+          ease: 'power3.out',
+        },
+        overlay ? '<' : 0
+      );
+
+      // Once all three words are fully in, the subtitle settles in underneath.
       tl.to(subtitle, {
         y: 0,
         opacity: 1,
@@ -66,15 +81,12 @@ const Hero: React.FC = () => {
         ease: 'power2.out',
       });
 
-      // Then the badge and the four stats move in to meet it — badge
-      // dropping from the top, stats rising from the bottom — together.
-      const t3 = gsap.timeline({ delay: 0.5 });
+      // Then, once the subtitle is done, the badge and the four stats move
+      // in to meet it — badge dropping from the top, stats rising from the
+      // bottom — starting together. Stats is added last since its stagger
+      // makes it the longer of the two, so the next phase waits for it.
       if (badge) {
-        tl.to(
-          badge,
-          { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-          '<'
-        );
+        tl.to(badge, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
       }
       if (statItems.length) {
         tl.to(
@@ -86,13 +98,30 @@ const Hero: React.FC = () => {
             stagger: 0.1,
             ease: 'power2.out',
           },
-          '<'
+          badge ? '<' : undefined
         );
       }
 
-      // CTA buttons still hidden for now, ready for their own cue.
+      // Finally, once everything above has settled, the CTA buttons slide
+      // in from opposite sides — Get Started from the left, Learn More
+      // from the right — together.
+      if (getStartedBtn) {
+        tl.to(getStartedBtn, {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      }
+      if (learnMoreBtn) {
+        tl.to(
+          learnMoreBtn,
+          { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
+          getStartedBtn ? '<' : undefined
+        );
+      }
 
-      // Parallax Effect
+      //Parallax Effect
       gsap.to(container, {
         scrollTrigger: {
           trigger: container,
