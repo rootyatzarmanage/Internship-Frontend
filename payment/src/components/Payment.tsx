@@ -1,4 +1,5 @@
-import { menuItems } from './config/Visitors'
+import { paymentMetricsMock, salesListMock, acquisitionMonthsMock, acquisitionChannelsMock, yearlyRevenueMock, deviceSessionsMock } from '../mock/paymentMock'
+import type { SalesRecord, User } from '../types/payment'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import {
@@ -24,138 +25,10 @@ import Chart from 'react-apexcharts'
 import type { ApexOptions } from 'apexcharts'
 
 
-// Types
-export type PaymentMethod = 'Card' | 'UPI'
-export type PaymentStatus = 'Success' | 'Failed' | 'Pending'
-export type User = {
-  name: string
-  email: string
-}
-
-export type SalesRecord = {
-  /** Unique row key for React/UI rendering */
-  id: string
-  userId: number
-  salesNo: string
-  plan: string
-  user: User
-  amount: number
-  currency: string
-  paymentMethod: PaymentMethod
-  paymentStatus: PaymentStatus
-  date: string
-}
-
-// Data
-export const salesListData: SalesRecord[] = [
-  {
-    id: 's1',
-    userId: 1,
-    salesNo: 'UAN2792',
-    plan: 'PIM',
-    user: { name: 'Alex James', email: 'alexjames@company.com' },
-    amount: 5000,
-    currency: 'INR',
-    paymentMethod: 'Card',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's2',
-    userId: 2,
-    salesNo: 'UHA3923',
-    plan: 'AIM',
-    user: { name: 'Mary Jane', email: 'janemary@company.com' },
-    amount: 10000,
-    currency: 'INR',
-    paymentMethod: 'UPI',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's3',
-    userId: 3,
-    salesNo: 'YAM2932',
-    plan: 'PIM + AIM',
-    user: { name: 'Devi Viswanath', email: 'deviv@company.com' },
-    amount: 12500,
-    currency: 'USD',
-    paymentMethod: 'Card',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's4',
-    userId: 4,
-    salesNo: 'UHA3923',
-    plan: 'PIM',
-    user: { name: 'Harry Osborn', email: 'harryosborn@company.com' },
-    amount: 5000,
-    currency: 'INR',
-    paymentMethod: 'UPI',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's5',
-    userId: 5,
-    salesNo: 'UAN2792',
-    plan: 'PIM',
-    user: { name: 'Kanye West', email: 'yegoat45@company.com' },
-    amount: 5000,
-    currency: 'INR',
-    paymentMethod: 'UPI',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's6',
-    userId: 6,
-    salesNo: 'YAM2932',
-    plan: 'AIM',
-    user: { name: 'Jean Gray', email: 'jean3gray@company.com' },
-    amount: 10000,
-    currency: 'INR',
-    paymentMethod: 'Card',
-    paymentStatus: 'Failed',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's7',
-    userId: 7,
-    salesNo: 'YAM2932',
-    plan: 'AIM',
-    user: { name: 'Taylor Swift', email: 'swiftt@company.com' },
-    amount: 10000,
-    currency: 'INR',
-    paymentMethod: 'Card',
-    paymentStatus: 'Success',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-  {
-    id: 's8',
-    userId: 8,
-    salesNo: 'YAM2932',
-    plan: 'AIM',
-    user: { name: 'Alex James', email: 'alexjames@company.com' },
-    amount: 10000,
-    currency: 'INR',
-    paymentMethod: 'Card',
-    paymentStatus: 'Pending',
-    date: '27 Aug 2026, 05:32 PM',
-  },
-]
-
 type VisitProp = {
   className?: string
 }
 
-type MenuItem = {
-  label: string
-  number: string
-  percent: string
-  time: string
-}
 
 function useIsDark() {
   const [isDark, setIsDark] = useState(
@@ -185,7 +58,7 @@ const chartTheme = {
 
 
 function TotalValues({ className = '' }: VisitProp) {
-  const projects = menuItems as MenuItem[]
+  const projects = paymentMetricsMock
 
   return (
     <div className={`grid lg:grid-cols-4 grid-cols-1 gap-3 w-full ${className}`}>
@@ -196,13 +69,13 @@ function TotalValues({ className = '' }: VisitProp) {
         >
           <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{item.label}</p>
           <div className="relative text-[32px] font-bold text-gray-900 leading-none dark:text-white mb-2">
-            {item.number}
+            {item.value.toLocaleString('en-IN', { notation: 'compact', maximumFractionDigits: 1 }).replace('K', ' k').replace('M', ' m')}
           </div>
           <div className="absolute bottom-4 right-4 flex items-center text-[12px] font-normal leading-none">
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
-              {item.percent}
+              + {item.changePercent}%
             </span>
-            <span className="p-1 text-gray-600 font-medium dark:text-white">{item.time}</span>
+            <span className="p-1 text-gray-600 font-medium dark:text-white">{item.context}</span>
           </div>
         </div>
       ))}
@@ -333,6 +206,7 @@ const columns = columnHelper.columns([
   columnHelper.accessor('date', {
     id: 'date',
     header: 'Date',
+    cell: ({ getValue }) => formatDateTime(getValue()),
   }),
 ])
 
@@ -345,6 +219,24 @@ const globalSearch = (row: TableRow<SalesRecord>, columnId: string, filterValue:
 /* -------------------------------------------------------------------------- */
 
 const EXPORT_NAME = 'sales-list'
+
+function formatDateTime(value: string) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'Asia/Kolkata',
+  }).formatToParts(new Date(value))
+
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? ''
+
+  return `${get('day')} ${get('month')} ${get('year')}, ${get('hour')}:${get('minute')} ${get('dayPeriod').toUpperCase()}`
+}
+
 
 function getExportValue(row: TableRow<SalesRecord>, columnId: string, index: number): string | number {
   if (columnId === 'sno') return index + 1
@@ -577,7 +469,7 @@ function SalesTable() {
   const table = useTable({
     features,
     columns,
-    data: salesListData,
+    data: salesListMock,
     getRowId: (row) => row.id,
     globalFilterFn: globalSearch,
     initialState: {
@@ -893,19 +785,18 @@ function SalesTable() {
   )
 }
 
-type ChannelSeries = {
-  name: string
-  color: string
-  data: number[]
+const acquisitionMonths = acquisitionMonthsMock
+
+const acquisitionChannelColors: Record<string, string> = {
+  'PIM Project': '#BDE8FF',
+  'AIM Project': '#00B2FF',
+  'PIM + AIM Project': '#0082D1',
 }
 
-const acquisitionMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']
-
-const acquisitionChannels: ChannelSeries[] = [
-  { name: 'PIM Project', color: '#BDE8FF', data: [38, 45, 38, 52, 41, 48, 51, 53, 45] },
-  { name: 'AIM Project', color: '#00B2FF', data: [40, 35, 50, 44, 55, 39, 25, 54, 36] },
-  { name: 'PIM + AIM Project', color: '#0082D1', data: [35, 42, 30, 48, 36, 51, 41, 30, 48] },
-]
+const acquisitionChannels = acquisitionChannelsMock.map((channel) => ({
+  ...channel,
+  color: acquisitionChannelColors[channel.name],
+}))
 
 //barchart
 type ChartLegendItemProps = {
@@ -936,7 +827,7 @@ function ChartLegendItem({ name, color }: ChartLegendItemProps) {
 }
 
 function AcquisitionChannel() {
-  const [selectedYear, setSelectedYear] = useState('2026')
+  const [selectedYear, setSelectedYear] = useState(String(yearlyRevenueMock.year))
   const isDark = useIsDark()
   const theme = isDark ? chartTheme.dark : chartTheme.light
   const stackedSeries = useMemo(() => [...acquisitionChannels].reverse(), [])
@@ -1018,7 +909,7 @@ function AcquisitionChannel() {
       </div>
 
       <h4 className="font-semibold text-[#404040] dark:text-gray-100 text-2xl py-2">
-        2,57,340.00
+        {yearlyRevenueMock.total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </h4>
 
       <div className="flex items-center gap-4 sm:gap-5 flex-wrap mt-3">
@@ -1046,17 +937,15 @@ function AcquisitionChannel() {
 
 //donut
 
-type DeviceSlice = {
-  name: string
-  color: string
-  value: number
+const deviceSessionColors: Record<string, string> = {
+  Card: '#00B2FF',
+  UPI: '#0082D1',
 }
 
-// Replace the numbers with real session counts.
-const deviceSessions: DeviceSlice[] = [
-  { name: 'Card', color: '#00B2FF', value: 37 },
-  { name: 'UPI', color: '#0082D1', value: 63 },
-]
+const deviceSessions = deviceSessionsMock.map((session) => ({
+  ...session,
+  color: deviceSessionColors[session.name],
+}))
 
 function SessionsByPayment() {
   const isDark = useIsDark()
