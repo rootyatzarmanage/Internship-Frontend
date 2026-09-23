@@ -182,7 +182,7 @@ function ProfileForm({
   return (
     <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
       <div>
-        <h3 className="text-base font-semibold text-gray-900">Profile</h3>
+        <h3 className="text-[20px] font-semibold text-gray-900">Profile</h3>
         <p className="mt-0.5 text-sm text-gray-500">Your Basic Account Information.</p>
       </div>
 
@@ -259,7 +259,7 @@ function AddressForm({
 
   return (
     <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-base font-semibold text-gray-900">Address</h3>
+      <h3 className="text-[20px] font-semibold text-gray-900">Address</h3>
       <p className="mt-0.5 text-sm text-gray-500">This address appears on your invoices and account records.</p>
 
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -295,7 +295,7 @@ function SecuritySettings() {
 
   return (
     <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-base font-semibold text-gray-900">Security</h3>
+      <h3 className="text-[20px] font-semibold text-gray-900">Security</h3>
       <p className="mt-0.5 text-sm text-gray-500">Manage how you sign in and keep your account secure.</p>
 
       <div className="mt-4 divide-y divide-gray-200">
@@ -346,7 +346,7 @@ function DangerZone() {
 
   return (
     <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-base font-semibold text-gray-900">Danger Zone</h3>
+      <h3 className="text-[20px] font-semibold text-gray-900">Danger Zone</h3>
       <p className="mt-0.5 text-sm text-gray-500">These actions are irreversible, proceed carefully.</p>
 
       <div className="mt-4 divide-y divide-gray-200">
