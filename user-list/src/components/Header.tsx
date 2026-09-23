@@ -11,21 +11,13 @@ import {
   Sun,
   UserRound,
 } from 'lucide-react'
-import peterAvatar from '../assets/peterparker.jpeg'
+import { currentUserMock } from '../mock/headerMock'
 
 type HeaderProps = {
   isDarkMode: boolean
   isSidebarOpen: boolean
   onToggleSidebar: () => void
   onToggleTheme: () => void
-}
-
-export const currentUser = {
-    name: 'Peter Parker',
-    email: 'peterparker@company.com',
-    role: 'Administration',
-    avatar: peterAvatar,
-    logoutRoute: '/logout',
 }
 
 // ---------------------------------------------------------------------------
@@ -150,18 +142,18 @@ function HeaderUser() {
         type="button"
         aria-expanded={isUserMenuOpen}
         aria-haspopup="menu"
-        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUser.name} menu`}
+        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUserMock.name} menu`}
         onClick={() => setIsUserMenuOpen((isOpen) => !isOpen)}
         className="flex cursor-pointer items-center gap-2 rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-[#202020]"
       >
         <img
-          src={currentUser.avatar}
-          alt={currentUser.name}
+          src={currentUserMock.avatar}
+          alt={currentUserMock.name}
           className="h-8.5 w-9 rounded-lg border border-[#808080] object-cover"
         />
 
         <span className="hidden text-left text-[14px] font-regular leading-none text-[#111111] dark:text-gray-100 sm:block">
-          {currentUser.name}
+          {currentUserMock.name}
         </span>
 
         {isUserMenuOpen ? (
@@ -186,11 +178,11 @@ function HeaderUser() {
         >
           <div className="border-b border-[#d2d2d2] px-1 pb-4 dark:border-[#404040]">
             <p className="text-[14px] font-semibold leading-tight text-[#404040] dark:text-gray-100">
-              {currentUser.name}
+              {currentUserMock.name}
             </p>
 
             <p className="mt-1 truncate text-[12px] font-semibold text-[#a3a3a3]">
-              {currentUser.email}
+              {currentUserMock.email}
             </p>
           </div>
 
@@ -224,7 +216,7 @@ function HeaderUser() {
             </a>
 
             <a
-              href={currentUser.logoutRoute}
+              href={currentUserMock.logoutRoute}
               role="menuitem"
               className="mt-2 flex items-center gap-4 border-t border-[#d2d2d2] px-2 pt-4 text-[14px] text-[#404040] no-underline transition-colors hover:text-[#008CD2] dark:border-[#404040] dark:text-gray-100"
             >

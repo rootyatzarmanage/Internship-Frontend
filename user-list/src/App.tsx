@@ -1,6 +1,6 @@
 import Layout from './components/Layout'
 import './App.css';
-import UserList from './components/User-list'
+import UserList from './components/Users'
 
 function App() {
   return (
