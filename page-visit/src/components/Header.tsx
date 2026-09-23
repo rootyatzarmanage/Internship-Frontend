@@ -11,7 +11,7 @@ import {
   Sun,
   UserRound,
 } from 'lucide-react'
-import peterAvatar from '../assets/peterparker.jpeg'
+import { currentUserMock } from '../mock/headerMock'
 
 type HeaderProps = {
   isDarkMode: boolean
@@ -20,13 +20,7 @@ type HeaderProps = {
   onToggleTheme: () => void
 }
 
-export const currentUser = {
-    name: 'Peter Parker',
-    email: 'peterparker@company.com',
-    role: 'Administration',
-    avatar: peterAvatar,
-    logoutRoute: '/logout',
-}
+const currentUser = currentUserMock
 
 // ---------------------------------------------------------------------------
 // Search
@@ -224,7 +218,7 @@ function HeaderUser() {
             </a>
 
             <a
-              href={currentUser.logoutRoute}
+              href="/logout"
               role="menuitem"
               className="mt-2 flex items-center gap-4 border-t border-[#d2d2d2] px-2 pt-4 text-[14px] text-[#404040] no-underline transition-colors hover:text-[#008CD2] dark:border-[#404040] dark:text-gray-100"
             >

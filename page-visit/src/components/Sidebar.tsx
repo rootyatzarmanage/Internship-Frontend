@@ -1,17 +1,10 @@
 import { MoreHorizontal } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import {
-    Activity,
-    BadgeDollarSign,
-    BookOpen,
-    BriefcaseBusiness,
-    CircleHelp,
-    CreditCard,
-    LayoutDashboard,
-    ShieldCheck,
-} from 'lucide-react'
-
 import logo from '../assets/logo.png'
+import {
+    adminNavigationItems,
+    mainNavigationItems,
+} from '../config/navigation'
+import type { NavigationItem } from '../config/navigation'
 
 /* -------------------------------------------------------------------------- */
 /* Types                                                                      */
@@ -23,34 +16,10 @@ type SidebarProps = {
 
 type SidebarNavSectionProps = {
     title: string
-    items: NavItem[]
+    items: NavigationItem[]
     isCollapsed: boolean
     currentPath: string
 }
-
-type NavItem = {
-    label: string
-    route: string
-    icon: LucideIcon
-}
-
-/* -------------------------------------------------------------------------- */
-/* Navigation data                                                            */
-/* -------------------------------------------------------------------------- */
-export const menuItems = [
-    { label: 'Analytics', route: '/analytics', icon: Activity },
-    { label: 'Workspace', route: '/workspace', icon: LayoutDashboard },
-    { label: 'Resources', route: '/resources', icon: BriefcaseBusiness },
-    { label: 'Payment', route: '/payment', icon: CreditCard },
-    { label: 'Library', route: '/library', icon: BookOpen },
-]
-
-export const adminItems = [
-    { label: 'Subscription', route: '/subscription', icon: BadgeDollarSign },
-    { label: 'App Security', route: '/app-security', icon: ShieldCheck },
-    { label: 'Help & Docs', route: '/help-and-docs', icon: CircleHelp },
-]
-
 
 /* -------------------------------------------------------------------------- */
 /* Sidebar Logo                                                               */
@@ -177,7 +146,7 @@ function SidebarMainMenu({
     return (
         <SidebarNavSection
             title="Main Menu"
-            items={menuItems}
+            items={mainNavigationItems}
             isCollapsed={isCollapsed}
             currentPath={currentPath}
         />
@@ -198,7 +167,7 @@ function SidebarAdmin({
     return (
         <SidebarNavSection
             title="Admin"
-            items={adminItems}
+            items={adminNavigationItems}
             isCollapsed={isCollapsed}
             currentPath={currentPath}
         />

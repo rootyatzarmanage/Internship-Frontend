@@ -1,9 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Chart from 'react-apexcharts'
 import type { ApexOptions } from 'apexcharts'
-import { menuItems } from './config/Visitors'
-import { analyticsData } from './config/LiveUpdate'
-import type { AnalyticsRecord } from './config/LiveUpdate'
+import {
+  acquisitionDataMock,
+  analyticsDataMock,
+  countryAnalyticsMock,
+  deviceSessionsMock,
+  visitorSummaryMock,
+} from '../mock/pageVisitMock'
+import type {
+  AcquisitionRecord,
+  AnalyticsRecord,
+  CountryAnalyticsRecord,
+  VisitorMetricValue,
+} from '../types/pageVisit'
 import type { ReactNode } from 'react'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
@@ -80,14 +90,42 @@ type VisitProp = {
   className?: string
 }
 
-type MenuItem = {
+type VisitorCard = {
   label: string
-  number: string
-  percent: string
+  metric: VisitorMetricValue
+  formatValue: (value: number) => string
+}
+
+function formatCompactThousands(value: number) {
+  return `${(value / 1000).toFixed(1)} k`
+}
+
+function formatMinutes(seconds: number) {
+  return `${(seconds / 60).toFixed(1)} mins`
+}
+
+function formatPercent(value: number) {
+  return `${value >= 0 ? '+ ' : '- '}${Math.abs(value)}%`
 }
 
 function Visit({ className = '' }: VisitProp) {
-  const projects = menuItems as MenuItem[]
+  const projects: VisitorCard[] = [
+    {
+      label: 'Unique Visitors',
+      metric: visitorSummaryMock.uniqueVisitors,
+      formatValue: formatCompactThousands,
+    },
+    {
+      label: 'Total Page View',
+      metric: visitorSummaryMock.totalPageViews,
+      formatValue: formatCompactThousands,
+    },
+    {
+      label: 'Average Visiting Time',
+      metric: visitorSummaryMock.averageVisitDurationSeconds,
+      formatValue: formatMinutes,
+    },
+  ]
 
   return (
     <div
@@ -113,12 +151,12 @@ function Visit({ className = '' }: VisitProp) {
           </p>
 
           <div className="relative text-[32px] font-bold text-gray-900 leading-none dark:text-white mb-2">
-            {item.number}
+            {item.formatValue(item.metric.value)}
           </div>
 
           <div className="absolute bottom-4 right-4 flex items-center text-[12px] font-normal leading-none">
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
-              {item.percent}
+              {formatPercent(item.metric.changePercent)}
             </span>
             <span className="p-1 text-gray-600 font-medium dark:text-white">
               vs Last Month
@@ -277,10 +315,33 @@ function getColumnLabel<TData extends RowData>(column: TableColumn<TData>): stri
 
 /* ---------- OVERVIEW TABLE: columns ---------- */
 
+function formatViewedAt(value: string): string {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec',
+  ]
+  const day = String(date.getUTCDate()).padStart(2, '0')
+  const month = months[date.getUTCMonth()]
+  const year = date.getUTCFullYear()
+  const hours = date.getUTCHours()
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0')
+  const displayHour = String(hours % 12 || 12).padStart(2, '0')
+  const meridiem = hours >= 12 ? 'PM' : 'AM'
+
+  return `${day} ${month} ${year}, ${displayHour}:${minutes} ${meridiem}`
+}
+
 const columnHelper = createColumnHelper<Features, AnalyticsRecord>()
 
 const columns = columnHelper.columns([
-  columnHelper.accessor('sNo', { header: 'S.No', size: 70 }),
+  columnHelper.accessor('sNo', {
+    header: 'S.No',
+    size: 70,
+    cell: (info) => String(info.getValue()).padStart(2, '0'),
+  }),
   columnHelper.accessor('pageName', { header: 'Page Name', size: 120 }),
   columnHelper.accessor('pageUrl', { header: 'Page URL', size: 120 }),
   columnHelper.accessor('previousPage', { header: 'Previous Page', size: 120 }),
@@ -324,6 +385,7 @@ const columns = columnHelper.columns([
     size: 180,
     filterFn: dateRangeFilterFn,
     sortFn: dateSortFn,
+    cell: (info) => formatViewedAt(info.getValue()),
   }),
 ])
 
@@ -335,33 +397,20 @@ function getOverviewExportValue(
   if (columnId === 'user') {
     return `${row.original.user.name} (ID: ${row.original.user.id})`
   }
+  if (columnId === 'sNo') {
+    return String(row.original.sNo).padStart(2, '0')
+  }
+  if (columnId === 'viewedAt') {
+    return formatViewedAt(row.original.viewedAt)
+  }
   return row.getValue(columnId)
 }
 
 /* ---------- COUNTRY TABLE: data + columns ---------- */
 
-type CountryRecord = {
-  sNo: number
-  country: string
-  totalView: number
-  loginView: number
-  withoutLoginView: number
-  totalVisits: number
-  newVisitors: number
-  avgDuration: number // seconds
-}
+const countryData = countryAnalyticsMock
 
-// Move this into ./config if you prefer to keep data files separate.
-const countryData: CountryRecord[] = [
-  { sNo: 1, country: 'United States', totalView: 604, loginView: 52, withoutLoginView: 542, totalVisits: 34, newVisitors: 23, avgDuration: 112 },
-  { sNo: 2, country: 'India', totalView: 462, loginView: 152, withoutLoginView: 245, totalVisits: 32, newVisitors: 3, avgDuration: 324234 },
-  { sNo: 3, country: 'Singapore', totalView: 67, loginView: 78, withoutLoginView: 9, totalVisits: 341, newVisitors: 32, avgDuration: 324 },
-  { sNo: 4, country: 'Egypt', totalView: 36, loginView: 0, withoutLoginView: 36, totalVisits: 23, newVisitors: 3, avgDuration: 234 },
-  { sNo: 5, country: 'Singapore', totalView: 26, loginView: 0, withoutLoginView: 26, totalVisits: 234, newVisitors: 34, avgDuration: 123 },
-  { sNo: 6, country: 'Mexico', totalView: 20, loginView: 0, withoutLoginView: 20, totalVisits: 12, newVisitors: 23, avgDuration: 334 },
-]
-
-const countryColumnHelper = createColumnHelper<Features, CountryRecord>()
+const countryColumnHelper = createColumnHelper<Features, CountryAnalyticsRecord>()
 
 const countryColumns = countryColumnHelper.columns([
   countryColumnHelper.accessor('sNo', { header: 'S.no', size: 80 }),
@@ -746,7 +795,7 @@ function exportTableAsExcel<TData extends RowData>(
 /* ---------- filter panel (opens from the Filter icon) ---------- */
 
 const ipOptions = Array.from(
-  new Set(analyticsData.map((r) => String(r.ipAddress)))
+  new Set(analyticsDataMock.map((r) => String(r.ipAddress)))
 ).sort()
 
 const filterInputClass =
@@ -1272,7 +1321,7 @@ function LiveTable<TData extends RowData>({
 function OverviewTable() {
   return (
     <LiveTable
-      data={analyticsData}
+      data={analyticsDataMock}
       columns={columns}
       searchPlaceholder="Search user ID, IP address..."
       exportName="live-update-overview"
@@ -1376,25 +1425,41 @@ function ChartLegendItem({ name, color }: ChartLegendItemProps) {
    ACQUISITION CHANNEL (stacked bar)
    ========================================================= */
 
-type ChannelSeries = {
+type ChannelKey = 'direct' | 'referral' | 'social' | 'seo'
+
+type ChannelConfig = {
+  key: ChannelKey
   name: string
   color: string
-  data: number[]
 }
 
-const acquisitionMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']
-
-const acquisitionChannels: ChannelSeries[] = [
-  { name: 'Direct', color: '#BDE8FF', data: [38, 45, 38, 52, 41, 48, 51, 53, 45] },
-  { name: 'Referral', color: '#00B2FF', data: [40, 35, 50, 44, 55, 39, 25, 54, 36] },
-  { name: 'Social', color: '#0082D1', data: [35, 42, 30, 48, 36, 51, 41, 30, 48] },
-  { name: 'SEO', color: '#00507E', data: [55, 38, 55, 40, 50, 42, 53, 47, 24] },
+const acquisitionChannelConfig: ChannelConfig[] = [
+  { key: 'direct', name: 'Direct', color: '#BDE8FF' },
+  { key: 'referral', name: 'Referral', color: '#00B2FF' },
+  { key: 'social', name: 'Social', color: '#0082D1' },
+  { key: 'seo', name: 'SEO', color: '#00507E' },
 ]
 
 function AcquisitionChannel() {
   const isDark = useIsDark()
   const theme = isDark ? chartTheme.dark : chartTheme.light
-  const stackedSeries = useMemo(() => [...acquisitionChannels].reverse(), [])
+  const acquisitionMonths = useMemo(
+    () => acquisitionDataMock.map((item) => item.month),
+    []
+  )
+  const stackedSeries = useMemo(
+    () =>
+      [...acquisitionChannelConfig]
+        .reverse()
+        .map((channel) => ({
+          name: channel.name,
+          color: channel.color,
+          data: acquisitionDataMock.map(
+            (item: AcquisitionRecord) => item[channel.key]
+          ),
+        })),
+    []
+  )
 
   const options: ApexOptions = useMemo(
     () => ({
@@ -1456,7 +1521,7 @@ function AcquisitionChannel() {
       </h3>
 
       <div className="flex items-center gap-4 sm:gap-5 flex-wrap mt-3">
-        {acquisitionChannels.map((item) => (
+        {acquisitionChannelConfig.map((item) => (
           <ChartLegendItem
             key={item.name}
             name={item.name}
@@ -1482,18 +1547,15 @@ function AcquisitionChannel() {
    SESSIONS BY DEVICE (donut)
    ========================================================= */
 
-type DeviceSlice = {
-  name: string
-  color: string
-  value: number
-}
-
-// Replace the numbers with real session counts.
-const deviceSessions: DeviceSlice[] = [
-  { name: 'Mobile', color: '#BDE8FF', value: 1240 },
-  { name: 'Tablet', color: '#00B2FF', value: 2610 },
-  { name: 'Laptop / PC', color: '#0082D1', value: 4830 },
+const devicePresentation = [
+  { device: 'Mobile', color: '#BDE8FF' },
+  { device: 'Tablet', color: '#00B2FF' },
+  { device: 'Laptop / PC', color: '#0082D1' },
 ]
+
+function getDeviceColor(device: string) {
+  return devicePresentation.find((item) => item.device === device)?.color ?? '#0082D1'
+}
 
 function SessionsByDevice() {
   const isDark = useIsDark()
@@ -1509,9 +1571,9 @@ function SessionsByDevice() {
         background: 'transparent',
       },
 
-      labels: deviceSessions.map((item) => item.name),
+      labels: deviceSessionsMock.map((item) => item.device),
 
-      colors: deviceSessions.map((item) => item.color),
+      colors: deviceSessionsMock.map((item) => getDeviceColor(item.device)),
 
       // Slice gaps match the card background in each mode
       stroke: {
@@ -1558,7 +1620,7 @@ function SessionsByDevice() {
       <div className="flex-1 min-h-0 min-w-0 w-full my-2">
         <Chart
           options={options}
-          series={deviceSessions.map((item) => item.value)}
+          series={deviceSessionsMock.map((item) => item.sessions)}
           type="donut"
           width="100%"
           height="100%"
@@ -1566,11 +1628,11 @@ function SessionsByDevice() {
       </div>
 
       <div className="flex items-center justify-center gap-5 sm:gap-8 flex-wrap">
-        {deviceSessions.map((item) => (
+        {deviceSessionsMock.map((item) => (
           <ChartLegendItem
-            key={item.name}
-            name={item.name}
-            color={item.color}
+            key={item.device}
+            name={item.device}
+            color={getDeviceColor(item.device)}
           />
         ))}
       </div>
