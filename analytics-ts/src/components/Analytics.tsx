@@ -1,8 +1,18 @@
 import { useState } from 'react'
 import Chart from 'react-apexcharts'
 import type { ApexOptions } from 'apexcharts'
-import { menuItems } from './config/project-content'
-import { paymentData } from './config/payment-data'
+import {
+  analyticsSummaryMock,
+  paymentDataMock,
+  recentPaymentsMock,
+  latestMeetingsMock,
+} from '../mock/analyticsMock'
+import type {
+  PaymentData,
+  PaymentItem,
+  MeetingItem,
+  PaymentSeries,
+} from '../types/analytics'
 
 import {
   columnFilteringFeature,
@@ -23,46 +33,12 @@ import type { PaginationState } from '@tanstack/react-table'
    TYPES
    ========================================================= */
 
-type MenuItem = {
-  label: string
-  number: string
-}
-
-type PaymentSeries = {
-  name: string
-  color: string
-  data: number[]
-}
-
-type PaymentItem = {
-  no: string
-  plan: string
-  method: string
-  amount: string
-}
-
 type TotalProjectsProps = {
   className?: string
 }
 
 type PaymentLegendProps = {
   item: PaymentSeries
-}
-
-type MeetingMember = {
-  id: string
-  name: string
-  avatarUrl: string
-}
-
-type MeetingItem = {
-  id: string
-  title: string
-  description: string
-  date: string
-  members: MeetingMember[]
-  groupsCount: number
-  status: 'Open' | 'On going' | 'Closed'
 }
 
 type MeetingRowProps = {
@@ -223,8 +199,14 @@ function Pagination({
 function TotalProjects({
   className = '',
 }: TotalProjectsProps) {
-  const projects = menuItems as MenuItem[]
+  const summary = analyticsSummaryMock
 
+  const projects = [
+    { label: 'No.of Workspace', number: summary.workspaceCount },
+    { label: 'No.of Projects', number: summary.projectCount },
+    { label: 'No.of PIM Projects', number: summary.pimProjectCount },
+    { label: 'No.of AIM Projects', number: summary.aimProjectCount },
+  ]
   return (
     <div
       className={`grid md:grid-cols-2 grid-cols-1 gap-3 w-full ${className}`}
@@ -249,7 +231,7 @@ function TotalProjects({
           </p>
 
           <div className="text-[48px] font-bold text-gray-900 leading-none dark:text-white">
-            {item.number}
+            {item.number ?? 0}
           </div>
         </div>
       ))}
@@ -262,7 +244,7 @@ function TotalProjects({
    ========================================================= */
 
 function OverviewChart() {
-  const projects = menuItems as MenuItem[]
+  const summary = analyticsSummaryMock
 
   const colors = [
     '#00a3f5',
@@ -271,24 +253,18 @@ function OverviewChart() {
     '#bde8ff',
   ]
 
-  const getShortLabel = (label: string) =>
-    label.replace(/^No\.\s*of\s*/i, '')
+  const data = [
+    { label: 'Workspace', value: summary?.workspaceCount ?? 0 },
+    { label: 'Projects', value: summary?.projectCount ?? 0 },
+    { label: 'PIM Projects', value: summary?.pimProjectCount ?? 0 },
+    { label: 'AIM Projects', value: summary?.aimProjectCount ?? 0 },
+  ].map((item, index) => ({
+    ...item,
+    color: colors[index % colors.length],
+  }))
 
-  const series = projects.map(
-    (item: MenuItem) =>
-      parseInt(item.number, 10) || 0
-  )
-
-  const data = projects.map(
-    (item: MenuItem, index: number) => ({
-      label: getShortLabel(item.label),
-      color: colors[index % colors.length],
-    })
-  )
-
-  const labels = projects.map(
-    (item: MenuItem) => getShortLabel(item.label)
-  )
+  const series = data.map((item) => item.value)
+  const labels = data.map((item) => item.label)
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -421,18 +397,20 @@ function PaymentLegend({
    ========================================================= */
 
 function PaymentChart() {
-  const data = paymentData as {
-    title: string
-    subtitle: string
-    totalAmount: string
-    selectedYear: number
-    availableYears: number[]
-    series: PaymentSeries[]
-    categories: string[]
+  const [selectedYear, setSelectedYear] = useState<number>(
+    paymentDataMock.selectedYear
+  )
+  const [data, setData] = useState<PaymentData>(paymentDataMock)
+
+  const handleYearChange = (year: number) => {
+    setSelectedYear(year)
+    setData({
+      ...paymentDataMock,
+      selectedYear: year,
+    })
   }
 
-  const [selectedYear, setSelectedYear] =
-    useState<number>(data.selectedYear)
+  const chartData = data
 
   const options: ApexOptions = {
     chart: {
@@ -447,7 +425,7 @@ function PaymentChart() {
       foreColor: 'var(--chart-text, #374151)',
     },
 
-    colors: data.series.map(
+    colors: chartData.series.map(
       (series: PaymentSeries) => series.color
     ),
 
@@ -464,7 +442,7 @@ function PaymentChart() {
     },
 
     xaxis: {
-      categories: data.categories,
+      categories: chartData.categories,
 
       axisBorder: {
         show: false,
@@ -539,15 +517,15 @@ function PaymentChart() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h3 className="text-[22px] font-bold text-gray-900 dark:text-gray-100">
-            {data.title}
+            {chartData.title}
           </h3>
 
           <p className="text-[13px] text-gray-500 mt-0.5 dark:text-gray-400">
-            {data.subtitle}
+            {chartData.subtitle}
           </p>
 
           <p className="text-[28px] font-extrabold text-gray-900 mt-1 dark:text-white">
-            {data.totalAmount}
+            ₹{chartData.totalAmount.toLocaleString('en-IN')}
           </p>
         </div>
 
@@ -561,7 +539,7 @@ function PaymentChart() {
             }
             className="border border-gray-300 rounded-lg px-3 py-1 text-sm font-medium text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-200"
           >
-            {data.availableYears.map(
+            {chartData.availableYears.map(
               (year: number) => (
                 <option
                   key={year}
@@ -574,7 +552,7 @@ function PaymentChart() {
           </select>
 
           <div className="flex items-center gap-3 sm:gap-5 flex-wrap justify-end">
-            {data.series.map(
+            {chartData.series.map(
               (
                 item: PaymentSeries,
                 index: number
@@ -592,7 +570,7 @@ function PaymentChart() {
       <div className="flex-1 min-h-0 min-w-0 w-full mt-4 [--chart-text:#374151] [--chart-grid:#e5e7eb] dark:[--chart-text:#9ca3af] dark:[--chart-grid:#262626]">
         <Chart
           options={options}
-          series={data.series}
+          series={chartData.series}
           type="bar"
           width="100%"
           height="100%"
@@ -601,20 +579,6 @@ function PaymentChart() {
     </div>
   )
 }
-
-/* =========================================================
-   RECENT PAYMENT DATA
-   ========================================================= */
-
-const payments: PaymentItem[] = [
-  { no: '01', plan: 'PIM Project', method: 'Card', amount: '5,000' },
-  { no: '02', plan: 'AIM Project', method: 'UPI', amount: '10,000' },
-  { no: '03', plan: 'AIM Project', method: 'Card', amount: '10,000' },
-  { no: '04', plan: 'PIM + AIM Project', method: 'UPI', amount: '12,500' },
-  { no: '05', plan: 'PIM Project', method: 'UPI', amount: '5,000' },
-  { no: '06', plan: 'PIM Project', method: 'UPI', amount: '5,000' },
-  { no: '07', plan: 'PIM + AIM Project', method: 'Card', amount: '12,500' },
-]
 
 /* =========================================================
    TABLE SETUP (v9)
@@ -641,8 +605,9 @@ const features = tableFeatures({
 const columnHelper = createColumnHelper<typeof features, PaymentItem>()
 
 const columns = columnHelper.columns([
-  columnHelper.accessor('no', {
+  columnHelper.accessor('id', {
     header: 'S.no',
+    cell: (info) => String(info.row.index + 1).padStart(2, '0'),
     meta: {
       tdClass: 'text-center text-gray-500',
     },
@@ -662,7 +627,7 @@ const columns = columnHelper.columns([
     },
   }),
 
-  columnHelper.accessor('method', {
+  columnHelper.accessor('transactionMethod', {
     header: 'Transaction method',
     meta: {
       tdClass: 'text-center text-gray-500',
@@ -671,6 +636,7 @@ const columns = columnHelper.columns([
 
   columnHelper.accessor('amount', {
     header: 'Amount',
+    cell: (info) => `₹${info.getValue().toLocaleString('en-IN')}`,
     meta: {
       tdClass: 'text-center text-gray-600 dark:text-gray-300',
     },
@@ -682,6 +648,7 @@ const columns = columnHelper.columns([
    ========================================================= */
 
 function RecentPayment() {
+  const [payments] = useState<PaymentItem[]>(recentPaymentsMock)
   const [globalFilter, setGlobalFilter] = useState('')
   const [showSearch, setShowSearch] = useState(false)
 
@@ -853,64 +820,6 @@ function RecentPayment() {
 }
 
 /* =========================================================
-   LATEST MEETINGS DATA
-   ========================================================= */
-
-const user = (id: string): MeetingMember => ({
-  id,
-  name: `User ${id}`,
-  avatarUrl: `https://i.pravatar.cc/150?img=${id}`,
-})
-
-const meetings: MeetingItem[] = [
-  {
-    id: '1',
-    title: 'M4',
-    description: 'M4 discuss about the process of containing co...',
-    date: '28/05/2026, 03:51 PM',
-    members: [user('1'), user('2'), user('3')],
-    groupsCount: 2,
-    status: 'Open',
-  },
-  {
-    id: '2',
-    title: 'M3',
-    description: 'M3 codes about the process of containing co...',
-    date: '23/05/2026, 06:51 PM',
-    members: [user('1'), user('2')],
-    groupsCount: 3,
-    status: 'On going',
-  },
-  {
-    id: '3',
-    title: 'M2',
-    description: 'M2 discuss about the process of containing co...',
-    date: '17/05/2026, 02:51 PM',
-    members: [user('1'), user('2'), user('3'), user('4')],
-    groupsCount: 6,
-    status: 'Closed',
-  },
-  {
-    id: '4',
-    title: 'M1',
-    description: 'M1 discuss about the process of containing co...',
-    date: '05/05/2026, 03:51 PM',
-    members: [user('1'), user('2')],
-    groupsCount: 1,
-    status: 'Closed',
-  },
-  {
-    id: '5',
-    title: 'M0',
-    description: 'M0 discuss about the process of containing co...',
-    date: '28/04/2026, 10:51 AM',
-    members: [user('1'), user('2'), user('3'), user('4')],
-    groupsCount: 9,
-    status: 'Closed',
-  },
-]
-
-/* =========================================================
    MEETING STATUS COLOR
    ========================================================= */
 
@@ -936,6 +845,20 @@ const getStatusTextColor = (
    MEETING ROW
    ========================================================= */
 
+function formatMeetingDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+
+  return date.toLocaleString('en-IN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
 function MeetingRow({
   meeting,
 }: MeetingRowProps) {
@@ -952,7 +875,7 @@ function MeetingRow({
       </td>
 
       <td className="px-4 py-[10px] text-center text-[13px] text-gray-500 dark:text-gray-400 whitespace-nowrap">
-        {meeting.date}
+        {formatMeetingDate(meeting.date)}
       </td>
 
       <td className="px-4 py-[10px]">
@@ -990,6 +913,7 @@ function MeetingRow({
    ========================================================= */
 
 function LatestMeetings() {
+  const [meetings] = useState<MeetingItem[]>(latestMeetingsMock)
   const [query, setQuery] = useState('')
   const [pageIndex, setPageIndex] = useState(0)
   const [pageSize, setPageSize] = useState(5)
