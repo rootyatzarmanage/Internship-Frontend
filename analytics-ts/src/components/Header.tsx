@@ -10,22 +10,16 @@ import {
   Settings,
   Sun,
   UserRound,
+  Menu, 
+  X
 } from 'lucide-react'
-import peterAvatar from '../assets/peterparker.jpeg'
+import { currentUserMock } from '../mock/headerMock'
 
 type HeaderProps = {
   isDarkMode: boolean
   isSidebarOpen: boolean
   onToggleSidebar: () => void
   onToggleTheme: () => void
-}
-
-export const currentUser = {
-    name: 'Peter Parker',
-    email: 'peterparker@company.com',
-    role: 'Administration',
-    avatar: peterAvatar,
-    logoutRoute: '/logout',
 }
 
 // ---------------------------------------------------------------------------
@@ -71,6 +65,7 @@ function HeaderActions({
 
   return (
     <div className={`flex shrink-0 items-center gap-3 ${className}`}>
+      {/* Theme */}
       <button
         type="button"
         onClick={onToggleTheme}
@@ -96,6 +91,7 @@ function HeaderActions({
         )}
       </button>
 
+      {/* Notifications */}
       <button
         type="button"
         aria-label="Notifications"
@@ -144,24 +140,25 @@ function HeaderUser() {
   return (
     <div
       ref={userMenuRef}
-      className="layout-header-user relative shrink-0"
+      className="layout-header-user relative z-50 shrink-0"
     >
+      {/* User button */}
       <button
         type="button"
         aria-expanded={isUserMenuOpen}
         aria-haspopup="menu"
-        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUser.name} menu`}
+        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUserMock.name} menu`}
         onClick={() => setIsUserMenuOpen((isOpen) => !isOpen)}
         className="flex cursor-pointer items-center gap-2 rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-[#202020]"
       >
         <img
-          src={currentUser.avatar}
-          alt={currentUser.name}
+          src={currentUserMock.avatar}
+          alt={currentUserMock.name}
           className="h-8.5 w-9 rounded-lg border border-[#808080] object-cover"
         />
 
         <span className="hidden text-left text-[14px] font-regular leading-none text-[#111111] dark:text-gray-100 sm:block">
-          {currentUser.name}
+          {currentUserMock.name}
         </span>
 
         {isUserMenuOpen ? (
@@ -179,21 +176,24 @@ function HeaderUser() {
         )}
       </button>
 
+      {/* User dropdown */}
       {isUserMenuOpen && (
         <div
           role="menu"
-          className="layout-user-menu absolute right-0 top-full mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
+          className="layout-user-menu absolute right-0 top-full z-50 mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
         >
+          {/* User information */}
           <div className="border-b border-[#d2d2d2] px-1 pb-4 dark:border-[#404040]">
             <p className="text-[14px] font-semibold leading-tight text-[#404040] dark:text-gray-100">
-              {currentUser.name}
+              {currentUserMock.name}
             </p>
 
             <p className="mt-1 truncate text-[12px] font-semibold text-[#a3a3a3]">
-              {currentUser.email}
+              {currentUserMock.email}
             </p>
           </div>
 
+          {/* Menu items */}
           <div className="pt-2">
             <a
               href="/profile"
@@ -224,7 +224,7 @@ function HeaderUser() {
             </a>
 
             <a
-              href={currentUser.logoutRoute}
+              href={currentUserMock.logoutRoute}
               role="menuitem"
               className="mt-2 flex items-center gap-4 border-t border-[#d2d2d2] px-2 pt-4 text-[14px] text-[#404040] no-underline transition-colors hover:text-[#008CD2] dark:border-[#404040] dark:text-gray-100"
             >
@@ -252,25 +252,35 @@ function MenuIcon({
   isSidebarOpen: boolean
 }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      width="20"
-      height="21"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      aria-hidden="true"
-    >
-      <path
-        className="layout-menu-icon-lines"
-        d="M4 6h16M4 12h16M4 18h16"
+    <>
+      {/* Desktop: always hamburger */}
+      <Menu
+        size={20}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className="hidden xl:block"
       />
 
-      <path
-        className="layout-menu-icon-close"
-        d="M5 5l14 14M19 5L5 19"
+      {/* Mobile/tablet: hamburger when closed */}
+      <Menu
+        size={20}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className={`block xl:hidden ${
+          isSidebarOpen ? 'hidden' : 'block'
+        }`}
       />
-    </svg>
+
+      {/* Mobile/tablet: X when open */}
+      <X
+        size={20}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className={`xl:hidden ${
+          isSidebarOpen ? 'block' : 'hidden'
+        }`}
+      />
+    </>
   )
 }
 
@@ -287,9 +297,14 @@ export default function Header({
     useState(false)
 
   return (
-    <header className="layout-header relative flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
+    <header className="layout-header relative z-50 flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
+      
+      {/* --------------------------------------------------------------- */}
       {/* Left section */}
+      {/* --------------------------------------------------------------- */}
       <div className="layout-header-primary flex min-w-0 flex-1 items-center gap-5">
+        
+        {/* Sidebar toggle */}
         <button
           type="button"
           onClick={onToggleSidebar}
@@ -300,11 +315,15 @@ export default function Header({
           <MenuIcon isSidebarOpen={isSidebarOpen} />
         </button>
 
+        {/* Search */}
         <HeaderSearch />
       </div>
 
+      {/* --------------------------------------------------------------- */}
       {/* Desktop actions */}
-      <div className="layout-header-desktop-actions flex items-center">
+      {/* Visible only at 1280px and above */}
+      {/* --------------------------------------------------------------- */}
+      <div className="layout-header-desktop-actions hidden items-center xl:flex">
         <HeaderActions
           isDarkMode={isDarkMode}
           onToggleTheme={onToggleTheme}
@@ -314,7 +333,10 @@ export default function Header({
         <HeaderUser />
       </div>
 
-      {/* Mobile actions button */}
+      {/* --------------------------------------------------------------- */}
+      {/* Mobile / tablet more button */}
+      {/* Visible below 1280px */}
+      {/* --------------------------------------------------------------- */}
       <button
         type="button"
         aria-label="Show header actions"
@@ -322,7 +344,7 @@ export default function Header({
         onClick={() =>
           setIsMobileActionsOpen((isOpen) => !isOpen)
         }
-        className="layout-header-more cursor-pointer rounded-md border-[0.5px] border-[#bbbbbb] bg-white p-1.5 text-gray-800 transition-colors hover:bg-gray-100 hover:text-black dark:border-[#303030] dark:bg-[#151515] dark:text-gray-100 dark:hover:bg-[#202020] dark:hover:text-white"
+        className="layout-header-more flex cursor-pointer rounded-md border-[0.5px] border-[#bbbbbb] bg-white p-1.5 text-gray-800 transition-colors hover:bg-gray-100 hover:text-black dark:border-[#303030] dark:bg-[#151515] dark:text-gray-100 dark:hover:bg-[#202020] dark:hover:text-white xl:hidden"
       >
         <MoreHorizontal
           size={20}
@@ -331,7 +353,9 @@ export default function Header({
         />
       </button>
 
-      {/* Mobile dropdown */}
+      {/* --------------------------------------------------------------- */}
+      {/* Mobile / tablet dropdown */}
+      {/* --------------------------------------------------------------- */}
       {isMobileActionsOpen && (
         <div className="layout-header-mobile-actions">
           <HeaderSearch />
