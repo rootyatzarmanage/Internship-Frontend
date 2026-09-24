@@ -1,6 +1,6 @@
 import { useId, useState } from 'react'
 import { ChevronDown, Pencil, Save, Trash2 } from 'lucide-react'
-import { currentUser } from '../mock/profileMock'
+import { currentUser } from '../../mock/profileMock'
 
 // ---------------------------------------------------------------------------
 // Small reusable form pieces

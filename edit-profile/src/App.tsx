@@ -1,6 +1,6 @@
 import Layout from './components/Layout'
 import './App.css';
-import EditProfile from './components/Edit-profile'
+import EditProfile from './features/edit-profile'
 
 function App() {
   return (
