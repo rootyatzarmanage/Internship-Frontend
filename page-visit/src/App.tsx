@@ -1,5 +1,5 @@
 import Layout from './components/Layout'
-import Admin from './components/Page-visit'
+import Admin from './features/page-visit/index'
 import './App.css';
 
 function App() {
