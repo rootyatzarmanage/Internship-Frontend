@@ -11,7 +11,7 @@ import {
   Sun,
   UserRound,
 } from 'lucide-react'
-import { currentUserMock } from '../mock/headerMock'
+import { currentUser } from '../mock/profileMock'
 
 type HeaderProps = {
   isDarkMode: boolean
@@ -19,7 +19,6 @@ type HeaderProps = {
   onToggleSidebar: () => void
   onToggleTheme: () => void
 }
-
 
 // ---------------------------------------------------------------------------
 // Search
@@ -137,24 +136,24 @@ function HeaderUser() {
   return (
     <div
       ref={userMenuRef}
-      className="layout-header-user relative shrink-0"
+      className="layout-header-user relative z-50 shrink-0"
     >
       <button
         type="button"
         aria-expanded={isUserMenuOpen}
         aria-haspopup="menu"
-        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUserMock.name} menu`}
+        aria-label={`${isUserMenuOpen ? 'Close' : 'Open'} ${currentUser.name} menu`}
         onClick={() => setIsUserMenuOpen((isOpen) => !isOpen)}
         className="flex cursor-pointer items-center gap-2 rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-[#202020]"
       >
         <img
-          src={currentUserMock.avatar}
-          alt={currentUserMock.name}
+          src={currentUser.avatar}
+          alt={currentUser.name}
           className="h-8.5 w-9 rounded-lg border border-[#808080] object-cover"
         />
 
         <span className="hidden text-left text-[14px] font-regular leading-none text-[#111111] dark:text-gray-100 sm:block">
-          {currentUserMock.name}
+          {currentUser.name}
         </span>
 
         {isUserMenuOpen ? (
@@ -175,15 +174,15 @@ function HeaderUser() {
       {isUserMenuOpen && (
         <div
           role="menu"
-          className="layout-user-menu absolute right-0 top-full mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
+          className="layout-user-menu absolute right-0 top-full z-50 mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
         >
           <div className="border-b border-[#d2d2d2] px-1 pb-4 dark:border-[#404040]">
             <p className="text-[14px] font-semibold leading-tight text-[#404040] dark:text-gray-100">
-              {currentUserMock.name}
+              {currentUser.name}
             </p>
 
             <p className="mt-1 truncate text-[12px] font-semibold text-[#a3a3a3]">
-              {currentUserMock.email}
+              {currentUser.email}
             </p>
           </div>
 
@@ -217,7 +216,7 @@ function HeaderUser() {
             </a>
 
             <a
-              href={currentUserMock.logoutRoute}
+              href={currentUser.logoutRoute}
               role="menuitem"
               className="mt-2 flex items-center gap-4 border-t border-[#d2d2d2] px-2 pt-4 text-[14px] text-[#404040] no-underline transition-colors hover:text-[#008CD2] dark:border-[#404040] dark:text-gray-100"
             >
@@ -280,7 +279,7 @@ export default function Header({
     useState(false)
 
   return (
-    <header className="layout-header relative flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
+    <header className="layout-header relative z-50 flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
       {/* Left section */}
       <div className="layout-header-primary flex min-w-0 flex-1 items-center gap-5">
         <button

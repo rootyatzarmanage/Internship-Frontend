@@ -136,7 +136,7 @@ function HeaderUser() {
   return (
     <div
       ref={userMenuRef}
-      className="layout-header-user relative shrink-0"
+      className="layout-header-user relative z-50 shrink-0"
     >
       <button
         type="button"
@@ -174,7 +174,7 @@ function HeaderUser() {
       {isUserMenuOpen && (
         <div
           role="menu"
-          className="layout-user-menu absolute right-0 top-full mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
+          className="layout-user-menu absolute right-0 top-full z-50 mt-4 h-[220px] w-[210px] rounded-xl border border-[#d2d2d2] bg-white p-4 shadow-lg dark:border-[#303030] dark:bg-[#1d1d1d]"
         >
           <div className="border-b border-[#d2d2d2] px-1 pb-4 dark:border-[#404040]">
             <p className="text-[14px] font-semibold leading-tight text-[#404040] dark:text-gray-100">
@@ -279,7 +279,7 @@ export default function Header({
     useState(false)
 
   return (
-    <header className="layout-header relative flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
+    <header className="layout-header relative z-50 flex h-[65px] items-center justify-between border-b border-gray-300 bg-white px-4 transition-colors dark:border-[#292929] dark:bg-[#090909]">
       {/* Left section */}
       <div className="layout-header-primary flex min-w-0 flex-1 items-center gap-5">
         <button
