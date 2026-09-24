@@ -19,9 +19,10 @@ import {
 } from '@tanstack/react-table'
 import type { ReactTable, Row } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
-import { menuItems } from './config/Visitors'
-import { userListData } from './config/UserData'
-import type { User } from './config/UserData'
+import { usersMock } from '../../mock/usersMock'
+import { userMetricsMock, acquisitionDataMock, sessionStatusMock } from '../../mock/dashboardMock'
+import type { User } from '../../types/users'
+import type { AcquisitionDataPoint, SessionStatus } from '../../types/dashboard'
 import Chart from 'react-apexcharts'
 import type { ApexOptions } from 'apexcharts'
 
@@ -59,21 +60,25 @@ type VisitProp = {
   className?: string
 }
 
-type MenuItem = {
-  label: string
-  number: string
-  percent: string
-  time: string
+function formatMetricValue(value: number) {
+  if (value >= 1000) {
+    const compactValue = value / 1000
+    return `${Number.isInteger(compactValue) ? compactValue : compactValue.toFixed(1)} k`
+  }
+
+  return value.toLocaleString('en-IN')
+}
+
+function formatChangePercent(value: number) {
+  return `+ ${Number.isInteger(value) ? value : value.toFixed(1)}%`
 }
 
 function Visit({ className = '' }: VisitProp) {
-  const projects = menuItems as MenuItem[]
-
   return (
     <div
       className={`grid lg:grid-cols-4 grid-cols-1 gap-3 w-full ${className}`}
     >
-      {projects.map((item) => (
+      {userMetricsMock.map((item) => (
         <div
           key={item.label}
           className="relative
@@ -93,15 +98,15 @@ function Visit({ className = '' }: VisitProp) {
           </p>
 
           <div className="relative text-[32px] font-bold text-gray-900 leading-none dark:text-white mb-2">
-            {item.number}
+            {formatMetricValue(item.value)}
           </div>
 
           <div className="absolute bottom-4 right-4 flex items-center text-[12px] font-normal leading-none">
             <span className="bg-[#99CC99] text-[#008000] px-1.5 py-0.5 rounded-sm font-medium">
-              {item.percent}
+              {formatChangePercent(item.changePercent)}
             </span>
             <span className="p-1 text-gray-600 font-medium dark:text-white">
-              {item.time}
+              {item.context}
             </span>
           </div>
         </div>
@@ -217,17 +222,29 @@ const columns = columnHelper.columns([
     id: 'lastLogin',
     header: 'Last Login',
     enableGlobalFilter: false,
+    cell: ({ getValue }) => formatDisplayDate(getValue()),
   }),
   columnHelper.accessor('registered', {
     id: 'registered',
     header: 'Registered',
     enableGlobalFilter: false,
+    cell: ({ getValue }) => formatDisplayDate(getValue()),
   }),
 ])
 
 /** Search box: match User ID, Name or Email only. */
 const globalSearch = (row: TableRow<User>, columnId: string, filterValue: unknown) =>
   includesText(row, columnId, filterValue)
+
+function formatDisplayDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+
+  const day = String(date.getUTCDate()).padStart(2, '0')
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+  const month = monthNames[date.getUTCMonth()]
+  return `${day} ${month} ${date.getUTCFullYear()}`
+}
 
 /* -------------------------------------------------------------------------- */
 /*  Export helpers                                                            */
@@ -238,6 +255,11 @@ const EXPORT_NAME = 'user-list'
 function getExportValue(row: TableRow<User>, columnId: string, index: number): string | number {
   if (columnId === 'sno') return index + 1
   const value = row.getValue(columnId)
+
+  if (columnId === 'lastLogin' || columnId === 'registered') {
+    return formatDisplayDate(String(value ?? ''))
+  }
+
   return typeof value === 'number' ? value : String(value ?? '')
 }
 
@@ -472,7 +494,7 @@ function UserTable() {
   const table = useTable({
     features,
     columns,
-    data: userListData,
+    data: usersMock,
     getRowId: (row) => row.id,
     globalFilterFn: globalSearch,
     initialState: {
@@ -807,12 +829,20 @@ type ChannelSeries = {
   data: number[]
 }
 
-const acquisitionMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']
-
 const acquisitionChannels: ChannelSeries[] = [
-  { name: 'Verified', color: '#BDE8FF', data: [55, 85, 38, 102, 71, 48, 91, 53, 45] },
-  { name: 'Not Verified', color: '#0082D1', data: [95, 82, 80, 58, 36, 151, 141, 80, 48] },
+  {
+    name: 'Verified',
+    color: '#BDE8FF',
+    data: acquisitionDataMock.map((item: AcquisitionDataPoint) => item.verified),
+  },
+  {
+    name: 'Not Verified',
+    color: '#0082D1',
+    data: acquisitionDataMock.map((item: AcquisitionDataPoint) => item.notVerified),
+  },
 ]
+
+const acquisitionMonths = acquisitionDataMock.map((item) => item.month)
 
 //barchart
 type ChartLegendItemProps = {
@@ -943,17 +973,22 @@ function AcquisitionChannel() {
 //donut
 
 type DeviceSlice = {
-  name: string
+  name: SessionStatus['status']
   color: string
   value: number
 }
 
-// Replace the numbers with real session counts.
-const deviceSessions: DeviceSlice[] = [
-  { name: 'Deactive', color: '#B8E6FE', value: 37 },
-  { name: 'Offline', color: '#00BCFF', value: 63 },
-  { name: 'Active', color: '#0082D1', value: 63 },
-]
+const sessionColors: Record<SessionStatus['status'], string> = {
+  Deactive: '#B8E6FE',
+  Offline: '#00BCFF',
+  Active: '#0082D1',
+}
+
+const deviceSessions: DeviceSlice[] = sessionStatusMock.map((item) => ({
+  name: item.status,
+  color: sessionColors[item.status],
+  value: item.count,
+}))
 
 function SessionsByPayment() {
   const isDark = useIsDark()
