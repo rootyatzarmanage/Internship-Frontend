@@ -1,5 +1,5 @@
-import { paymentMetricsMock, salesListMock, acquisitionMonthsMock, acquisitionChannelsMock, yearlyRevenueMock, deviceSessionsMock } from '../mock/paymentMock'
-import type { SalesRecord, User } from '../types/payment'
+import { paymentMetricsMock, salesListMock, acquisitionMonthsMock, acquisitionChannelsMock, yearlyRevenueMock, deviceSessionsMock } from '../../mock/paymentMock'
+import type { SalesRecord, User } from '../../types/payment'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import {

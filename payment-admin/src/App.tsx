@@ -1,6 +1,6 @@
 import Layout from './components/Layout'
 import './App.css';
-import Payment from './components/Payment'
+import Payment from './features/payment-admin/index'
 
 function App() {
   return (
