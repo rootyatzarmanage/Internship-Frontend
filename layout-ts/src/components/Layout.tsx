@@ -1,24 +1,23 @@
-import { useEffect, useState } from 'react'
-import Header from './header/Header'
-import Sidebar from './sidebar/Sidebar'
-import { useTheme } from '../theme/theme'
+import { useEffect, useState, type ReactNode } from 'react'
+import Header from './Header'
+import Sidebar from './Sidebar'
+import { useTheme } from './theme'
 
 const SIDEBAR_STORAGE_KEY = 'layout-sidebar-collapsed'
 
 type LayoutProps = {
-  children: React.ReactNode
+  children: ReactNode,
 }
 
 export default function Layout({ children }: LayoutProps) {
   const { isDarkMode, toggleTheme } = useTheme()
-
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
     // Always start collapsed when viewport is 426px or smaller
-    if (window.innerWidth <= 426) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 426) {
       return true
     }
 
-    return window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
+    return typeof window !== 'undefined' && window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true'
   })
 
   const updateSidebarState = (collapsed: boolean) => {
@@ -53,8 +52,9 @@ export default function Layout({ children }: LayoutProps) {
   }, [])
 
   return (
+    /* Changed min-h-screen to h-screen and added overflow-hidden to lock parent viewport */
     <div
-      className={`layout-shell relative flex min-h-screen w-full overflow-x-hidden bg-white text-gray-900 transition-colors dark:bg-[#080808] dark:text-gray-100 ${
+      className={`layout-shell relative flex h-screen w-full overflow-hidden bg-white text-gray-900 transition-colors dark:bg-[#080808] dark:text-gray-100 ${
         isSidebarCollapsed
           ? 'layout-shell--sidebar-collapsed'
           : 'layout-shell--sidebar-expanded'
@@ -71,7 +71,10 @@ export default function Layout({ children }: LayoutProps) {
         />
       )}
 
-      <div className="layout-content relative flex min-w-0 flex-1 flex-col">
+      {/* h-full ensures content container matches parent height */}
+      <div className="layout-content relative flex h-full min-w-0 flex-1 flex-col overflow-hidden">
+        
+        {/* Header stays pinned at the top */}
         <Header
           isDarkMode={isDarkMode}
           isSidebarOpen={!isSidebarCollapsed}
@@ -81,7 +84,8 @@ export default function Layout({ children }: LayoutProps) {
           onToggleTheme={toggleTheme}
         />
 
-        <main className="min-h-0 flex-1">
+        {/* main container receives overflow-y-auto to allow children scroll only */}
+        <main className="min-h-0 flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
