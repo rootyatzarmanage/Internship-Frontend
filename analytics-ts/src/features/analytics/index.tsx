@@ -6,13 +6,13 @@ import {
   paymentDataMock,
   recentPaymentsMock,
   latestMeetingsMock,
-} from '../mock/analyticsMock'
+} from '../../mock/analyticsMock'
 import type {
   PaymentData,
   PaymentItem,
   MeetingItem,
   PaymentSeries,
-} from '../types/analytics'
+} from '../../types/analytics'
 
 import {
   columnFilteringFeature,
@@ -1041,7 +1041,7 @@ function LatestMeetings() {
    PAGE — PARENT COMPONENT
    ========================================================= */
 
-export default function Page() {
+export default function Analytics() {
   return (
     <div className="min-h-screen bg-[#F8F8F8] text-gray-500 dark:bg-black dark:text-gray-300">
       {/* Top section */}

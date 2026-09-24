@@ -1,5 +1,5 @@
 import Layout from './components/Layout'
-import Analytics from './components/Analytics'
+import Analytics from './features/analytics/index'
 import './App.css';
 
 function App() {
