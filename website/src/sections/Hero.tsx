@@ -356,7 +356,7 @@ const Hero: React.FC = () => {
             <a
               data-nav-inner
               href="/"
-              className="block text-[22px] sm:text-[28px] font-semibold tracking-tight text-white leading-none"
+              className="block text-[14px] sm:text-[22px] font-semibold tracking-tight text-white leading-none"
             >
               YATZAR MANAGE
             </a>
@@ -368,12 +368,12 @@ const Hero: React.FC = () => {
             {/* Contact */}
             <div
               data-nav-mask
-              className="py-1 overflow-hidden"
+              className="py-1 overflow-hidden hidden sm:block"
             >
               <a
                 data-nav-inner
                 href="#contact"
-                className="block text-[16px] text-white hover:text-[#E5E5E5] transition-colors"
+                className="block text-[14px] text-white hover:text-[#E5E5E5] transition-colors"
               >
                 Contact
               </a>
@@ -386,7 +386,7 @@ const Hero: React.FC = () => {
             >
               <button
                 data-nav-inner
-                className="block px-5 py-2 text-[16px] rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
+                className="block px-3 py-2 sm:px-5 py-2 text-[10px] sm:text-[16px] rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
               >
                 Login / Sign Up
               </button>
@@ -403,21 +403,31 @@ const Hero: React.FC = () => {
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto pt-20">
 
         {/* Certification Badge */}
-        <div
-          ref={badgeWrapRef}
-          className="pb-8"
-        >
-          <div
-            ref={badgeRef}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#F5F5F5] text-sm font-normal tracking-wide"
-          >
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+        <div ref={badgeWrapRef} className="pb-4 sm:pb-8">
+  <div
+    ref={badgeRef}
+    className="
+      inline-flex items-center
+      gap-1
+      sm:gap-2
+      px-2.5
+      py-1
+      sm:px-5
+      sm:py-2.5
+      rounded-full
+      border border-[#F5F5F5]
+      text-sm
+      font-normal
+      tracking-wide
+    "
+  >
+    <span className="w-1.8 h-1.8 sm:w-2 sm:h-2 rounded-full bg-red-500 animate-pulse" />
 
-            <span className="text-[18px] text-[#FAFAFA]">
-              Now supporting IFC4.3 — ISO 16739 certified
-            </span>
-          </div>
-        </div>
+    <span className="text-[9px] min-[375px]:text-[10px] sm:text-[18px] text-[#FAFAFA]">
+      Now supporting IFC4.3 — ISO 16739 certified
+    </span>
+  </div>
+</div>
 
         {/* =====================================
             HEADLINE
@@ -485,10 +495,7 @@ const Hero: React.FC = () => {
             STATS
         ====================================== */}
 
-        <div
-          ref={statsRef}
-          className="grid grid-cols-1 min-[322px]:grid-cols-2 min-[528px]:flex min-[528px]:flex-wrap min-[528px]:justify-between sm:justify-around py-8 px-2 w-full gap-y-6"
-        >
+        <div ref={statsRef} className="grid grid-cols-2 min-[528px]:flex min-[528px]:flex-wrap min-[528px]:justify-between sm:justify-around py-8 px-2 w-full gap-y-6">
           {[
             {
               title: 'ISO 19650',

@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import image1 from '../assets/image-45.png'
-import image2 from '../assets/image-46.png'
-import image3 from '../assets/image-47.png'
-import image4 from '../assets/image-48.png'
-import image5 from '../assets/image-49.png'
-import image6 from '../assets/image-50.png'
+
+import image1 from "../assets/image-45.png";
+import image2 from "../assets/image-46.png";
+import image3 from "../assets/image-47.png";
+import image4 from "../assets/image-48.png";
+import image5 from "../assets/image-49.png";
+import image6 from "../assets/image-50.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,9 +18,9 @@ const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // -----------------------------
+      // --------------------------------
       // Connecting line animation
-      // -----------------------------
+      // --------------------------------
       const line = lineRef.current;
 
       if (line) {
@@ -42,9 +43,9 @@ const About = () => {
         });
       }
 
-      // -----------------------------
+      // --------------------------------
       // Feature animations
-      // -----------------------------
+      // --------------------------------
       itemsRef.current.forEach((item, index) => {
         if (!item) return;
 
@@ -52,6 +53,7 @@ const About = () => {
         const content = item.querySelector(".feature-content");
         const number = item.querySelector(".feature-number");
 
+        // Content
         gsap.fromTo(
           content,
           {
@@ -71,6 +73,7 @@ const About = () => {
           }
         );
 
+        // Number
         gsap.fromTo(
           number,
           {
@@ -91,6 +94,7 @@ const About = () => {
           }
         );
 
+        // Image
         if (image) {
           gsap.fromTo(
             image,
@@ -115,9 +119,9 @@ const About = () => {
         }
       });
 
-      // -----------------------------
+      // --------------------------------
       // Header animation
-      // -----------------------------
+      // --------------------------------
       gsap.fromTo(
         ".platform-header > *",
         {
@@ -151,21 +155,34 @@ const About = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#151515] px-6 py-28 text-white md:px-12 lg:px-20"
+      className="
+        relative
+        overflow-hidden
+        bg-[#151515]
+        px-4
+        py-16
+        text-white
+        sm:px-6
+        md:px-12
+        md:py-24
+        lg:px-20
+        lg:py-28
+      "
     >
       {/* =====================================
           HEADER
       ====================================== */}
+
       <div className="platform-header mx-auto max-w-3xl text-center">
-        <p className="mb-6 text-sm font-medium uppercase tracking-wide text-white">
+        <p className="mb-5 text-sm font-medium uppercase tracking-wide text-white sm:mb-6">
           Platform
         </p>
 
-        <h2 className="text-4xl font-semibold tracking-tight md:text-5xl">
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
           Everything your team needs
         </h2>
 
-        <p className="mx-auto mt-6 max-w-xl text-sm leading-6 text-white/80 md:text-base">
+        <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-white/80 sm:mt-6 md:text-base">
           From model review to cost control, manage every phase of
           <br className="hidden md:block" />
           your BIM workflow.
@@ -175,79 +192,107 @@ const About = () => {
       {/* =====================================
           FEATURES WRAPPER
       ====================================== */}
-      <div className="relative mx-auto mt-24 max-w-[1100px]">
+
+      <div className="relative mx-auto mt-16 max-w-[1100px] sm:mt-20 md:mt-24">
 
         {/* =====================================
             CONNECTING SVG LINE
+            DESKTOP / TABLET ONLY
         ====================================== */}
-        <svg className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full md:block"
-            viewBox="0 0 900 1800"
-            fill="none"
-            preserveAspectRatio="none"
-            >
-            <path
-        ref={lineRef}
-        d="
-            M 15 40
 
-            L 15 270
-            Q 15 300 30 300
-            L 580 300
-            Q 610 300 610 330
+        <svg
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-0
+            hidden
+            h-full
+            w-full
+            md:block
+          "
+          viewBox="0 0 1100 1800"
+          fill="none"
+          preserveAspectRatio="none"
+        >
+          <path
+            ref={lineRef}
+            d="
+              M 15 40
 
-            L 610 570
-            Q 610 600 580 600
-            L 30 600
-            Q 0 600 0 630
+              L 15 270
+              Q 15 300 30 300
+              L 580 300
+              Q 610 300 610 330
 
-            L 0 870
-            Q 0 900 30 900
-            L 580 900
-            Q 610 900 610 930
+              L 610 570
+              Q 610 600 580 600
+              L 30 600
+              Q 0 600 0 630
 
-            L 610 1170
-            Q 610 1200 580 1200
-            L 30 1200
-            Q 0 1200 0 1230
+              L 0 870
+              Q 0 900 30 900
+              L 580 900
+              Q 610 900 610 930
 
-            L 0 1470
-            Q 0 1500 30 1500
-            L 580 1500
-            Q 610 1500 610 1530
+              L 610 1170
+              Q 610 1200 580 1200
+              L 30 1200
+              Q 0 1200 0 1230
 
-            L 610 1770
-        "
-        stroke="white"
-        strokeWidth="3"
-        />
+              L 0 1470
+              Q 0 1500 30 1500
+              L 580 1500
+              Q 610 1500 610 1530
 
-{/* Top ball */}
-<circle
-  cx="15"
-  cy="30"
-  r="10"
-  fill="white"
-/>
+              L 610 1770
+            "
+            stroke="white"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
 
-{/* Bottom ball */}
-<circle
-  cx="610"
-  cy="1770"
-  r="10"
-  fill="white"
-/>
-</svg>
+          {/* Top full circle */}
+          <circle
+            cx="15"
+            cy="40"
+            r="15"
+            fill="white"
+          />
+
+          {/* Bottom full circle */}
+          <circle
+            cx="610"
+            cy="1770"
+            r="15"
+            fill="white"
+          />
+        </svg>
 
         {/* =====================================
             FEATURE 01
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2 md:pl-12"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+            md:pl-12
+          "
         >
           {/* Content */}
+
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-bold">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               01
             </div>
 
@@ -255,7 +300,7 @@ const About = () => {
               CDE
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
               ISO 19650-compliant Common Data Environment for
               structured document and model management across
               project lifecycles.
@@ -263,11 +308,29 @@ const About = () => {
           </div>
 
           {/* Image */}
-          <div className="feature-image order-1 overflow-hidden md:order-2">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+              md:order-2
+            "
+          >
             <img
               src={image1}
               alt="Construction project"
-              className="h-[200px] w-[400px] rounded-xl object-cover grayscale"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
         </div>
@@ -275,22 +338,53 @@ const About = () => {
         {/* =====================================
             FEATURE 02
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center md:grid-cols-2"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+          "
         >
           {/* Image */}
-          <div className="pl-15 feature-image overflow-hidden rounded-2xl">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+              md:order-1
+            "
+          >
             <img
               src={image2}
               alt="3D building model"
-              className="h-[200px] w-[400px] object-cover grayscale"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
 
           {/* Content */}
-          <div className="feature-content pl-60 ">
-            <div className="feature-number mb-7 text-4xl font-bold">
+
+          <div className="feature-content order-2 md:pl-12">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               02
             </div>
 
@@ -298,7 +392,7 @@ const About = () => {
               IFC Viewer
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
               High-performance 3D viewer for IFC models with
               section planes, measurements, clash detection,
               and annotation tools.
@@ -309,13 +403,27 @@ const About = () => {
         {/* =====================================
             FEATURE 03
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2 md:pl-12"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+            md:pl-12
+          "
         >
           {/* Content */}
+
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-bold">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               03
             </div>
 
@@ -323,7 +431,7 @@ const About = () => {
               BIM Collaboration
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
               Real-time collaboration on BIM models with version
               control, issue tracking, and multi-disciplinary
               coordination.
@@ -331,11 +439,29 @@ const About = () => {
           </div>
 
           {/* Image */}
-          <div className="feature-image order-1 overflow-hidden md:order-2">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+              md:order-2
+            "
+          >
             <img
               src={image3}
               alt="BIM collaboration"
-              className="h-[200px] w-[400px] object-cover rounded-xl grayscale"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
         </div>
@@ -343,22 +469,52 @@ const About = () => {
         {/* =====================================
             FEATURE 04
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+          "
         >
           {/* Image */}
-          <div className="feature-image overflow-hidden pl-15">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+            "
+          >
             <img
               src={image4}
               alt="Quantity Takeoff"
-              className="h-[200px] w-[400px] rounded-xl object-cover grayscale"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
 
           {/* Content */}
-          <div className="feature-content pl-50">
-            <div className="feature-number mb-7 text-4xl font-bold">
+
+          <div className="feature-content order-2 md:pl-12">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               04
             </div>
 
@@ -366,8 +522,10 @@ const About = () => {
               Quantity Takeoff
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
-              Automated quantity extraction from IFC models with custom rules, formulas, and export to cost estimation tools.
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+              Automated quantity extraction from IFC models with
+              custom rules, formulas, and export to cost estimation
+              tools.
             </p>
           </div>
         </div>
@@ -375,13 +533,27 @@ const About = () => {
         {/* =====================================
             FEATURE 05
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2 md:pl-12"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+            md:pl-12
+          "
         >
           {/* Content */}
+
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-bold">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               05
             </div>
 
@@ -389,17 +561,37 @@ const About = () => {
               Scheduling
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
-              BIM scheduling linking model elements to construction timelines with visual progress tracking and milestone management.
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+              BIM scheduling linking model elements to construction
+              timelines with visual progress tracking and milestone
+              management.
             </p>
           </div>
 
           {/* Image */}
-          <div className="feature-image order-1 overflow-hidden md:order-2">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+              md:order-2
+            "
+          >
             <img
               src={image5}
-              alt="BIM collaboration"
-              className="h-[200px] w-[400px] object-cover rounded-xl grayscale"
+              alt="Scheduling"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
         </div>
@@ -407,22 +599,52 @@ const About = () => {
         {/* =====================================
             FEATURE 06
         ====================================== */}
+
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2"
+          className="
+            relative
+            z-10
+            grid
+            items-center
+            gap-8
+            py-10
+            md:min-h-[300px]
+            md:grid-cols-2
+            md:gap-10
+            md:py-0
+          "
         >
           {/* Image */}
-          <div className="feature-image overflow-hidden rounded-2xl pl-15">
+
+          <div
+            className="
+              feature-image
+              order-1
+              w-full
+              overflow-hidden
+              rounded-2xl
+            "
+          >
             <img
               src={image6}
-              alt="Quantity Takeoff"
-              className="h-[200px] w-[400px] object-cover grayscale"
+              alt="Cost Management"
+              className="
+                h-[190px]
+                w-full
+                rounded-xl
+                object-cover
+                grayscale
+                sm:h-[220px]
+                md:h-[200px]
+              "
             />
           </div>
 
           {/* Content */}
-          <div className="feature-content pl-55">
-            <div className="feature-number mb-7 text-4xl font-bold">
+
+          <div className="feature-content order-2 md:pl-12">
+            <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               06
             </div>
 
@@ -430,8 +652,10 @@ const About = () => {
               Cost Management
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
-                BIM cost integration with live quantity links, budget tracking, and automated cost reporting across project phases.
+            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+              BIM cost integration with live quantity links,
+              budget tracking, and automated cost reporting
+              across project phases.
             </p>
           </div>
         </div>
