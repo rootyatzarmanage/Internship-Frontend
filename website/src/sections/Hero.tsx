@@ -315,7 +315,7 @@ const Hero: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col justify-center items-center px-6 text-white cursor-auto"
+      className="relative min-h-screen flex flex-col justify-center items-center px-6 text-white"
     >
       {/* =====================================
           BACKGROUND

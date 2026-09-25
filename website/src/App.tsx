@@ -1,4 +1,3 @@
-import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
 import Hero from './sections/Hero';
 import About from './sections/About';

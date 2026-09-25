@@ -16,12 +16,6 @@
   --font-sans: "Outfit", sans-serif;
 }
 
-@layer base {
-  body {
-    @apply bg-primary text-secondary cursor-none selection:bg-accent selection:text-primary;
-    overscroll-behavior: none;
-  }
-}
 
 /* Lenis Scroll Styles */
 html.lenis {
