@@ -181,7 +181,7 @@ const About = () => {
             CONNECTING SVG LINE
         ====================================== */}
         <svg className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full md:block"
-            viewBox="0 0 1200 1800"
+            viewBox="0 0 900 1800"
             fill="none"
             preserveAspectRatio="none"
             >
@@ -224,8 +224,8 @@ const About = () => {
 {/* Top ball */}
 <circle
   cx="15"
-  cy="40"
-  r="15"
+  cy="30"
+  r="10"
   fill="white"
 />
 
@@ -233,7 +233,7 @@ const About = () => {
 <circle
   cx="610"
   cy="1770"
-  r="15"
+  r="10"
   fill="white"
 />
 </svg>
@@ -247,7 +247,7 @@ const About = () => {
         >
           {/* Content */}
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+            <div className="feature-number mb-7 text-4xl font-bold">
               01
             </div>
 
@@ -255,7 +255,7 @@ const About = () => {
               CDE
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
               ISO 19650-compliant Common Data Environment for
               structured document and model management across
               project lifecycles.
@@ -277,10 +277,10 @@ const About = () => {
         ====================================== */}
         <div
           ref={addItemRef}
-          className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2"
+          className="relative z-10 grid min-h-[300px] items-center md:grid-cols-2"
         >
           {/* Image */}
-          <div className="feature-image overflow-hidden rounded-2xl">
+          <div className="pl-15 feature-image overflow-hidden rounded-2xl">
             <img
               src={image2}
               alt="3D building model"
@@ -289,8 +289,8 @@ const About = () => {
           </div>
 
           {/* Content */}
-          <div className="feature-content md:pl-12">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+          <div className="feature-content pl-60 ">
+            <div className="feature-number mb-7 text-4xl font-bold">
               02
             </div>
 
@@ -298,7 +298,7 @@ const About = () => {
               IFC Viewer
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
               High-performance 3D viewer for IFC models with
               section planes, measurements, clash detection,
               and annotation tools.
@@ -315,7 +315,7 @@ const About = () => {
         >
           {/* Content */}
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+            <div className="feature-number mb-7 text-4xl font-bold">
               03
             </div>
 
@@ -323,7 +323,7 @@ const About = () => {
               BIM Collaboration
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
               Real-time collaboration on BIM models with version
               control, issue tracking, and multi-disciplinary
               coordination.
@@ -348,17 +348,17 @@ const About = () => {
           className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2"
         >
           {/* Image */}
-          <div className="feature-image overflow-hidden rounded-2xl">
+          <div className="feature-image overflow-hidden pl-15">
             <img
               src={image4}
               alt="Quantity Takeoff"
-              className="h-[200px] w-[400px] object-cover grayscale"
+              className="h-[200px] w-[400px] rounded-xl object-cover grayscale"
             />
           </div>
 
           {/* Content */}
-          <div className="feature-content md:pl-12">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+          <div className="feature-content pl-50">
+            <div className="feature-number mb-7 text-4xl font-bold">
               04
             </div>
 
@@ -366,7 +366,7 @@ const About = () => {
               Quantity Takeoff
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
               Automated quantity extraction from IFC models with custom rules, formulas, and export to cost estimation tools.
             </p>
           </div>
@@ -381,7 +381,7 @@ const About = () => {
         >
           {/* Content */}
           <div className="feature-content order-2 md:order-1">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+            <div className="feature-number mb-7 text-4xl font-bold">
               05
             </div>
 
@@ -389,7 +389,7 @@ const About = () => {
               Scheduling
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
               BIM scheduling linking model elements to construction timelines with visual progress tracking and milestone management.
             </p>
           </div>
@@ -412,7 +412,7 @@ const About = () => {
           className="relative z-10 grid min-h-[300px] items-center gap-10 md:grid-cols-2"
         >
           {/* Image */}
-          <div className="feature-image overflow-hidden rounded-2xl">
+          <div className="feature-image overflow-hidden rounded-2xl pl-15">
             <img
               src={image6}
               alt="Quantity Takeoff"
@@ -421,8 +421,8 @@ const About = () => {
           </div>
 
           {/* Content */}
-          <div className="feature-content md:pl-12">
-            <div className="feature-number mb-7 text-4xl font-semibold">
+          <div className="feature-content pl-55">
+            <div className="feature-number mb-7 text-4xl font-bold">
               06
             </div>
 
@@ -430,7 +430,7 @@ const About = () => {
               Cost Management
             </h3>
 
-            <p className="mt-3 max-w-[430px] text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-[430px] text-regular leading-6 text-white/80">
                 BIM cost integration with live quantity links, budget tracking, and automated cost reporting across project phases.
             </p>
           </div>
