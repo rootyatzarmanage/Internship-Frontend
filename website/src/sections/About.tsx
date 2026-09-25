@@ -383,7 +383,7 @@ const About = () => {
 
           {/* Content */}
 
-          <div className="feature-content order-2 md:pl-12">
+          <div className="feature-content order-2 md:pl-22">
             <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               02
             </div>
@@ -513,7 +513,7 @@ const About = () => {
 
           {/* Content */}
 
-          <div className="feature-content order-2 md:pl-12">
+          <div className="feature-content order-2 md:pl-22">
             <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               04
             </div>
@@ -643,7 +643,7 @@ const About = () => {
 
           {/* Content */}
 
-          <div className="feature-content order-2 md:pl-12">
+          <div className="feature-content order-2 md:pl-22">
             <div className="feature-number mb-5 text-3xl font-semibold sm:text-4xl md:mb-7">
               06
             </div>

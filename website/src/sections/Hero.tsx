@@ -423,7 +423,7 @@ const Hero: React.FC = () => {
   >
     <span className="w-1.8 h-1.8 sm:w-2 sm:h-2 rounded-full bg-red-500 animate-pulse" />
 
-    <span className="text-[9px] min-[375px]:text-[10px] sm:text-[18px] text-[#FAFAFA]">
+    <span className="text-[10px] min-[375px]:text-[10px] sm:text-[18px] text-[#FAFAFA]">
       Now supporting IFC4.3 — ISO 16739 certified
     </span>
   </div>
@@ -435,7 +435,7 @@ const Hero: React.FC = () => {
 
         <h1
           ref={titleRef}
-          className="text-[48px] font-bold tracking-tight text-[#FAFAFA] leading-[1.3]"
+          className="text-[36px] sm:text-[48px] font-bold tracking-tight text-[#FAFAFA] leading-[1.3]"
         >
           <div className="overflow-hidden">
             <span className="inline-block">
@@ -462,7 +462,7 @@ const Hero: React.FC = () => {
 
         <p
           ref={subtitleRef}
-          className="mt-8 text-[18px] sm:text-lg md:text-xl text-[#E5E5E5] font-normal max-w-2xl leading-relaxed"
+          className="mt-8 text-[14px] sm:text-[18px] text-medium text-[#E5E5E5] font-normal max-w-2xl leading-relaxed"
         >
           Collaborative BIM workflows for architects, engineers, and
           construction teams from complete lifecycle of asset, on a single
@@ -481,11 +481,11 @@ const Hero: React.FC = () => {
             ref={ctaRef}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <button className="px-6 py-3 text-[18px] rounded-full bg-white text-black font-normal hover:bg-gray-200 transition-colors">
+            <button className="px-4 py-2 sm:px-6 sm:py-3 text-[12px] sm:text-[20px] rounded-full bg-white text-black font-normal hover:bg-gray-200 transition-colors">
               Get Started
             </button>
 
-            <button className="px-6 py-3 text-[18px] rounded-full bg-white/30 border border-white text-white font-normal hover:bg-white/40 transition-colors">
+            <button className="px-4 py-2 sm:px-6 sm:py-3 text-[12px] sm:text-[20px] rounded-full bg-white/30 border border-white text-white font-normal hover:bg-white/40 transition-colors">
               Learn More
             </button>
           </div>
@@ -522,11 +522,11 @@ const Hero: React.FC = () => {
                 data-stat-inner
                 className="flex flex-col items-center text-center"
               >
-                <span className="font-semibold text-[24px] px-3 text-white">
+                <span className="font-semibold text-[14px] sm:text-[24px] px-3 text-white">
                   {stat.title}
                 </span>
 
-                <span className="text-[16px] text-[#E5E5E5] mt-1">
+                <span className="text-[12px] sm:text-[16px] text-[#E5E5E5] mt-1">
                   {stat.label}
                 </span>
               </div>
