@@ -19,7 +19,7 @@ const MAP_VIEWPORT = {
 
 function ProjectDetails({ project }: { project: Project }) {
   return (
-    <section className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-none dark:border-gray-800 dark:bg-gray-900">
+    <section className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-none dark:border-gray-800 dark:bg-black">
       <div className="relative h-78 w-full shrink-0 overflow-hidden">
         <img src={backgroundImage} alt="Project background" className="h-full w-full object-cover object-center" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
@@ -58,10 +58,10 @@ function ProjectDetails({ project }: { project: Project }) {
         </div>
 
         <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">
-          <div className="rounded-xl bg-[#F5F5F5] p-3.5 dark:bg-gray-800/60"><div className="flex items-center gap-1.5 text-[10px] font-medium text-[#4b5563] md:text-[12px] lg:text-[14px]"><Calendar className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Created</div><p className="mt-1.5 text-[12px] font-semibold text-[#111827] dark:text-white md:text-[14px] lg:text-[16px]">{project.createdDate}</p></div>
-          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-gray-800/60"><div className="flex items-center gap-1.5 text-[10px] font-medium text-[#4b5563] md:text-[12px] lg:text-[14px]"><Layers className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Workspace</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.workspace}</p></div>
-          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-gray-800/60"><div className="flex items-center gap-1.5 text-[10px] font-semibold text-[#4b5563] md:text-[12px] lg:text-[14px]"><User className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Owned</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.owner}</p></div>
-          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-gray-800/60"><div className="flex items-center gap-1.5 text-[10px] font-semibold text-[#4b5563] md:text-[12px] lg:text-[14px]"><Users className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Members</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.membersCount}</p></div>
+          <div className="rounded-xl bg-[#F5F5F5] p-3.5 dark:bg-black/60"><div className="flex items-center gap-1.5 text-[10px] font-medium text-[#4b5563] md:text-[12px] lg:text-[14px]"><Calendar className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Created</div><p className="mt-1.5 text-[12px] font-semibold text-[#111827] dark:text-white md:text-[14px] lg:text-[16px]">{project.createdDate}</p></div>
+          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-black/60"><div className="flex items-center gap-1.5 text-[10px] font-medium text-[#4b5563] md:text-[12px] lg:text-[14px]"><Layers className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Workspace</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.workspace}</p></div>
+          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-black/60"><div className="flex items-center gap-1.5 text-[10px] font-semibold text-[#4b5563] md:text-[12px] lg:text-[14px]"><User className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Owned</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.owner}</p></div>
+          <div className="rounded-xl bg-[#f7f7f8] p-3.5 dark:bg-black/60"><div className="flex items-center gap-1.5 text-[10px] font-semibold text-[#4b5563] md:text-[12px] lg:text-[14px]"><Users className="h-2.5 w-2.5 text-[#6b7280] md:h-3.5 md:w-3.5" />Members</div><p className="mt-1.5 text-sm font-semibold text-[#111827] dark:text-white">{project.membersCount}</p></div>
         </div>
       </div>
     </section>
@@ -88,11 +88,11 @@ function ProjectImage() {
   }, [])
 
   return (
-    <section className="flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" aria-labelledby="project-image-title">
+    <section className="flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-black" aria-labelledby="project-image-title">
       <div className="relative flex items-center justify-between px-4 pb-3 pt-4" ref={menuRef}>
         <h2 id="project-image-title" className="text-base font-semibold text-gray-900 dark:text-gray-100">Project Image</h2>
-        <button type="button" aria-label="Project image options" aria-expanded={isMenuOpen} aria-haspopup="menu" className="cursor-pointer rounded-lg p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-white" onClick={() => setIsMenuOpen((open) => !open)}><MoreVertical size={18} /></button>
-        {isMenuOpen && <div className="absolute right-0 top-9 z-20 w-40 rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg dark:border-gray-700 dark:bg-gray-800" role="menu" aria-label="Project image actions"><button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700" onClick={() => setIsMenuOpen(false)}>View More</button><button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30" onClick={() => setIsMenuOpen(false)}>Delete</button></div>}
+        <button type="button" aria-label="Project image options" aria-expanded={isMenuOpen} aria-haspopup="menu" className="cursor-pointer rounded-lg p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-black dark:hover:text-white" onClick={() => setIsMenuOpen((open) => !open)}><MoreVertical size={18} /></button>
+        {isMenuOpen && <div className="absolute right-0 top-9 z-20 w-40 rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg dark:border-gray-700 dark:bg-black" role="menu" aria-label="Project image actions"><button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700" onClick={() => setIsMenuOpen(false)}>View More</button><button type="button" role="menuitem" className="block w-full cursor-pointer rounded-lg px-3 py-2 text-left text-xs text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30" onClick={() => setIsMenuOpen(false)}>Delete</button></div>}
       </div>
       <div className="project-image-media w-full"><img className="h-60 w-full object-cover sm:h-72 lg:h-80" src={projectImage} alt="Project preview" /></div>
     </section>
@@ -121,7 +121,7 @@ function ProjectMap({ pin, onPinChange }: { pin: Pin; onPinChange: (pin: Pin) =>
   const mapSource = `https://www.openstreetmap.org/export/embed.html?bbox=${mapBounds.west}%2C${mapBounds.south}%2C${mapBounds.east}%2C${mapBounds.north}&layer=mapnik&marker=${pin.latitude}%2C${pin.longitude}`
 
   return (
-    <section className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900" aria-labelledby="project-location-title">
+    <section className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-black" aria-labelledby="project-location-title">
       <div className="flex items-center justify-between px-4 pb-3 pt-4"><h2 id="project-location-title" className="text-lg font-semibold text-gray-800 dark:text-gray-100">Project Location</h2><div className="flex items-center gap-2"><a href={`https://www.openstreetmap.org/?mlat=${pin.latitude}&mlon=${pin.longitude}#map=16/${pin.latitude}/${pin.longitude}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-xs text-gray-500 transition-colors hover:text-gray-800 dark:text-gray-400 dark:hover:text-white">Open in <span aria-hidden="true">📍</span></a></div></div>
       <div className="relative flex w-full flex-1 overflow-hidden"><iframe title="Project location map" className="h-full w-full border-0" src={mapSource} /><button type="button" aria-label="Choose a new project location on the map" className="absolute inset-0 z-20 cursor-crosshair bg-transparent" onClick={handleMapClick} /></div>
     </section>
