@@ -132,8 +132,8 @@ function SidebarNavSection({
                         title={isCollapsed ? label : undefined}
                         className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[16px] font-normal no-underline transition-colors ${
                             currentPath === route
-                                ? '!bg-[#008CD21A] !text-[#008CD2] hover:!bg-[#008CD21A] hover:!text-[#008CD2]'
-                                : 'text-[#414141] hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-[#242424] dark:hover:text-white'
+                                ? '!bg-[#B8E6FE] !text-[#008CD2] hover:!bg-[#008CD21A] hover:!text-[#008CD2]'
+                                : 'text-[#414141] hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-[#1769A6] dark:hover:text-white'
                         } ${
                             isCollapsed
                                 ? 'justify-center px-0'

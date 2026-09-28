@@ -85,7 +85,7 @@ export default function Layout({ children }: LayoutProps) {
         />
 
         {/* main container receives overflow-y-auto to allow children scroll only */}
-        <main className="min-h-0 flex-1 overflow-y-auto">
+        <main className="min-h-0 flex-1 overflow-y-auto p-8 bg-[#F8F8F8] dark:bg-black dark:text-gray-300">
           {children}
         </main>
       </div>

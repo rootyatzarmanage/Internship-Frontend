@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import App from '../../App'
+import Overview from '../../features/overview/index'
 
 export const Route = createFileRoute('/_authenticated/overview')({
-  component: App,
+  component: Overview,
 })
