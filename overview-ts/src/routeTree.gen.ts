@@ -10,37 +10,163 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedAppSecurityRouteImport } from './routes/_authenticated/app-security'
+import { Route as AuthenticatedHelpAndDocsRouteImport } from './routes/_authenticated/help-and-docs'
+import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedOverviewRouteImport } from './routes/_authenticated/overview'
+import { Route as AuthenticatedPaymentRouteImport } from './routes/_authenticated/payment'
+import { Route as AuthenticatedResourcesRouteImport } from './routes/_authenticated/resources'
+import { Route as AuthenticatedRoutecopyRouteImport } from './routes/_authenticated/route copy'
+import { Route as AuthenticatedSubscriptionRouteImport } from './routes/_authenticated/subscription'
+import { Route as AuthenticatedWorkspaceRouteImport } from './routes/_authenticated/workspace'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppSecurityRoute =
+  AuthenticatedAppSecurityRouteImport.update({
+    id: '/app-security',
+    path: '/app-security',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHelpAndDocsRoute =
+  AuthenticatedHelpAndDocsRouteImport.update({
+    id: '/help-and-docs',
+    path: '/help-and-docs',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedOverviewRoute = AuthenticatedOverviewRouteImport.update({
   id: '/overview',
   path: '/overview',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPaymentRoute = AuthenticatedPaymentRouteImport.update({
+  id: '/payment',
+  path: '/payment',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedResourcesRoute = AuthenticatedResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRoutecopyRoute = AuthenticatedRoutecopyRouteImport.update({
+  id: '/route copy',
+  path: '/route copy',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSubscriptionRoute =
+  AuthenticatedSubscriptionRouteImport.update({
+    id: '/subscription',
+    path: '/subscription',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedWorkspaceRoute = AuthenticatedWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedRouteRouteWithChildren
+  '/': typeof AuthenticatedIndexRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/app-security': typeof AuthenticatedAppSecurityRoute
+  '/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
+  '/library': typeof AuthenticatedLibraryRoute
   '/overview': typeof AuthenticatedOverviewRoute
+  '/payment': typeof AuthenticatedPaymentRoute
+  '/resources': typeof AuthenticatedResourcesRoute
+  '/route copy': typeof AuthenticatedRoutecopyRoute
+  '/subscription': typeof AuthenticatedSubscriptionRoute
+  '/workspace': typeof AuthenticatedWorkspaceRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthenticatedRouteRouteWithChildren
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/app-security': typeof AuthenticatedAppSecurityRoute
+  '/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
+  '/library': typeof AuthenticatedLibraryRoute
   '/overview': typeof AuthenticatedOverviewRoute
+  '/payment': typeof AuthenticatedPaymentRoute
+  '/resources': typeof AuthenticatedResourcesRoute
+  '/route copy': typeof AuthenticatedRoutecopyRoute
+  '/subscription': typeof AuthenticatedSubscriptionRoute
+  '/workspace': typeof AuthenticatedWorkspaceRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/app-security': typeof AuthenticatedAppSecurityRoute
+  '/_authenticated/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
+  '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/overview': typeof AuthenticatedOverviewRoute
+  '/_authenticated/payment': typeof AuthenticatedPaymentRoute
+  '/_authenticated/resources': typeof AuthenticatedResourcesRoute
+  '/_authenticated/route copy': typeof AuthenticatedRoutecopyRoute
+  '/_authenticated/subscription': typeof AuthenticatedSubscriptionRoute
+  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/overview'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/app-security'
+    | '/help-and-docs'
+    | '/library'
+    | '/overview'
+    | '/payment'
+    | '/resources'
+    | '/route copy'
+    | '/subscription'
+    | '/workspace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/overview'
-  id: '__root__' | '/_authenticated' | '/_authenticated/overview'
+  to:
+    | '/analytics'
+    | '/app-security'
+    | '/help-and-docs'
+    | '/library'
+    | '/overview'
+    | '/payment'
+    | '/resources'
+    | '/route copy'
+    | '/subscription'
+    | '/workspace'
+    | '/'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/_authenticated/analytics'
+    | '/_authenticated/app-security'
+    | '/_authenticated/help-and-docs'
+    | '/_authenticated/library'
+    | '/_authenticated/overview'
+    | '/_authenticated/payment'
+    | '/_authenticated/resources'
+    | '/_authenticated/route copy'
+    | '/_authenticated/subscription'
+    | '/_authenticated/workspace'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -56,6 +182,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app-security': {
+      id: '/_authenticated/app-security'
+      path: '/app-security'
+      fullPath: '/app-security'
+      preLoaderRoute: typeof AuthenticatedAppSecurityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/help-and-docs': {
+      id: '/_authenticated/help-and-docs'
+      path: '/help-and-docs'
+      fullPath: '/help-and-docs'
+      preLoaderRoute: typeof AuthenticatedHelpAndDocsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library': {
+      id: '/_authenticated/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof AuthenticatedLibraryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/overview': {
       id: '/_authenticated/overview'
       path: '/overview'
@@ -63,15 +224,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOverviewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/payment': {
+      id: '/_authenticated/payment'
+      path: '/payment'
+      fullPath: '/payment'
+      preLoaderRoute: typeof AuthenticatedPaymentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/resources': {
+      id: '/_authenticated/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof AuthenticatedResourcesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/route copy': {
+      id: '/_authenticated/route copy'
+      path: '/route copy'
+      fullPath: '/route copy'
+      preLoaderRoute: typeof AuthenticatedRoutecopyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/subscription': {
+      id: '/_authenticated/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof AuthenticatedSubscriptionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/workspace': {
+      id: '/_authenticated/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof AuthenticatedWorkspaceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAppSecurityRoute: typeof AuthenticatedAppSecurityRoute
+  AuthenticatedHelpAndDocsRoute: typeof AuthenticatedHelpAndDocsRoute
+  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedOverviewRoute: typeof AuthenticatedOverviewRoute
+  AuthenticatedPaymentRoute: typeof AuthenticatedPaymentRoute
+  AuthenticatedResourcesRoute: typeof AuthenticatedResourcesRoute
+  AuthenticatedRoutecopyRoute: typeof AuthenticatedRoutecopyRoute
+  AuthenticatedSubscriptionRoute: typeof AuthenticatedSubscriptionRoute
+  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAppSecurityRoute: AuthenticatedAppSecurityRoute,
+  AuthenticatedHelpAndDocsRoute: AuthenticatedHelpAndDocsRoute,
+  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedOverviewRoute: AuthenticatedOverviewRoute,
+  AuthenticatedPaymentRoute: AuthenticatedPaymentRoute,
+  AuthenticatedResourcesRoute: AuthenticatedResourcesRoute,
+  AuthenticatedRoutecopyRoute: AuthenticatedRoutecopyRoute,
+  AuthenticatedSubscriptionRoute: AuthenticatedSubscriptionRoute,
+  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
