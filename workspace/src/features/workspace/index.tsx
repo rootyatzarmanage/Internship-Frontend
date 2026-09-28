@@ -9,6 +9,23 @@ import {
   Users,
   GripVertical,
 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+
+import {
+  useSortable,
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+
+import { CSS } from "@dnd-kit/utilities";
 
 import image from "../../assets/img.png";
 
@@ -304,22 +321,34 @@ function WorkspaceGroup({
   isCollapsed: boolean;
   onToggle: () => void;
 }) {
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: workspace.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <div className="border-b border-[#D4D4D4] px-2">
-
-      {/* Workspace Header */}
+    <div ref={setNodeRef} style={style} className="border-b border-[#D4D4D4] px-2">
       <div className="flex items-center justify-between px-2 py-3">
-
-        {/* LEFT SIDE */}
         <div className="flex items-center gap-4">
-
-          {/* Drag Handle */}
-          <GripVertical
-            size={20}
-            className="cursor-grab text-[#737373]"
-          />
-
-          {/* Workspace Toggle */}
+          <button
+            type="button"
+            {...attributes}
+            {...listeners}
+            className="touch-none cursor-grab text-[#737373] active:cursor-grabbing"
+          >
+            <GripVertical size={20} />
+          </button>
           <button
             onClick={onToggle}
             className="cursor-pointer"
@@ -336,13 +365,9 @@ function WorkspaceGroup({
               />
             )}
           </button>
-
-          {/* Avatar */}
           <div className="flex h-[45px] w-[45px] shrink-0 items-center justify-center rounded-full bg-[#E5E5E5] text-[18px] text-[#404040]">
             PS
           </div>
-
-          {/* Workspace Info */}
           <div className="flex items-center gap-4">
 
             {/* Name + project count */}
@@ -423,13 +448,10 @@ function WorkspaceGroup({
 
 export default function Workspace() {
 
-  // Individual PSG collapsed states
-  const [collapsedWorkspaces, setCollapsedWorkspaces] =
-    useState<number[]>([]);
-
-  // Entire My Workspace / Shared collapsed states
-  const [collapsedSections, setCollapsedSections] =
-    useState<string[]>([]);
+  const [workspaceItems, setWorkspaceItems] = useState(workspaces);
+  const [sharedWorkspaceItems, setSharedWorkspaceItems] = useState(sharedWorkspaces);
+  const [collapsedWorkspaces, setCollapsedWorkspaces] = useState<number[]>([]);
+  const [collapsedSections, setCollapsedSections] = useState<string[]>([]);
   const toggleWorkspace = (workspaceId: number) => {
     setCollapsedWorkspaces((prev) =>
       prev.includes(workspaceId)
@@ -446,10 +468,57 @@ export default function Workspace() {
     );
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    setWorkspaceItems((items) => {
+      const oldIndex = items.findIndex(
+        (item) => item.id === active.id
+      );
+
+      const newIndex = items.findIndex(
+        (item) => item.id === over.id
+      );
+
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  };
+
+  const handleSharedDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    setSharedWorkspaceItems((items) => {
+      const oldIndex = items.findIndex(
+        (item) => item.id === active.id
+      );
+
+      const newIndex = items.findIndex(
+        (item) => item.id === over.id
+      );
+
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F8F8] text-gray-500">
-      <div className="flex flex-col gap-2 border-[#D4D4D4] px-2 py-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col border-[#D4D4D4] px-2 py-4 sm:flex-row sm:items-center sm:justify-between">
 
         <ToggleBar />
 
@@ -464,16 +533,27 @@ export default function Workspace() {
         onToggle={() => toggleSection("my")}
       />
       {!collapsedSections.includes("my") && (
-        <div>
-          {workspaces.map((workspace) => (
-            <WorkspaceGroup
-              key={workspace.id}
-              workspace={workspace}
-              isCollapsed={collapsedWorkspaces.includes(workspace.id)}
-              onToggle={() => toggleWorkspace(workspace.id)}
-            />
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={workspaceItems.map((workspace) => workspace.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div>
+              {workspaceItems.map((workspace) => (
+                <WorkspaceGroup
+                  key={workspace.id}
+                  workspace={workspace}
+                  isCollapsed={collapsedWorkspaces.includes(workspace.id)}
+                  onToggle={() => toggleWorkspace(workspace.id)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       <SectionHeader
@@ -484,16 +564,27 @@ export default function Workspace() {
       />
 
       {!collapsedSections.includes("shared") && (
-        <div>
-          {sharedWorkspaces.map((workspace) => (
-            <WorkspaceGroup
-              key={workspace.id}
-              workspace={workspace}
-              isCollapsed={collapsedWorkspaces.includes(workspace.id)}
-              onToggle={() => toggleWorkspace(workspace.id)}
-            />
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleSharedDragEnd}
+        >
+          <SortableContext
+            items={sharedWorkspaceItems.map((workspace) => workspace.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div>
+              {sharedWorkspaceItems.map((workspace) => (
+                <WorkspaceGroup
+                  key={workspace.id}
+                  workspace={workspace}
+                  isCollapsed={collapsedWorkspaces.includes(workspace.id)}
+                  onToggle={() => toggleWorkspace(workspace.id)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
     </div>
