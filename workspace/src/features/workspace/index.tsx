@@ -24,6 +24,10 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
 
 import { CSS } from "@dnd-kit/utilities";
 
@@ -249,7 +253,7 @@ function ProjectCard({
   };
 }) {
   return (
-    <div className="h-[206px] w-[252px] overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA]">
+    <div className="h-[206px] w-[252px] overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA] cursor-pointer">
 
       {/* Image */}
       <img
@@ -536,6 +540,10 @@ export default function Workspace() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          modifiers={[
+            restrictToVerticalAxis,
+            restrictToParentElement,
+          ]}
           onDragEnd={handleDragEnd}
         >
           <SortableContext
@@ -567,6 +575,10 @@ export default function Workspace() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          modifiers={[
+            restrictToVerticalAxis,
+            restrictToParentElement,
+          ]}
           onDragEnd={handleSharedDragEnd}
         >
           <SortableContext
