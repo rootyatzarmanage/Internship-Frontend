@@ -347,6 +347,7 @@ function WorkspaceGroup({
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
 
   useEffect(() => {
   const handleClickOutside = (event: MouseEvent) => {
@@ -423,7 +424,7 @@ function WorkspaceGroup({
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="flex cursor-pointer items-center gap-1 rounded-md bg-[#00A6F4] px-2.5 py-1.5 text-sm text-white transition-colors hover:bg-[#0098df]">
+          <button className="flex cursor-pointer items-center gap-1 rounded-md bg-[#00A6F4] px-2.5 py-2 text-sm text-white transition-colors hover:bg-[#0098df]">
             <Plus size={18} />
             <span>Project</span>
           </button>
@@ -438,8 +439,10 @@ function WorkspaceGroup({
           </button>
           {isMenuOpen && (
             <div className = "absolute right-0 top-11 z-50 w-43.5 rounded-md border border-[#D4D4D4] bg-white p-1">
-              <button type = "button" className="w-full rounded px-2 py-1.5 text-left text-sm text-[#404040] cursor-pointer hover:bg-[#F5F5F5]">Edit</button>
-              <button type = "button" className="w-full rounded px-2 py-1.5 text-left text-sm text-red-500 cursor-pointer hover:bg-red-50">Delete</button>
+              <button type = "button" onClick={() => {setModalType("edit");
+                setIsMenuOpen(false);}} className="w-full rounded px-2 py-1.5 text-left text-sm text-[#404040] cursor-pointer hover:bg-[#F5F5F5]">Edit</button>
+              <button type = "button" onClick={() => {setModalType("delete");
+                setIsMenuOpen(false);}} className="w-full rounded px-2 py-1.5 text-left text-sm text-red-500 cursor-pointer hover:bg-red-50">Delete</button>
             </div>
           )}
           </div>
@@ -464,11 +467,180 @@ function WorkspaceGroup({
 
         </div>
       )}
+        {modalType === "edit" && (
+        <EditWorkspaceModal
+          workspace={workspace}
+          onClose={() => setModalType(null)}
+        />
+      )}
 
+      {modalType === "delete" && (
+        <DeleteWorkspaceModal
+          workspace={workspace}
+          onClose={() => setModalType(null)}
+        />
+      )}
     </div>
   );
 }
 
+function EditWorkspaceModal({
+  workspace,
+  onClose,
+}: {
+  workspace: (typeof workspaces)[number];
+  onClose: () => void;
+}) {
+  const [name, setName] = useState(workspace.name);
+  const [description, setDescription] = useState("");
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="w-[385px] rounded-2xl bg-white shadow-xl">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-[#E5E5E5] px-5 py-4">
+          <h2 className="text-sm font-semibold text-[#171717]">
+            Edit workspace
+          </h2>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer text-gray-800 hover:text-[#404040]"
+          >
+            ×
+          </button>
+        </div>
+
+        {/* Form */}
+        <div className="space-y-4 px-5 py-5">
+
+          {/* Workspace name */}
+          <div>
+            <label className="mb-1.5 block text-[10px] font-semibold uppercase text-black">
+              Workspace Name <span className="text-red-500">*</span>
+            </label>
+
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-lg border border-[#D9E2EC] px-3 py-2.5 text-xs text-[#404040] outline-none focus:border-[#00A6F4]"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="mb-1.5 block text-[10px] font-semibold uppercase text-black">
+              Description
+            </label>
+
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              className="h-[68px] w-full resize-none rounded-lg border border-[#D9E2EC] px-3 py-2.5 text-xs text-[#404040] outline-none placeholder:text-gray-500 focus:border-[#00A6F4]"
+            />
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-5 border-t border-[#E5E5E5] px-5 py-3.5">
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer text-xs font-medium text-gray-700 hover:text-gray-900"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              console.log("Save workspace:", {
+                id: workspace.id,
+                name,
+                description,
+              });
+
+              onClose();
+            }}
+            className="cursor-pointer rounded-lg bg-gray-700 px-4 py-2 text-xs font-medium text-white hover:bg-gray-900"
+          >
+            Save changes
+          </button>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function DeleteWorkspaceModal({
+  workspace,
+  onClose,
+}: {
+  workspace: (typeof workspaces)[number];
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="w-[385px] rounded-2xl bg-white shadow-xl">
+
+        <div className="flex items-center justify-between border-b border-[#E5E5E5] px-5 py-4">
+          <h2 className="text-sm font-semibold text-[#171717]">
+            Delete workspace
+          </h2>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer text-gray-800 hover:text-[#404040]"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="px-5 py-6">
+          <p className="text-sm text-[#404040]">
+            Are you sure you want to delete{" "}
+            <span className="font-semibold">{workspace.name}</span>?
+          </p>
+
+          <p className="mt-2 text-xs text-[#737373]">
+            This action cannot be undone.
+          </p>
+        </div>
+
+        <div className="flex justify-end gap-3 border-[#E5E5E5] px-5 py-3.5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer rounded-md px-3 py-2 text-xs font-medium text-gray-700 hover:text-gray-900"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              console.log("Delete workspace:", workspace.id);
+              onClose();
+            }}
+            className="cursor-pointer rounded-md bg-[#DC2626] px-3 py-2 text-xs font-medium text-white hover:bg-[#B91C1C]"
+          >
+            Delete
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+}
 
 // ============================================================
 // MAIN PAGE
