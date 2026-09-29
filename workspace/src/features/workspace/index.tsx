@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Plus,
   Funnel,
@@ -231,9 +231,9 @@ function SectionHeader({
           className="cursor-pointer text-[#404040]"
         >
           {isCollapsed ? (
-            <ChevronDown size={20} />
-          ) : (
             <ChevronUp size={20} />
+          ) : (
+            <ChevronDown size={20} />
           )}
         </button>
       </div>
@@ -345,6 +345,26 @@ function WorkspaceGroup({
     transition,
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target as Node)
+    ) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
   return (
     <div ref={setNodeRef} style={style} className="border-b border-[#D4D4D4] px-2">
       <div className="flex items-center justify-between px-2 py-3">
@@ -362,12 +382,12 @@ function WorkspaceGroup({
             className="cursor-pointer"
           >
             {isCollapsed ? (
-              <ChevronDown
+              <ChevronUp
                 size={20}
                 className="text-[#737373]"
               />
             ) : (
-              <ChevronUp
+              <ChevronDown
                 size={20}
                 className="text-[#737373]"
               />
@@ -402,31 +422,31 @@ function WorkspaceGroup({
           </div>
         </div>
 
-
-        {/* RIGHT SIDE */}
         <div className="flex items-center gap-2">
-
-          {/* Add Project */}
           <button className="flex cursor-pointer items-center gap-1 rounded-md bg-[#00A6F4] px-2.5 py-1.5 text-sm text-white transition-colors hover:bg-[#0098df]">
             <Plus size={18} />
             <span>Project</span>
           </button>
 
-          {/* Members */}
           <button className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]">
             <Users size={19} />
           </button>
-
-          {/* More */}
-          <button className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]">
+          
+          <div ref={menuRef} className= "relative">
+          <button type="button" onClick={() => setIsMenuOpen((prev) => !prev)} className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]">
             <MoreHorizontal size={19} />
           </button>
+          {isMenuOpen && (
+            <div className = "absolute right-0 top-11 z-50 w-43.5 rounded-md border border-[#D4D4D4] bg-white p-1">
+              <button type = "button" className="w-full rounded px-2 py-1.5 text-left text-sm text-[#404040] cursor-pointer hover:bg-[#F5F5F5]">Edit</button>
+              <button type = "button" className="w-full rounded px-2 py-1.5 text-left text-sm text-red-500 cursor-pointer hover:bg-red-50">Delete</button>
+            </div>
+          )}
+          </div>
 
         </div>
       </div>
 
-
-      {/* PROJECTS */}
       {!isCollapsed && (
         <div className="flex flex-wrap gap-7 px-2 pb-4">
 
