@@ -8,6 +8,7 @@ import {
   MoreHorizontal,
   Users,
   GripVertical,
+  Folder,
 } from "lucide-react";
 import {
   DndContext,
@@ -348,6 +349,7 @@ function WorkspaceGroup({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   useEffect(() => {
   const handleClickOutside = (event: MouseEvent) => {
@@ -424,7 +426,7 @@ function WorkspaceGroup({
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="flex cursor-pointer items-center gap-1 rounded-md bg-[#00A6F4] px-2.5 py-2 text-sm text-white transition-colors hover:bg-[#0098df]">
+          <button type="button" onClick={()=> setIsProjectModalOpen(true)} className="flex cursor-pointer items-center gap-1 rounded-md bg-[#00A6F4] px-2.5 py-2 text-sm text-white transition-colors hover:bg-[#0098df]">
             <Plus size={18} />
             <span>Project</span>
           </button>
@@ -480,6 +482,166 @@ function WorkspaceGroup({
           onClose={() => setModalType(null)}
         />
       )}
+
+      {isProjectModalOpen && (
+        <ProjectModal
+          workspace={workspace}
+          onClose={() => setIsProjectModalOpen(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+function ProjectModal({
+  workspace,
+  onClose,
+}: {
+  workspace: (typeof workspaces)[number];
+  onClose: () => void;
+}) {
+  const [projectType, setProjectType] = useState<"PIM" | "AIM">("PIM");
+  const [projectName, setProjectName] = useState("");
+  const [description, setDescription] = useState("");
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="w-[385px] overflow-hidden rounded-2xl bg-white shadow-xl">
+
+        {/* Header */}
+        <div className="flex items-center gap-3 border-b border-[#E5E5E5] px-5 py-4">
+          
+          {/* Folder icon */}
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#00A6F4]">
+            <Folder size = {16} />
+          </div>
+
+          <div className="flex-1">
+            <h2 className="text-sm font-semibold text-[#171717]">
+              New project
+            </h2>
+
+            <p className="text-[10px] text-[#737373]">
+              Choose PIM or AIM project type
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer text-black hover:text-[#404040]"
+          >
+            ×
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="space-y-4 px-5 py-5">
+
+          {/* Workspace */}
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-700 text-xs font-semibold text-white">
+              {workspace.name.charAt(0)}
+            </div>
+
+            <span className="text-xs font-medium text-[#404040]">
+              {workspace.name}
+            </span>
+          </div>
+
+          {/* Project type */}
+          <div className="flex items-center justify-between">
+            <label className="text-[10px] font-semibold uppercase text-[#737373]">
+              Project Type
+            </label>
+
+            <div className="flex rounded-lg border border-[#E2E8F0] bg-[#F8F8F8] p-0.5">
+              <button
+                type="button"
+                onClick={() => setProjectType("PIM")}
+                className={`rounded-md px-3 py-1.5 text-[11px] font-medium ${
+                  projectType === "PIM"
+                    ? "bg-white text-[#00A6F4] shadow-sm"
+                    : "text-[#737373]"
+                }`}
+              >
+                PIM
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setProjectType("AIM")}
+                className={`rounded-md px-3 py-1.5 text-[11px] font-medium ${
+                  projectType === "AIM"
+                    ? "bg-white text-[#00A6F4] shadow-sm"
+                    : "text-[#737373]"
+                }`}
+              >
+                AIM
+              </button>
+            </div>
+          </div>
+
+          {/* Project name */}
+          <div>
+            <label className="mb-1.5 block text-[10px] font-semibold uppercase text-[#737373]">
+              Project Name <span className="text-red-500">*</span>
+            </label>
+
+            <input
+              type="text"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              placeholder="e.g. Library Building Phase 1"
+              className="w-full rounded-lg border border-[#D4D4D4] px-3 py-2.5 text-xs text-[#404040] outline-none placeholder:text-[#D4D4D4] focus:border-[#00A6F4]"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="mb-1.5 block text-[10px] font-semibold uppercase text-[#737373]">
+              Description
+            </label>
+
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Optional — describe the project scope"
+              className="h-[70px] w-full resize-none rounded-lg border border-[#D9E2EC] px-3 py-2.5 text-xs text-[#404040] outline-none placeholder:text-[#D4D4D4] focus:border-[#00A6F4]"
+            />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-5 border-t border-[#E5E5E5] px-5 py-3.5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer text-xs font-medium text-[#737373] hover:text-[#404040]"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            disabled={!projectName.trim()}
+            onClick={() => {
+              console.log("Create project:", {
+                workspaceId: workspace.id,
+                projectType,
+                projectName,
+                description,
+              });
+
+              onClose();
+            }}
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-[#00A6F4] px-4 py-2 text-xs font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Plus size={14} />
+            Create project
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -516,7 +678,6 @@ function EditWorkspaceModal({
         {/* Form */}
         <div className="space-y-4 px-5 py-5">
 
-          {/* Workspace name */}
           <div>
             <label className="mb-1.5 block text-[10px] font-semibold uppercase text-black">
               Workspace Name <span className="text-red-500">*</span>
