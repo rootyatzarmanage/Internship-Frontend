@@ -50,22 +50,29 @@ const tabs = [
 const workspaces = [
   {
     id: 1,
-    name: "PSG",
-    projectCount: 2,
+    name: "Design Team",
+    projectCount: 3,
     role: "OWNER",
     projects: [
       {
         id: 1,
-        name: "PSG - Z - Block",
-        description: "PSG - Y - Block Desc...",
-        date: "03 Jun 2026",
+        name: "Website Redesign",
+        description: "Company website redesign project...",
+        date: "18 Sep 2026",
         image: image,
       },
       {
         id: 2,
-        name: "PSG - Z - Block",
-        description: "PSG - Y - Block Desc...",
-        date: "27 Feb 2025",
+        name: "Brand Identity",
+        description: "New branding and visual identity...",
+        date: "02 Aug 2026",
+        image: image,
+      },
+      {
+        id: 3,
+        name: "Mobile App UI",
+        description: "Mobile application interface...",
+        date: "21 Jul 2026",
         image: image,
       },
     ],
@@ -73,15 +80,22 @@ const workspaces = [
 
   {
     id: 2,
-    name: "PSG",
-    projectCount: 1,
+    name: "Engineering",
+    projectCount: 2,
     role: "OWNER",
     projects: [
       {
-        id: 3,
-        name: "PSG - Z - Block",
-        description: "PSG - Y - Block Desc...",
-        date: "17 Apr 2024",
+        id: 4,
+        name: "Project Management App",
+        description: "Internal project management platform...",
+        date: "12 Jun 2026",
+        image: image,
+      },
+      {
+        id: 5,
+        name: "Analytics Dashboard",
+        description: "Real-time analytics dashboard...",
+        date: "28 May 2026",
         image: image,
       },
     ],
@@ -89,25 +103,40 @@ const workspaces = [
 
   {
     id: 3,
-    name: "PSG",
+    name: "Marketing",
     projectCount: 1,
     role: "OWNER",
-    projects: [],
+    projects: [
+      {
+        id: 6,
+        name: "Campaign Manager",
+        description: "Marketing campaign management...",
+        date: "09 Apr 2026",
+        image: image,
+      },
+    ],
   },
 ];
 
 const sharedWorkspaces = [
   {
     id: 4,
-    name: "PSG",
-    projectCount: 1,
+    name: "Product Team",
+    projectCount: 2,
     role: "MEMBER",
     projects: [
       {
-        id: 4,
-        name: "PSG - Z - Block",
-        description: "PSG - Y - Block Desc...",
-        date: "26 Jun 2026",
+        id: 7,
+        name: "Product Roadmap",
+        description: "Q4 product planning and roadmap...",
+        date: "15 Sep 2026",
+        image: image,
+      },
+      {
+        id: 8,
+        name: "Customer Feedback",
+        description: "Customer feedback and insights...",
+        date: "30 Aug 2026",
         image: image,
       },
     ],
@@ -289,7 +318,6 @@ function ProjectCard({
           <span className="text-[12px] font-semibold text-[#404040]">
             {project.date}
           </span>
-
         </div>
       </div>
     </div>
