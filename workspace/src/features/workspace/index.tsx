@@ -353,6 +353,8 @@ function WorkspaceGroup({
   const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAddMemberOpen, setIsAddMemberOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
   const handleClickOutside = (event: MouseEvent) => {
@@ -454,6 +456,74 @@ function WorkspaceGroup({
 
         </div>
       </div>
+      
+      {isAddMemberOpen && (
+  <div
+    className="fixed inset-0 z-[200] flex items-center justify-center bg-black/75"
+    onClick={() => setIsAddMemberOpen(false)}
+  >
+    <div
+      className="w-[382px] overflow-hidden rounded-xl border border-[#D4D4D4] bg-white shadow-xl"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-[#E5E5E5] px-4 py-4">
+        <h2 className="text-medium font-semibold text-[#262626]">
+          Add member to workspace
+        </h2>
+
+        <button
+          type="button"
+          onClick={() => setIsAddMemberOpen(false)}
+          className="cursor-pointer text-[#737373] hover:text-[#262626]"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="px-4 py-5">
+        {/* Email */}
+        <label className="mb-1.5 block text-[13px] font-semibold text-[#737373]">
+          Email address
+        </label>
+
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="engineer@company.com"
+          className="h-[39px] w-full rounded-lg border border-[#D4D4D4] bg-[#F8FAFC] px-3 text-xs text-[#404040] outline-none placeholder:text-[#9CA3AF] focus:border-[#A3A3A3]"
+        />
+        {/* Divider */}
+        <div className="mt-4" />
+
+        {/* Actions */}
+        <div className="mt-3 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setIsAddMemberOpen(false)}
+            className="cursor-pointer px-3 py-2 text-sm text-[#525252] hover:text-[#262626]"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            disabled={!email.trim()}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold text-white ${
+              email.trim()
+                ? "cursor-pointer bg-[#00A6F4] hover:bg-[#0098df]"
+                : "cursor-not-allowed bg-[#A7ACB2]"
+            }`}
+          >
+            Send invite
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {!isCollapsed && (
         <div className="flex flex-wrap gap-7 px-2 pb-4">
@@ -534,7 +604,7 @@ function WorkspaceGroup({
               <p className="text-base font-semibold text-[#404040]">Team Members</p>
               <p className="text-sm">1 member in this workspace</p>
             </div>
-            <button type="button" className="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-black rounded-lg text-white text-sm hover:bg-[#1f1f1f]"><UserRoundPlus size={20}/>Add member</button>
+            <button type="button" onClick={() => setIsAddMemberOpen(true)} className="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-black rounded-lg text-white text-sm hover:bg-[#1f1f1f]"><UserRoundPlus size={20}/>Add member</button>
           </div>
           
           <div className="bg-white px-4 py-3 border rounded-lg mx-5 border-gray-200">
@@ -649,7 +719,7 @@ function ProjectModal({
               <button
                 type="button"
                 onClick={() => setProjectType("PIM")}
-                className={`rounded-md px-3 py-1.5 text-[11px] font-medium ${
+                className={`rounded-md px-3 py-1.5 text-[11px] font-medium cursor-pointer ${
                   projectType === "PIM"
                     ? "bg-white text-[#00A6F4] shadow-sm"
                     : "text-[#737373]"
@@ -661,7 +731,7 @@ function ProjectModal({
               <button
                 type="button"
                 onClick={() => setProjectType("AIM")}
-                className={`rounded-md px-3 py-1.5 text-[11px] font-medium ${
+                className={`rounded-md px-3 py-1.5 text-[11px] font-medium cursor-pointer ${
                   projectType === "AIM"
                     ? "bg-white text-[#00A6F4] shadow-sm"
                     : "text-[#737373]"
