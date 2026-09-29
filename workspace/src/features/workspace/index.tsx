@@ -9,6 +9,8 @@ import {
   Users,
   GripVertical,
   Folder,
+  UserRoundPlus,
+  Shield,
 } from "lucide-react";
 import {
   DndContext,
@@ -350,6 +352,7 @@ function WorkspaceGroup({
   const menuRef = useRef<HTMLDivElement>(null);
   const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
   const handleClickOutside = (event: MouseEvent) => {
@@ -431,7 +434,7 @@ function WorkspaceGroup({
             <span>Project</span>
           </button>
 
-          <button className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]">
+          <button type="button" onClick={() => setIsProfileOpen(true)} className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]">
             <Users size={19} />
           </button>
           
@@ -489,6 +492,93 @@ function WorkspaceGroup({
           onClose={() => setIsProjectModalOpen(false)}
         />
       )}
+    <>
+        <div
+          className={`fixed inset-0 z-[90] bg-black/30 transition-opacity duration-300 ${
+            isProfileOpen
+              ? "opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
+          onClick={() => setIsProfileOpen(false)}
+        />
+
+        {/* Right Sidebar */}
+        <div
+          className={`fixed right-0 top-0 z-[100] h-full w-[360px] bg-white shadow-xl transition-transform duration-300 ease-out ${
+            isProfileOpen
+              ? "translate-x-0"
+              : "translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-gray-200 px-5 py-1">
+            <div className="flex flex-col">
+              <h2 className="text-md font-semibold text-[#404040]">
+                Workspace Team
+              </h2>
+              <p className="py-1.5 text-sm">
+                {workspace.name}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsProfileOpen(false)}
+              className="cursor-pointer text-[#737373] hover:text-[#2d2d2d]"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between px-5 py-5">
+            <div className="flex flex-col">
+              <p className="text-base font-semibold text-[#404040]">Team Members</p>
+              <p className="text-sm">1 member in this workspace</p>
+            </div>
+            <button type="button" className="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-black rounded-lg text-white text-sm hover:bg-[#1f1f1f]"><UserRoundPlus size={20}/>Add member</button>
+          </div>
+          
+          <div className="bg-white px-4 py-3 border rounded-lg mx-5 border-gray-200">
+            <div className="mb-3 flex items-center gap-2">
+              <Shield size={13} strokeWidth={2} className="text-[#00A6F4]" />
+              <span className="text-[11px] font-semibold tracking-wide text-[#00A6F4]">
+                ADMINS
+              </span>
+            </div>
+
+            {/* User */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
+                  P
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-[#262626]">
+                      Peter
+                    </span>
+
+                    <span className="rounded bg-[#F5F5F5] px-1.5 py-0.5 text-[9px] text-[#737373]">
+                      you
+                    </span>
+                  </div>
+
+                  <span className="mt-0.5 text-[11px] text-[#737373]">
+                    peterparker@gmail.com
+                  </span>
+                </div>
+              </div>
+
+              {/* Admin badge */}
+              <div className="flex items-center gap-1.5 rounded-md bg-[#EFF6FF] px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#00A6F4]" />
+                <span className="text-[11px] font-semibold text-[#00A6F4]">
+                  Admin
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     </div>
   );
 }
