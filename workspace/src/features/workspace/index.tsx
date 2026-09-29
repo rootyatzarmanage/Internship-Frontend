@@ -116,9 +116,13 @@ const sharedWorkspaces = [
 // TOP TOGGLE
 // ============================================================
 
-function ToggleBar() {
-  const [activeTab, setActiveTab] = useState("All Workspaces");
-
+function ToggleBar({
+  activeTab,
+  setActiveTab,
+}: {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}) {
   return (
     <div className="inline-flex w-fit items-center gap-1 rounded-sm bg-[#E5E5E5] p-1">
       {tabs.map((tab) => {
@@ -456,6 +460,7 @@ export default function Workspace() {
   const [sharedWorkspaceItems, setSharedWorkspaceItems] = useState(sharedWorkspaces);
   const [collapsedWorkspaces, setCollapsedWorkspaces] = useState<number[]>([]);
   const [collapsedSections, setCollapsedSections] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("All Workspaces");
   const toggleWorkspace = (workspaceId: number) => {
     setCollapsedWorkspaces((prev) =>
       prev.includes(workspaceId)
@@ -524,19 +529,25 @@ export default function Workspace() {
     <div className="min-h-screen bg-[#F8F8F8] text-gray-500">
       <div className="flex flex-col border-[#D4D4D4] px-2 py-4 sm:flex-row sm:items-center sm:justify-between">
 
-        <ToggleBar />
+        <ToggleBar activeTab={activeTab} setActiveTab={setActiveTab}/>
 
         <WorkspaceActions />
 
       </div>
 
+      {(activeTab === "All Workspaces" ||
+  activeTab === "My Workspace") && (
       <SectionHeader
         title="My Workspace"
         activeCount={3}
         isCollapsed={collapsedSections.includes("my")}
         onToggle={() => toggleSection("my")}
       />
-      {!collapsedSections.includes("my") && (
+  )}
+
+    {(activeTab === "All Workspaces" ||
+      activeTab === "My Workspace") &&
+      !collapsedSections.includes("my") && (
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -564,14 +575,19 @@ export default function Workspace() {
         </DndContext>
       )}
 
-      <SectionHeader
-        title="Shared"
-        activeCount={1}
-        isCollapsed={collapsedSections.includes("shared")}
-        onToggle={() => toggleSection("shared")}
-      />
+      {(activeTab === "All Workspaces" ||
+        activeTab === "Shared") && (
+            <SectionHeader
+              title="Shared"
+              activeCount={1}
+              isCollapsed={collapsedSections.includes("shared")}
+              onToggle={() => toggleSection("shared")}
+            />
+        )}
 
-      {!collapsedSections.includes("shared") && (
+      {(activeTab === "All Workspaces" ||
+      activeTab === "Shared") &&
+      !collapsedSections.includes("shared") && (
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
