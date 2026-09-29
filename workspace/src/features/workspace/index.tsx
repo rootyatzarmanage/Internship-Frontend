@@ -301,7 +301,7 @@ function ProjectCard({
       {/* Details */}
       <div className="p-2">
 
-        <h3 className="truncate text-[20px] font-semibold text-[#404040]">
+        <h3 className="truncate text-[18px] font-semibold text-[#404040]">
           {project.name}
         </h3>
 
