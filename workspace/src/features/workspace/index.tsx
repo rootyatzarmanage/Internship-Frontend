@@ -968,6 +968,8 @@ function WorkspaceGroup({
     id: workspace.id,
   });
   const style = { transform: CSS.Transform.toString(transform), transition };
+  const truncateText = (text: string, max: number) =>
+  text.length > max ? `${text.slice(0, max).trimEnd()}...` : text;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalType, setModalType] = useState<GroupModal>(null);
@@ -1016,7 +1018,7 @@ function WorkspaceGroup({
             </button>
 
             <div className="hidden h-[45px] w-[45px] shrink-0 items-center justify-center rounded-full bg-[#E5E5E5] text-[18px] text-[#404040] sm:flex">
-              PS
+              {workspace.name.split(" ").filter(Boolean).slice(0, 2).map((word) => word[0]).join("").toUpperCase()}
             </div>
 
             <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
@@ -1028,8 +1030,11 @@ function WorkspaceGroup({
                   {pluralize(workspace.projects.length, "Project")}
                 </div>
                 {workspace.description && (
-                  <div className="mt-0.5 max-w-[260px] truncate text-xs text-[#737373] sm:max-w-[360px]">
-                    {workspace.description}
+                  <div
+                    title={workspace.description}
+                    className="mt-0.5 text-xs text-[#737373]"
+                  >
+                    {truncateText(workspace.description, 20)}
                   </div>
                 )}
               </div>
