@@ -1,10 +1,17 @@
 import { MoreHorizontal } from 'lucide-react'
-import logo from '../assets/logo.png'
+import type { LucideIcon } from 'lucide-react'
 import {
-    adminNavigationItems,
-    mainNavigationItems,
-} from '../config/navigation'
-import type { NavigationItem } from '../config/navigation'
+    Activity,
+    BadgeDollarSign,
+    BookOpen,
+    BriefcaseBusiness,
+    CircleHelp,
+    CreditCard,
+    LayoutDashboard,
+    ShieldCheck,
+} from 'lucide-react'
+
+import logo from '../assets/logo.png'
 
 /* -------------------------------------------------------------------------- */
 /* Types                                                                      */
@@ -16,10 +23,34 @@ type SidebarProps = {
 
 type SidebarNavSectionProps = {
     title: string
-    items: NavigationItem[]
+    items: NavItem[]
     isCollapsed: boolean
     currentPath: string
 }
+
+type NavItem = {
+    label: string
+    route: string
+    icon: LucideIcon
+}
+
+/* -------------------------------------------------------------------------- */
+/* Navigation data                                                            */
+/* -------------------------------------------------------------------------- */
+export const menuItems = [
+    { label: 'Analytics', route: '/analytics', icon: Activity },
+    { label: 'Workspace', route: '/workspace', icon: LayoutDashboard },
+    { label: 'Resources', route: '/resources', icon: BriefcaseBusiness },
+    { label: 'Payment', route: '/payment', icon: CreditCard },
+    { label: 'Library', route: '/library', icon: BookOpen },
+]
+
+export const adminItems = [
+    { label: 'Subscription', route: '/subscription', icon: BadgeDollarSign },
+    { label: 'App Security', route: '/app-security', icon: ShieldCheck },
+    { label: 'Help & Docs', route: '/help-and-docs', icon: CircleHelp },
+]
+
 
 /* -------------------------------------------------------------------------- */
 /* Sidebar Logo                                                               */
@@ -101,7 +132,7 @@ function SidebarNavSection({
                         title={isCollapsed ? label : undefined}
                         className={`flex w-full cursor-pointer items-center rounded-md py-1.5 text-left text-[16px] font-normal no-underline transition-colors ${
                             currentPath === route
-                                ? '!bg-[#008CD21A] !text-[#008CD2] hover:!bg-[#008CD21A] hover:!text-[#008CD2]'
+                                ? '!bg-[#B8E6FE] !text-[#00A6F4] hover:!bg-[#B8E6FE] hover:!text-[#00A6F4] dark:!bg-[#0C3A55] dark:hover:!bg-[#0C3A55]'
                                 : 'text-[#414141] hover:bg-gray-100 hover:text-black dark:text-gray-300 dark:hover:bg-[#242424] dark:hover:text-white'
                         } ${
                             isCollapsed
@@ -146,7 +177,7 @@ function SidebarMainMenu({
     return (
         <SidebarNavSection
             title="Main Menu"
-            items={mainNavigationItems}
+            items={menuItems}
             isCollapsed={isCollapsed}
             currentPath={currentPath}
         />
@@ -167,7 +198,7 @@ function SidebarAdmin({
     return (
         <SidebarNavSection
             title="Admin"
-            items={adminNavigationItems}
+            items={adminItems}
             isCollapsed={isCollapsed}
             currentPath={currentPath}
         />
