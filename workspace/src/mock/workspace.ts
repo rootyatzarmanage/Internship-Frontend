@@ -1,5 +1,5 @@
 import image from '../assets/img.png'
-import type { Project, ProjectType, TabLabel, Workspace } from '../types/workspace'
+import type { Project, ProjectType, TabLabel, Workspace, TeamMember } from '../types/workspace'
 
 const project = (
   id: number,
@@ -63,3 +63,11 @@ export const sharedWorkspacesMock: Workspace[] = [
     ],
   },
 ]
+
+export const currentMemberMock: TeamMember = {
+  id: 1,
+  name: 'Peter',
+  email: 'peterparker@gmail.com',
+  role: 'ADMIN',
+  isCurrentUser: true,
+}

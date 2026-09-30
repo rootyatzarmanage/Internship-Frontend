@@ -3,6 +3,7 @@ export type RoleFilter = 'all' | Role
 export type ProjectFilter = 'all' | 'one' | 'multiple'
 export type SortOption = 'default' | 'name-asc' | 'name-desc' | 'projects-high' | 'projects-low'
 export type TabLabel = 'All Workspaces' | 'My Workspace' | 'Shared'
+export type MemberRole = 'ADMIN' | 'MEMBER'
 
 export interface Project {
   id: number
@@ -55,4 +56,12 @@ export interface WorkspaceHandlers {
   onAddProject: (workspaceId: number, project: NewProject) => void
   onEditProject: (workspaceId: number, projectId: number, patch: ProjectUpdate) => void
   onDeleteProject: (workspaceId: number, projectId: number) => void
+}
+
+export interface TeamMember {
+  id: number
+  name: string
+  email: string
+  role: MemberRole
+  isCurrentUser?: boolean
 }
