@@ -2,6 +2,21 @@ import { useId, useState } from 'react'
 import { ChevronDown, Pencil, Save, Trash2 } from 'lucide-react'
 import { currentUser } from '../../mock/profileMock'
 
+// Shared dark-mode class strings, so the same colours aren't repeated everywhere
+const cardClass =
+  'w-full rounded-md border border-gray-300 bg-[#FAFAFA] dark:border-[#303030] dark:bg-[#121212]'
+const inputClass =
+  'rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-sky-500 dark:border-[#303030] dark:bg-[#0F0F0F] dark:text-[#F5F5F5] dark:placeholder:text-[#6B6B6B] dark:focus:border-sky-500'
+const selectClass =
+  'w-full appearance-none rounded-lg border border-gray-300 bg-white py-2 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:border-sky-500 dark:border-[#303030] dark:bg-[#151515] dark:text-[#F5F5F5]'
+const labelClass = 'mb-1.5 block text-sm font-medium text-gray-700 dark:text-[#C4C4C4]'
+const titleClass = 'text-[20px] font-semibold text-gray-900 dark:text-[#F5F5F5]'
+const subtitleClass = 'mt-0.5 text-sm text-gray-500 dark:text-[#A3A3A3]'
+const rowTitleClass = 'text-sm font-medium text-gray-900 dark:text-[#F5F5F5]'
+const rowSubtitleClass = 'text-sm text-gray-500 dark:text-[#A3A3A3]'
+const outlineButtonClass =
+  'flex-shrink-0 self-start sm:self-auto rounded-md border border-gray-300 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0 dark:border-[#303030] dark:bg-[#151515] dark:text-[#C4C4C4] dark:hover:bg-[#222222]'
+
 // ---------------------------------------------------------------------------
 // Small reusable form pieces
 // ---------------------------------------------------------------------------
@@ -22,7 +37,7 @@ function TextField({
   const id = useId()
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className={labelClass}>
         {label}
       </label>
       <input
@@ -31,7 +46,7 @@ function TextField({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-sky-500"
+        className={`w-full ${inputClass}`}
       />
     </div>
   )
@@ -51,7 +66,7 @@ function SelectField({
   const id = useId()
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className={labelClass}>
         {label}
       </label>
       <div className="relative">
@@ -59,7 +74,7 @@ function SelectField({
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-9 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:border-sky-500"
+          className={`${selectClass} px-3 pr-9`}
         >
           {options.map((option) => (
             <option key={option} value={option}>
@@ -86,7 +101,7 @@ function Toggle({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="relative inline-flex h-8 w-14 flex-shrink-0 items-center rounded-full border border-gray-300 bg-transparent p-0.5 transition-colors focus:outline-none"
+      className="relative inline-flex h-8 w-14 flex-shrink-0 items-center rounded-full border border-gray-300 bg-transparent p-0.5 transition-colors focus:outline-none dark:border-[#404040]"
     >
       <span
         className={`inline-block h-6 w-6 rounded-full transition-transform ${
@@ -109,17 +124,17 @@ function UserDash({
   user: typeof currentUser
 }) {
   return (
-    <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-[15px] py-[10px]  ">
+    <div className={`${cardClass} px-[15px] py-[10px]`}>
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-stretch sm:gap-[31px]">
         <div className="relative flex-shrink-0">
           <img
             src={user.avatar}
-            className="h-[200px] w-[200px] rounded-xl border border-gray-200 object-cover sm:h-[160px] sm:w-[160px]"
+            className="h-[200px] w-[200px] rounded-xl border border-gray-200 object-cover sm:h-[160px] sm:w-[160px] dark:border-[#303030]"
           />
 
           <button
             type="button"
-            className="absolute -bottom-2 -right-2 inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-700   transition-colors hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0"
+            className="absolute -bottom-2 -right-2 inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0 dark:border-[#303030] dark:bg-[#151515] dark:text-[#C4C4C4] dark:hover:bg-[#222222]"
           >
             <span>Edit</span>
             <Pencil className="h-3.5 w-3.5 text-gray-500" />
@@ -128,7 +143,7 @@ function UserDash({
 
         <div className="flex min-w-0 flex-1 flex-col justify-between py-7 text-center sm:text-left">
           <div>
-            <h2 className="break-words text-xl font-bold tracking-tight text-[#404040] sm:text-2xl">
+            <h2 className="break-words text-xl font-bold tracking-tight text-[#404040] sm:text-2xl dark:text-[#F5F5F5]">
               {user.name}
             </h2>
           </div>
@@ -144,9 +159,9 @@ function UserDash({
             </a>
           </div>
 
-          <div className="mt-3 flex flex-col gap-1 text-sm font-regular text-[#404040] sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+          <div className="mt-3 flex flex-col gap-1 text-sm font-regular text-[#404040] sm:flex-row sm:items-center sm:justify-between sm:gap-2 dark:text-[#E5E5E5]">
             <div>{user.number}</div>
-            <div className="font-medium text-gray-600">{user.location}</div>
+            <div className="font-medium text-gray-600 dark:text-[#A3A3A3]">{user.location}</div>
           </div>
         </div>
       </div>
@@ -180,10 +195,10 @@ function ProfileForm({
   }
 
   return (
-    <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
+    <div className={`${cardClass} px-2 py-3 sm:p-5`}>
       <div>
-        <h3 className="text-[20px] font-semibold text-gray-900">Profile</h3>
-        <p className="mt-0.5 text-sm text-gray-500">Your Basic Account Information.</p>
+        <h3 className={titleClass}>Profile</h3>
+        <p className={subtitleClass}>Your Basic Account Information.</p>
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -195,13 +210,13 @@ function ProfileForm({
         <TextField label="E-mail Address" value={email} onChange={setEmail} type="email" />
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-gray-700">Mobile Number</label>
+          <label className={labelClass}>Mobile Number</label>
           <div className="flex gap-2">
             <div className="relative w-20 sm:w-24 flex-shrink-0">
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-2 sm:px-3 py-2 pr-7 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:border-sky-500"
+                className={`${selectClass} px-2 pr-7 sm:px-3`}
               >
                 <option value="+91">+91</option>
                 <option value="+1">+1</option>
@@ -213,7 +228,7 @@ function ProfileForm({
               type="tel"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              className="w-full min-w-0 flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-0 focus:border-sky-500"
+              className={`w-full min-w-0 flex-1 ${inputClass}`}
             />
           </div>
         </div>
@@ -223,7 +238,7 @@ function ProfileForm({
         <button
           type="button"
           onClick={handleSave}
-          className="inline-flex items-center gap-1.5 rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-white   transition-colors hover:bg-sky-600 focus:outline-none focus:ring-0 focus:ring-offset-0"
+          className="inline-flex items-center gap-1.5 rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-600 focus:outline-none focus:ring-0 focus:ring-offset-0"
         >
           <Save className="h-4 w-4" />
           Save
@@ -258,9 +273,9 @@ function AddressForm({
   }
 
   return (
-    <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-[20px] font-semibold text-gray-900">Address</h3>
-      <p className="mt-0.5 text-sm text-gray-500">This address appears on your invoices and account records.</p>
+    <div className={`${cardClass} px-2 py-3 sm:p-5`}>
+      <h3 className={titleClass}>Address</h3>
+      <p className={subtitleClass}>This address appears on your invoices and account records.</p>
 
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SelectField label="Country" value={country} onChange={setCountry} options={['India', 'United States', 'United Kingdom']} />
@@ -276,7 +291,7 @@ function AddressForm({
         <button
           type="button"
           onClick={handleSave}
-          className="inline-flex items-center gap-1.5 rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-white   transition-colors hover:bg-sky-600 focus:outline-none focus:ring-0 focus:ring-offset-0"
+          className="inline-flex items-center gap-1.5 rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-600 focus:outline-none focus:ring-0 focus:ring-offset-0"
         >
           <Save className="h-4 w-4" />
           Save
@@ -294,28 +309,25 @@ function SecuritySettings() {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(currentUser.twoFactorEnabled)
 
   return (
-    <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-[20px] font-semibold text-gray-900">Security</h3>
-      <p className="mt-0.5 text-sm text-gray-500">Manage how you sign in and keep your account secure.</p>
+    <div className={`${cardClass} px-2 py-3 sm:p-5`}>
+      <h3 className={titleClass}>Security</h3>
+      <p className={subtitleClass}>Manage how you sign in and keep your account secure.</p>
 
-      <div className="mt-4 divide-y divide-gray-200">
+      <div className="mt-4 divide-y divide-gray-200 dark:divide-[#262626]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 first:pt-0 px-1">
           <div>
-            <div className="text-sm font-medium text-gray-900">Change Password</div>
-            <div className="text-sm text-gray-500">{`Last change ${new Date(currentUser.lastPasswordChange).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`}</div>
+            <div className={rowTitleClass}>Change Password</div>
+            <div className={rowSubtitleClass}>{`Last change ${new Date(currentUser.lastPasswordChange).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`}</div>
           </div>
-          <button
-            type="button"
-            className="flex-shrink-0 self-start sm:self-auto rounded-md border border-gray-300 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-700   transition-colors hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0"
-          >
+          <button type="button" className={outlineButtonClass}>
             Change Password
           </button>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 last:pb-0 px-1">
           <div>
-            <div className="text-sm font-medium text-gray-900">Two-Factor Authentication</div>
-            <div className="text-sm text-gray-500">Add an extra layer of security at sign-in.</div>
+            <div className={rowTitleClass}>Two-Factor Authentication</div>
+            <div className={rowSubtitleClass}>Add an extra layer of security at sign-in.</div>
           </div>
           <Toggle checked={twoFactorEnabled} onChange={setTwoFactorEnabled} />
         </div>
@@ -345,34 +357,30 @@ function DangerZone() {
   }
 
   return (
-    <div className="w-full rounded-md border border-gray-300 bg-[#FAFAFA] px-2 py-3 sm:p-5  ">
-      <h3 className="text-[20px] font-semibold text-gray-900">Danger Zone</h3>
-      <p className="mt-0.5 text-sm text-gray-500">These actions are irreversible, proceed carefully.</p>
+    <div className={`${cardClass} px-2 py-3 sm:p-5`}>
+      <h3 className={titleClass}>Danger Zone</h3>
+      <p className={subtitleClass}>These actions are irreversible, proceed carefully.</p>
 
-      <div className="mt-4 divide-y divide-gray-200">
+      <div className="mt-4 divide-y divide-gray-200 dark:divide-[#262626]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 first:pt-0 px-1">
           <div>
-            <div className="text-sm font-medium text-gray-900">Logout from all device</div>
-            <div className="text-sm text-gray-500">Sign out from every active session on all devices.</div>
+            <div className={rowTitleClass}>Logout from all device</div>
+            <div className={rowSubtitleClass}>Sign out from every active session on all devices.</div>
           </div>
-          <button
-            type="button"
-            onClick={handleLogoutAll}
-            className="flex-shrink-0 self-start sm:self-auto rounded-md border border-gray-300 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-700   transition-colors hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-offset-0"
-          >
+          <button type="button" onClick={handleLogoutAll} className={outlineButtonClass}>
             Logout all
           </button>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 last:pb-0 px-1">
           <div>
-            <div className="text-sm font-medium text-gray-900">Delete Account</div>
-            <div className="text-sm text-gray-500">Permanently delete your account and all associated data.</div>
+            <div className={rowTitleClass}>Delete Account</div>
+            <div className={rowSubtitleClass}>Permanently delete your account and all associated data.</div>
           </div>
           <button
             type="button"
             onClick={handleDeleteAccount}
-            className="inline-flex flex-shrink-0 self-start sm:self-auto items-center gap-1.5 rounded-md bg-rose-100 px-3.5 py-1.5 text-sm font-medium text-rose-500   transition-colors hover:bg-rose-200 focus:outline-none focus:ring-0 focus:ring-offset-0"
+            className="inline-flex flex-shrink-0 self-start sm:self-auto items-center gap-1.5 rounded-md bg-rose-100 px-3.5 py-1.5 text-sm font-medium text-rose-500 transition-colors hover:bg-rose-200 focus:outline-none focus:ring-0 focus:ring-offset-0 dark:bg-rose-950/40 dark:hover:bg-rose-950/70"
           >
             <Trash2 className="h-4 w-4" />
             Delete account

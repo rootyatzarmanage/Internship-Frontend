@@ -350,7 +350,18 @@ export default function Header({
           size={20}
           strokeWidth={1.5}
           aria-hidden="true"
+          className={`xl:hidden ${
+          isMobileActionsOpen ? 'hidden' : 'block'
+        }`}
         />
+        <X
+        size={20}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className={`xl:hidden ${
+          isMobileActionsOpen ? 'block' : 'hidden'
+        }`}
+      />
       </button>
 
       {/* --------------------------------------------------------------- */}
