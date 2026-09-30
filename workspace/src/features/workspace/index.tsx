@@ -31,84 +31,23 @@ import {
 import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 
-import image from "../../assets/img.png";
-
-// ===================== TYPES =====================
-
-type Role = "OWNER" | "MEMBER";
-type RoleFilter = "all" | Role;
-type ProjectFilter = "all" | "one" | "multiple";
-type SortOption = "default" | "name-asc" | "name-desc" | "projects-high" | "projects-low";
-type TabLabel = "All Workspaces" | "My Workspace" | "Shared";
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  date: string;
-  image: string;
-}
-
-interface Workspace {
-  id: number;
-  name: string;
-  role: Role;
-  projects: Project[];
-}
-
-// ===================== DATA =====================
-
-const project = (id: number, name: string, description: string, date: string): Project => ({
-  id,
-  name,
-  description,
-  date,
-  image,
-});
-
-const initialMyWorkspaces: Workspace[] = [
-  {
-    id: 1,
-    name: "Design Team",
-    role: "OWNER",
-    projects: [
-      project(1, "Website Redesign", "Company website redesign project...", "18 Sep 2026"),
-      project(2, "Brand Identity", "New branding and visual identity...", "02 Aug 2026"),
-      project(3, "Mobile App UI", "Mobile application interface...", "21 Jul 2026"),
-    ],
-  },
-  {
-    id: 2,
-    name: "Engineering",
-    role: "OWNER",
-    projects: [
-      project(4, "Project Management App", "Internal project management platform...", "12 Jun 2026"),
-      project(5, "Analytics Dashboard", "Real-time analytics dashboard...", "28 May 2026"),
-    ],
-  },
-  {
-    id: 3,
-    name: "Marketing",
-    role: "OWNER",
-    projects: [project(6, "Campaign Manager", "Marketing campaign management...", "09 Apr 2026")],
-  },
-];
-
-const initialSharedWorkspaces: Workspace[] = [
-  {
-    id: 4,
-    name: "Product Team",
-    role: "MEMBER",
-    projects: [
-      project(7, "Product Roadmap", "Q4 product planning and roadmap...", "15 Sep 2026"),
-      project(8, "Customer Feedback", "Customer feedback and insights...", "30 Aug 2026"),
-    ],
-  },
-];
+import { defaultProjectImage, myWorkspacesMock, sharedWorkspacesMock, tabLabelsMock } from "../../mock/workspace";
+import type {
+  FilterState,
+  Project,
+  ProjectFilter,
+  ProjectUpdate,
+  RoleFilter,
+  SortOption,
+  TabLabel,
+  Workspace,
+  WorkspaceHandlers,
+  WorkspaceUpdate,
+  NewProject,
+  ProjectType,
+} from "../../types/workspace";
 
 // ===================== HELPERS =====================
-
-const TAB_LABELS: TabLabel[] = ["All Workspaces", "My Workspace", "Shared"];
 
 const pluralize = (count: number, singular: string) =>
   `${count} ${count === 1 ? singular : `${singular}s`}`;
@@ -171,6 +110,9 @@ function applyProjectSearch(items: Workspace[], query: string): Workspace[] {
 
 const menuItemClass =
   "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-[#404040] hover:bg-[#F5F5F5]";
+
+const menuDangerItemClass =
+  "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-red-500 hover:bg-red-50";
 
 const iconButtonClass =
   "h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]";
@@ -326,12 +268,6 @@ function ToggleBar({
       })}
     </div>
   );
-}
-
-interface FilterState {
-  roleFilter: RoleFilter;
-  projectFilter: ProjectFilter;
-  sortBy: SortOption;
 }
 
 function FilterSortMenu({
@@ -537,27 +473,77 @@ function SectionHeader({
 
 // ===================== CARDS =====================
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  onEdit,
+  onDelete,
+}: {
+  project: Project;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useClickOutside(menuRef, () => setIsMenuOpen(false));
+
+  const pick = (action: () => void) => () => {
+    action();
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div className="h-[206px] w-full cursor-pointer overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA] sm:w-[252px]">
-      <img src={project.image} alt={project.name} className="h-[111px] w-full object-cover" />
-      <div className="p-2">
-        <h3 className="truncate text-[18px] font-semibold text-[#404040]">{project.name}</h3>
-        <p className="truncate text-[14px] text-[#404040]">{project.description}</p>
-        <div className="mt-1 flex items-center justify-between">
-          <span className="rounded-sm bg-[#B8E6FE] px-1 py-0.5 text-[12px] font-semibold text-[#00A6F4]">
-            PIM
-          </span>
-          <span className="text-[12px] font-semibold text-[#404040]">{project.date}</span>
+    // Outer wrapper is not overflow-hidden so the dropdown can extend past the card edge
+    <div className="group relative h-[206px] w-full sm:w-[252px]">
+      <div className="h-full w-full cursor-pointer overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA]">
+        <img src={project.image} alt={project.name} className="h-[111px] w-full object-cover" />
+        <div className="p-2">
+          <h3 className="truncate text-[18px] font-semibold text-[#404040]">{project.name}</h3>
+          <p className="truncate text-[14px] text-[#404040]">{project.description}</p>
+          <div className="mt-1 flex items-center justify-between">
+            <span className="rounded-sm bg-[#B8E6FE] px-1 py-0.5 text-[12px] font-semibold text-[#00A6F4]">
+              {project.type}
+            </span>
+            <span className="text-[12px] font-semibold text-[#404040]">{project.date}</span>
+          </div>
         </div>
+      </div>
+
+      {/* Always visible on touch screens, revealed on hover (or while open) from sm up */}
+      <div
+        ref={menuRef}
+        className={`absolute right-2 top-2 z-10 transition-opacity ${
+          isMenuOpen
+            ? "opacity-100"
+            : "opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label="Project actions"
+          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-[#D4D4D4] bg-white/95 text-[#525252] shadow-sm transition-colors hover:bg-[#F5F5F5]"
+        >
+          <MoreHorizontal size={16} />
+        </button>
+
+        {isMenuOpen && (
+          <div className="absolute right-0 top-9 z-20 w-36 rounded-md border border-[#D4D4D4] bg-white p-1 shadow-md">
+            <button type="button" onClick={pick(onEdit)} className={menuItemClass}>
+              Edit
+            </button>
+            <button type="button" onClick={pick(onDelete)} className={menuDangerItemClass}>
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function NewProjectCard() {
+function NewProjectCard({ onClick }: { onClick: () => void }) {
   return (
-    <button className="flex h-[206px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#D4D4D4] bg-[#FAFAFA] text-[#A3A3A3] hover:bg-[#F0F0F0] sm:w-[252px]">
+    <button type="button" onClick={onClick} className="flex h-[206px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#D4D4D4] bg-[#FAFAFA] text-[#A3A3A3] hover:bg-[#F0F0F0] sm:w-[252px]">
       <div className="flex h-4 w-4 items-center justify-center rounded-sm border border-[#BDBDBD]">
         <Plus size={11} />
       </div>
@@ -568,7 +554,7 @@ function NewProjectCard() {
 
 // ===================== MODALS =====================
 
-function NewWorkspaceModal({ onClose }: { onClose: () => void }) {
+function NewWorkspaceModal({ onCreate, onClose }: {  onCreate: (workspace: WorkspaceUpdate) => void; onClose: () => void }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -604,7 +590,7 @@ function NewWorkspaceModal({ onClose }: { onClose: () => void }) {
         confirmLabel="Create workspace"
         confirmIcon={<Plus size={14} />}
         onConfirm={() => {
-          console.log("Create workspace:", { name, description });
+          onCreate({ name: name.trim(), description: description.trim() });
           onClose();
         }}
       />
@@ -612,9 +598,17 @@ function NewWorkspaceModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-function EditWorkspaceModal({ workspace, onClose }: { workspace: Workspace; onClose: () => void }) {
+function EditWorkspaceModal({
+  workspace,
+  onSave,
+  onClose,
+}: {
+  workspace: Workspace;
+  onSave: (patch: WorkspaceUpdate) => void;
+  onClose: () => void;
+}) {
   const [name, setName] = useState(workspace.name);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(workspace.description);
 
   return (
     <Modal title="Edit workspace" onClose={onClose}>
@@ -641,7 +635,7 @@ function EditWorkspaceModal({ workspace, onClose }: { workspace: Workspace; onCl
         disabled={!name.trim()}
         confirmLabel="Save changes"
         onConfirm={() => {
-          console.log("Save workspace:", { id: workspace.id, name, description });
+          onSave({ name: name.trim(), description: description.trim() });
           onClose();
         }}
       />
@@ -651,9 +645,11 @@ function EditWorkspaceModal({ workspace, onClose }: { workspace: Workspace; onCl
 
 function DeleteWorkspaceModal({
   workspace,
+  onConfirm,
   onClose,
 }: {
   workspace: Workspace;
+  onConfirm: () => void;
   onClose: () => void;
 }) {
   return (
@@ -669,7 +665,7 @@ function DeleteWorkspaceModal({
         variant="danger"
         confirmLabel="Delete"
         onConfirm={() => {
-          console.log("Delete workspace:", workspace.id);
+          onConfirm();
           onClose();
         }}
       />
@@ -677,7 +673,82 @@ function DeleteWorkspaceModal({
   );
 }
 
-function ProjectModal({ workspace, onClose }: { workspace: Workspace; onClose: () => void }) {
+function EditProjectModal({
+  project,
+  onSave,
+  onClose,
+}: {
+  project: Project;
+  onSave: (patch: ProjectUpdate) => void;
+  onClose: () => void;
+}) {
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
+
+  return (
+    <Modal title="Edit project" onClose={onClose}>
+      <div className="space-y-4 px-5 py-5">
+        <Field label="Project Name" required>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Description">
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+            className={`${inputClass} h-[68px] resize-none`}
+          />
+        </Field>
+      </div>
+      <ModalFooter
+        onCancel={onClose}
+        disabled={!name.trim()}
+        confirmLabel="Save changes"
+        onConfirm={() => {
+          onSave({ name: name.trim(), description: description.trim() });
+          onClose();
+        }}
+      />
+    </Modal>
+  );
+}
+
+function DeleteProjectModal({
+  project,
+  onConfirm,
+  onClose,
+}: {
+  project: Project;
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <Modal title="Delete project" onClose={onClose}>
+      <div className="px-5 py-6">
+        <p className="text-sm text-[#404040]">
+          Are you sure you want to delete <span className="font-semibold">{project.name}</span>?
+        </p>
+        <p className="mt-2 text-xs text-[#737373]">This action cannot be undone.</p>
+      </div>
+      <ModalFooter
+        onCancel={onClose}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={() => {
+          onConfirm();
+          onClose();
+        }}
+      />
+    </Modal>
+  );
+}
+
+function ProjectModal({ workspace, onClose, onCreate }: { workspace: Workspace; onClose: () => void; onCreate: (project: NewProject) => void; }) {
   const [projectType, setProjectType] = useState<"PIM" | "AIM">("PIM");
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
@@ -739,14 +810,13 @@ function ProjectModal({ workspace, onClose }: { workspace: Workspace; onClose: (
         confirmLabel="Create project"
         confirmIcon={<Plus size={14} />}
         onConfirm={() => {
-          console.log("Create project:", {
-            workspaceId: workspace.id,
-            projectType,
-            projectName,
-            description,
-          });
-          onClose();
-        }}
+        onCreate({
+          name: projectName.trim(),
+          description: description.trim(),
+          type: projectType,
+        });
+        onClose();
+      }}
       />
     </Modal>
   );
@@ -881,14 +951,18 @@ function TeamSidebar({
 
 // ===================== WORKSPACE GROUP =====================
 
+type GroupModal = "edit" | "delete" | "project" | "editProject" | "deleteProject" | null;
+
 function WorkspaceGroup({
   workspace,
   isCollapsed,
   onToggle,
+  handlers,
 }: {
   workspace: Workspace;
   isCollapsed: boolean;
   onToggle: () => void;
+  handlers: WorkspaceHandlers;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: workspace.id,
@@ -896,12 +970,21 @@ function WorkspaceGroup({
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [modalType, setModalType] = useState<"edit" | "delete" | "project" | null>(null);
+  const [modalType, setModalType] = useState<GroupModal>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isTeamOpen, setIsTeamOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   useClickOutside(menuRef, () => setIsMenuOpen(false));
 
-  const closeModal = () => setModalType(null);
+  const closeModal = () => {
+    setModalType(null);
+    setSelectedProject(null);
+  };
+
+  const openProjectModal = (type: "editProject" | "deleteProject", target: Project) => {
+    setSelectedProject(target);
+    setModalType(type);
+  };
 
   const openFromMenu = (action: () => void) => () => {
     action();
@@ -944,6 +1027,11 @@ function WorkspaceGroup({
                 <div className="text-xs text-[#737373] sm:text-sm">
                   {pluralize(workspace.projects.length, "Project")}
                 </div>
+                {workspace.description && (
+                  <div className="mt-0.5 max-w-[260px] truncate text-xs text-[#737373] sm:max-w-[360px]">
+                    {workspace.description}
+                  </div>
+                )}
               </div>
               <span className="w-fit shrink-0 rounded-sm border border-[#737373] px-1.5 py-0.5 text-[11px] leading-none text-[#737373] sm:text-[12px]">
                 {workspace.role}
@@ -1007,7 +1095,7 @@ function WorkspaceGroup({
                   <button
                     type="button"
                     onClick={openFromMenu(() => setModalType("delete"))}
-                    className="w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-red-500 hover:bg-red-50"
+                    className={menuDangerItemClass}
                   >
                     Delete
                   </button>
@@ -1021,9 +1109,16 @@ function WorkspaceGroup({
         {!isCollapsed && (
           <div className="grid grid-cols-1 gap-4 px-2 pb-4 sm:flex sm:flex-wrap sm:gap-7">
             {workspace.projects.map((p) => (
-              <ProjectCard key={p.id} project={p} />
+              <ProjectCard
+                key={p.id}
+                project={p}
+                onEdit={() => openProjectModal("editProject", p)}
+                onDelete={() => openProjectModal("deleteProject", p)}
+              />
             ))}
-            {workspace.projects.length === 0 && <NewProjectCard />}
+            {workspace.projects.length === 0 && (
+              <NewProjectCard onClick={() => setModalType("project")} />
+            )}
           </div>
         )}
       </div>
@@ -1033,11 +1128,41 @@ function WorkspaceGroup({
         inside a transformed parent (which dnd-kit applies while dragging) get positioned
         relative to that parent instead of the viewport.
       */}
-      {modalType === "edit" && <EditWorkspaceModal workspace={workspace} onClose={closeModal} />}
-      {modalType === "delete" && (
-        <DeleteWorkspaceModal workspace={workspace} onClose={closeModal} />
+      {modalType === "edit" && (
+        <EditWorkspaceModal
+          workspace={workspace}
+          onSave={(patch) => handlers.onEditWorkspace(workspace.id, patch)}
+          onClose={closeModal}
+        />
       )}
-      {modalType === "project" && <ProjectModal workspace={workspace} onClose={closeModal} />}
+      {modalType === "delete" && (
+        <DeleteWorkspaceModal
+          workspace={workspace}
+          onConfirm={() => handlers.onDeleteWorkspace(workspace.id)}
+          onClose={closeModal}
+        />
+      )}
+      {modalType === "project" && (
+        <ProjectModal
+          workspace={workspace}
+          onCreate={(project) => handlers.onAddProject(workspace.id, project)}
+          onClose={closeModal}
+        />
+      )}
+      {modalType === "editProject" && selectedProject && (
+        <EditProjectModal
+          project={selectedProject}
+          onSave={(patch) => handlers.onEditProject(workspace.id, selectedProject.id, patch)}
+          onClose={closeModal}
+        />
+      )}
+      {modalType === "deleteProject" && selectedProject && (
+        <DeleteProjectModal
+          project={selectedProject}
+          onConfirm={() => handlers.onDeleteProject(workspace.id, selectedProject.id)}
+          onClose={closeModal}
+        />
+      )}
       <TeamSidebar workspace={workspace} isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
     </>
   );
@@ -1050,11 +1175,13 @@ function WorkspaceList({
   collapsedIds,
   onToggle,
   onReorder,
+  handlers,
 }: {
   items: Workspace[];
   collapsedIds: number[];
   onToggle: (id: number) => void;
   onReorder: (activeId: number, overId: number) => void;
+  handlers: WorkspaceHandlers;
 }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -1077,6 +1204,7 @@ function WorkspaceList({
               workspace={workspace}
               isCollapsed={collapsedIds.includes(workspace.id)}
               onToggle={() => onToggle(workspace.id)}
+              handlers={handlers}
             />
           ))}
         </div>
@@ -1093,8 +1221,8 @@ const toggleInList = <T,>(list: T[], value: T) =>
   list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
 
 export default function WorkspacePage() {
-  const [myWorkspaces, setMyWorkspaces] = useState(initialMyWorkspaces);
-  const [sharedWorkspaces, setSharedWorkspaces] = useState(initialSharedWorkspaces);
+  const [myWorkspaces, setMyWorkspaces] = useState<Workspace[]>(myWorkspacesMock);
+  const [sharedWorkspaces, setSharedWorkspaces] = useState<Workspace[]>(sharedWorkspacesMock);
 
   const [activeTab, setActiveTab] = useState<TabLabel>("All Workspaces");
   const [collapsedWorkspaces, setCollapsedWorkspaces] = useState<number[]>([]);
@@ -1105,11 +1233,12 @@ export default function WorkspacePage() {
   const [searchMy, setSearchMy] = useState("");
   const [searchShared, setSearchShared] = useState("");
 
-  const tabs = [
-    { label: "All Workspaces" as const, count: myWorkspaces.length + sharedWorkspaces.length },
-    { label: "My Workspace" as const, count: myWorkspaces.length },
-    { label: "Shared" as const, count: sharedWorkspaces.length },
-  ];
+  const counts: Record<TabLabel, number> = {
+    "All Workspaces": myWorkspaces.length + sharedWorkspaces.length,
+    "My Workspace": myWorkspaces.length,
+    Shared: sharedWorkspaces.length,
+  };
+  const tabs = tabLabelsMock.map((label) => ({ label, count: counts[label] }));
 
   const showMy = activeTab !== "Shared";
   const showShared = activeTab !== "My Workspace";
@@ -1121,6 +1250,63 @@ export default function WorkspacePage() {
         const to = items.findIndex((w) => w.id === overId);
         return from < 0 || to < 0 ? items : arrayMove(items, from, to);
       });
+
+  // Workspace ids are unique across both lists, so an update is applied to each list
+  // and only the one that contains the id actually changes.
+  const updateBoth = (fn: (items: Workspace[]) => Workspace[]) => {
+    setMyWorkspaces(fn);
+    setSharedWorkspaces(fn);
+  };
+
+  const handlers: WorkspaceHandlers = {
+    onEditWorkspace: (workspaceId, patch) =>
+      updateBoth((items) => items.map((w) => (w.id === workspaceId ? { ...w, ...patch } : w))),
+
+    onDeleteWorkspace: (workspaceId) =>
+      updateBoth((items) => items.filter((w) => w.id !== workspaceId)),
+
+    onEditProject: (workspaceId, projectId, patch) =>
+      updateBoth((items) =>
+        items.map((w) =>
+          w.id === workspaceId
+            ? { ...w, projects: w.projects.map((p) => (p.id === projectId ? { ...p, ...patch } : p)) }
+            : w
+        )
+      ),
+
+    onDeleteProject: (workspaceId, projectId) =>
+      updateBoth((items) =>
+        items.map((w) =>
+          w.id === workspaceId
+            ? { ...w, projects: w.projects.filter((p) => p.id !== projectId) }
+            : w
+        )
+      ),
+      onAddProject: (workspaceId, newProject) => {
+      const nextId =
+        Math.max(
+          0,
+          ...[...myWorkspaces, ...sharedWorkspaces].flatMap((w) => w.projects.map((p) => p.id))
+        ) + 1;
+
+      const created: Project = {
+        ...newProject,
+        id: nextId,
+        image: defaultProjectImage,
+        date: new Date().toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+      };
+
+      updateBoth((items) =>
+        items.map((w) =>
+          w.id === workspaceId ? { ...w, projects: [...w.projects, created] } : w
+        )
+      );
+    },
+  };
 
   // Filter/sort first; the search box only appears when more than one project is left
   const filteredMy = applyWorkspaceFilters(
@@ -1135,7 +1321,21 @@ export default function WorkspacePage() {
     filters.projectFilter,
     filters.sortBy
   );
+  const addWorkspace = (data: WorkspaceUpdate) => {
+    const nextId =
+      Math.max(0, ...[...myWorkspaces, ...sharedWorkspaces].map((w) => w.id)) + 1;
 
+    const created: Workspace = {
+      id: nextId,
+      name: data.name,
+      description: data.description,
+      role: "OWNER",
+      projects: [],
+    };
+
+    setMyWorkspaces((items) => [...items, created]);
+    if (activeTab === "Shared") setActiveTab("My Workspace");
+  };
   const canSearchMy = countProjects(filteredMy) > 1;
   const canSearchShared = countProjects(filteredShared) > 1;
 
@@ -1171,6 +1371,7 @@ export default function WorkspacePage() {
               collapsedIds={collapsedWorkspaces}
               onToggle={(id) => setCollapsedWorkspaces((prev) => toggleInList(prev, id))}
               onReorder={config.onReorder}
+              handlers={handlers}
             />
           ) : (
             <p className="px-4 py-6 text-sm text-[#737373]">No projects found</p>
@@ -1215,7 +1416,12 @@ export default function WorkspacePage() {
           onReorder: reorderIn(setSharedWorkspaces),
         })}
 
-      {isNewWorkspaceOpen && <NewWorkspaceModal onClose={() => setIsNewWorkspaceOpen(false)} />}
+      {isNewWorkspaceOpen && (
+        <NewWorkspaceModal
+          onCreate={addWorkspace}
+          onClose={() => setIsNewWorkspaceOpen(false)}
+        />
+      )}
     </div>
   );
 }
