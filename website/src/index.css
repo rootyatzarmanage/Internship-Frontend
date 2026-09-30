@@ -1,11 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @variant dark (&:where(.dark, .dark *));
-
-:root {
-	font-family: "Outfit", sans-serif;
-}
 
 @theme {
   --color-primary: #0B0B0B;
@@ -36,4 +32,8 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+body{
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
