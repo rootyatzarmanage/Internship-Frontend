@@ -109,19 +109,19 @@ function applyProjectSearch(items: Workspace[], query: string): Workspace[] {
 // ===================== SHARED UI =====================
 
 const menuItemClass =
-  "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-[#404040] hover:bg-[#F5F5F5]";
+  "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-[#404040] hover:bg-[#F5F5F5] dark:text-[#E5E5E5] dark:hover:bg-[#222222]";
 
 const menuDangerItemClass =
-  "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-red-500 hover:bg-red-50";
+  "w-full cursor-pointer rounded px-2 py-1.5 text-left text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40";
 
 const iconButtonClass =
-  "h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5]";
+  "h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-[#A3A3A3] bg-white text-[#525252] transition-colors hover:bg-[#F5F5F5] dark:border-[#404040] dark:bg-[#151515] dark:text-[#C4C4C4] dark:hover:bg-[#222222]";
 
 const inputClass =
-  "w-full rounded-lg border border-[#D4D4D4] px-3 py-2.5 text-base text-[#404040] outline-none placeholder:text-[#D4D4D4] focus:border-[#00A6F4] sm:text-xs";
+  "w-full rounded-lg border border-[#D4D4D4] px-3 py-2.5 text-base text-[#404040] outline-none placeholder:text-[#D4D4D4] focus:border-[#00A6F4] sm:text-xs dark:border-[#303030] dark:bg-[#0F0F0F] dark:text-[#E5E5E5] dark:placeholder:text-[#525252]";
 
 const selectClass =
-  "w-full rounded-md border border-[#D4D4D4] bg-white px-2.5 py-2.5 text-base text-[#404040] outline-none focus:border-[#00A6F4] sm:py-2 sm:text-xs";
+  "w-full rounded-md border border-[#D4D4D4] bg-white px-2.5 py-2.5 text-base text-[#404040] outline-none focus:border-[#00A6F4] sm:py-2 sm:text-xs dark:border-[#303030] dark:bg-[#151515] dark:text-[#E5E5E5]";
 
 const fieldLabelClass = "mb-1.5 block text-[10px] font-semibold uppercase text-[#737373]";
 
@@ -165,24 +165,24 @@ function Modal({
       onClick={onClose}
     >
       <div
-        className="mx-4 max-h-[90vh] w-full max-w-[385px] overflow-y-auto rounded-2xl bg-white shadow-xl"
+        className="mx-4 max-h-[90vh] w-full max-w-[385px] overflow-y-auto rounded-2xl bg-white shadow-xl dark:bg-[#151515]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 border-b border-[#E5E5E5] px-5 py-4">
+        <div className="flex items-center gap-3 border-b border-[#E5E5E5] px-5 py-4 dark:border-[#262626]">
           {icon && (
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#00A6F4]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#00A6F4] dark:bg-[#0C2A3D]">
               {icon}
             </div>
           )}
           <div className="flex-1">
-            <h2 className="text-sm font-semibold text-[#171717]">{title}</h2>
+            <h2 className="text-sm font-semibold text-[#171717] dark:text-[#F5F5F5]">{title}</h2>
             {subtitle && <p className="text-[10px] text-[#737373]">{subtitle}</p>}
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="cursor-pointer text-[#737373] hover:text-[#262626]"
+            className="cursor-pointer text-[#737373] hover:text-[#262626] dark:hover:text-white"
           >
             <X size={16} />
           </button>
@@ -212,11 +212,11 @@ function ModalFooter({
     variant === "danger" ? "bg-[#DC2626] hover:bg-[#B91C1C]" : "bg-[#00A6F4] hover:bg-[#0098df]";
 
   return (
-    <div className="flex items-center justify-end gap-5 border-t border-[#E5E5E5] px-5 py-3.5">
+    <div className="flex items-center justify-end gap-5 border-t border-[#E5E5E5] px-5 py-3.5 dark:border-[#262626]">
       <button
         type="button"
         onClick={onCancel}
-        className="cursor-pointer text-xs font-medium text-[#737373] hover:text-[#404040]"
+        className="cursor-pointer text-xs font-medium text-[#737373] hover:text-[#404040] dark:hover:text-[#E5E5E5]"
       >
         Cancel
       </button>
@@ -245,7 +245,7 @@ function ToggleBar({
   onChange: (tab: TabLabel) => void;
 }) {
   return (
-    <div className="flex w-full items-center gap-1 rounded-sm bg-[#E5E5E5] p-1 sm:inline-flex sm:w-fit">
+    <div className="flex w-full items-center gap-1 rounded-sm bg-[#E5E5E5] p-1 sm:inline-flex sm:w-fit dark:bg-[#262626]">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.label;
         return (
@@ -253,7 +253,9 @@ function ToggleBar({
             key={tab.label}
             onClick={() => onChange(tab.label)}
             className={`flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-sm px-1 py-1.5 text-[11px] transition-all sm:flex-none sm:gap-1.5 sm:px-2 sm:py-1 sm:text-sm ${
-              isActive ? "bg-[#00A6F4] text-white" : "text-[#737373] hover:text-[#4D4D4D]"
+              isActive
+                ? "bg-[#00A6F4] text-white"
+                : "text-[#737373] hover:text-[#4D4D4D] dark:hover:text-[#E5E5E5]"
             }`}
           >
             <span>{tab.label}</span>
@@ -293,8 +295,8 @@ function FilterSortMenu({
         onClick={() => setIsOpen((prev) => !prev)}
         className={`flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border px-3 py-2 text-xs transition-colors sm:w-auto ${
           hasActiveOptions
-            ? "border-[#00A6F4] bg-[#EFF6FF] text-[#00A6F4]"
-            : "border-[#D4D4D4] bg-[#F8F8F8] text-[#525252] hover:bg-gray-50"
+            ? "border-[#00A6F4] bg-[#EFF6FF] text-[#00A6F4] dark:bg-[#0C2A3D]"
+            : "border-[#D4D4D4] bg-[#F8F8F8] text-[#525252] hover:bg-gray-50 dark:border-[#303030] dark:bg-[#151515] dark:text-[#C4C4C4] dark:hover:bg-[#222222]"
         }`}
       >
         <Funnel size={14} />
@@ -316,10 +318,10 @@ function FilterSortMenu({
 
           {/* Bottom sheet on mobile, anchored dropdown from sm up */}
           <div
-            className="fixed inset-x-0 bottom-0 z-[80] max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-[#D4D4D4] bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:absolute sm:inset-x-auto sm:bottom-auto sm:right-0 sm:top-11 sm:max-h-none sm:w-[250px] sm:overflow-visible sm:rounded-lg sm:border sm:p-3 sm:pb-3 sm:shadow-lg"
+            className="fixed inset-x-0 bottom-0 z-[80] max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-[#D4D4D4] bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:absolute sm:inset-x-auto sm:bottom-auto sm:right-0 sm:top-11 sm:max-h-none sm:w-[250px] sm:overflow-visible sm:rounded-lg sm:border sm:p-3 sm:pb-3 sm:shadow-lg dark:border-[#303030] dark:bg-[#151515]"
           >
           <div className="mb-4 flex items-center justify-between sm:mb-3">
-            <h3 className="text-base font-semibold text-[#404040] sm:text-sm">Filter & Sort</h3>
+            <h3 className="text-base font-semibold text-[#404040] sm:text-sm dark:text-[#E5E5E5]">Filter & Sort</h3>
             <button
               type="button"
               onClick={onReset}
@@ -438,11 +440,11 @@ function SectionHeader({
   onQueryChange: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 border-b border-[#D4D4D4] px-3 py-3 sm:gap-x-5">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5 border-b border-[#D4D4D4] px-3 py-3 sm:gap-x-5 dark:border-[#303030]">
       {/* Title + count */}
       <div className="flex items-center gap-3 sm:mr-auto sm:gap-5">
-        <h2 className="text-base font-medium text-[#404040] sm:text-lg">{title}</h2>
-        <span className="rounded-sm bg-[#D4D4D4] px-1.5 py-0.5 text-xs text-[#404040] sm:text-sm">
+        <h2 className="text-base font-medium text-[#404040] sm:text-lg dark:text-[#E5E5E5]">{title}</h2>
+        <span className="rounded-sm bg-[#D4D4D4] px-1.5 py-0.5 text-xs text-[#404040] sm:text-sm dark:bg-[#303030] dark:text-[#E5E5E5]">
           {activeCount} Active
         </span>
       </div>
@@ -450,20 +452,20 @@ function SectionHeader({
       {/* Chevron: top-right on mobile, far right on desktop */}
       <button
         onClick={onToggle}
-        className="order-2 ml-auto cursor-pointer text-[#404040] sm:order-3 sm:ml-0"
+        className="order-2 ml-auto cursor-pointer text-[#404040] sm:order-3 sm:ml-0 dark:text-[#E5E5E5]"
       >
         {isCollapsed ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </button>
 
       {showSearch && (
-        <div className="order-3 flex w-full items-center gap-1.5 rounded-md border border-[#737373] bg-white px-2 py-1.5 sm:order-2 sm:w-auto sm:gap-1 sm:py-1">
+        <div className="order-3 flex w-full items-center gap-1.5 rounded-md border border-[#737373] bg-white px-2 py-1.5 sm:order-2 sm:w-auto sm:gap-1 sm:py-1 dark:bg-[#151515]">
           <Search size={14} className="shrink-0 text-[#737373]" />
           <input
             type="text"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Search Project"
-            className="w-full min-w-0 bg-transparent text-base text-[#404040] outline-none placeholder:text-[#737373] sm:w-[110px] sm:text-[11px]"
+            className="w-full min-w-0 bg-transparent text-base text-[#404040] outline-none placeholder:text-[#737373] sm:w-[110px] sm:text-[11px] dark:text-[#E5E5E5]"
           />
         </div>
       )}
@@ -494,16 +496,16 @@ function ProjectCard({
   return (
     // Outer wrapper is not overflow-hidden so the dropdown can extend past the card edge
     <div className="group relative h-[206px] w-full sm:w-[252px]">
-      <div className="h-full w-full cursor-pointer overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA]">
+      <div className="h-full w-full cursor-pointer overflow-hidden rounded-md border border-[#D4D4D4] bg-[#FAFAFA] dark:border-[#303030] dark:bg-[#121212]">
         <img src={project.image} alt={project.name} className="h-[111px] w-full object-cover" />
         <div className="p-2">
-          <h3 className="truncate text-[18px] font-semibold text-[#404040]">{project.name}</h3>
-          <p className="truncate text-[14px] text-[#404040]">{project.description}</p>
+          <h3 className="truncate text-[18px] font-semibold text-[#404040] dark:text-[#E5E5E5]">{project.name}</h3>
+          <p className="truncate text-[14px] text-[#404040] dark:text-[#C4C4C4]">{project.description}</p>
           <div className="mt-1 flex items-center justify-between">
-            <span className="rounded-sm bg-[#B8E6FE] px-1 py-0.5 text-[12px] font-semibold text-[#00A6F4]">
+            <span className="rounded-sm bg-[#B8E6FE] px-1 py-0.5 text-[12px] font-semibold text-[#00A6F4] dark:bg-[#0C3A55]">
               {project.type}
             </span>
-            <span className="text-[12px] font-semibold text-[#404040]">{project.date}</span>
+            <span className="text-[12px] font-semibold text-[#404040] dark:text-[#E5E5E5]">{project.date}</span>
           </div>
         </div>
       </div>
@@ -521,13 +523,13 @@ function ProjectCard({
           type="button"
           onClick={() => setIsMenuOpen((prev) => !prev)}
           aria-label="Project actions"
-          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-[#D4D4D4] bg-white/95 text-[#525252] shadow-sm transition-colors hover:bg-[#F5F5F5]"
+          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-[#D4D4D4] bg-white/95 text-[#525252] shadow-sm transition-colors hover:bg-[#F5F5F5] dark:border-[#303030] dark:bg-[#151515]/95 dark:text-[#C4C4C4] dark:hover:bg-[#222222]"
         >
           <MoreHorizontal size={16} />
         </button>
 
         {isMenuOpen && (
-          <div className="absolute right-0 top-9 z-20 w-36 rounded-md border border-[#D4D4D4] bg-white p-1 shadow-md">
+          <div className="absolute right-0 top-9 z-20 w-36 rounded-md border border-[#D4D4D4] bg-white p-1 shadow-md dark:border-[#303030] dark:bg-[#151515]">
             <button type="button" onClick={pick(onEdit)} className={menuItemClass}>
               Edit
             </button>
@@ -543,8 +545,8 @@ function ProjectCard({
 
 function NewProjectCard({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="flex h-[206px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#D4D4D4] bg-[#FAFAFA] text-[#A3A3A3] hover:bg-[#F0F0F0] sm:w-[252px]">
-      <div className="flex h-4 w-4 items-center justify-center rounded-sm border border-[#BDBDBD]">
+    <button type="button" onClick={onClick} className="flex h-[206px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#D4D4D4] bg-[#FAFAFA] text-[#A3A3A3] hover:bg-[#F0F0F0] sm:w-[252px] dark:border-[#303030] dark:bg-[#121212] dark:hover:bg-[#1A1A1A]">
+      <div className="flex h-4 w-4 items-center justify-center rounded-sm border border-[#BDBDBD] dark:border-[#404040]">
         <Plus size={11} />
       </div>
       <span className="text-[10px]">New Project</span>
@@ -655,7 +657,7 @@ function DeleteWorkspaceModal({
   return (
     <Modal title="Delete workspace" onClose={onClose}>
       <div className="px-5 py-6">
-        <p className="text-sm text-[#404040]">
+        <p className="text-sm text-[#404040] dark:text-[#E5E5E5]">
           Are you sure you want to delete <span className="font-semibold">{workspace.name}</span>?
         </p>
         <p className="mt-2 text-xs text-[#737373]">This action cannot be undone.</p>
@@ -730,7 +732,7 @@ function DeleteProjectModal({
   return (
     <Modal title="Delete project" onClose={onClose}>
       <div className="px-5 py-6">
-        <p className="text-sm text-[#404040]">
+        <p className="text-sm text-[#404040] dark:text-[#E5E5E5]">
           Are you sure you want to delete <span className="font-semibold">{project.name}</span>?
         </p>
         <p className="mt-2 text-xs text-[#737373]">This action cannot be undone.</p>
@@ -749,7 +751,7 @@ function DeleteProjectModal({
 }
 
 function ProjectModal({ workspace, onClose, onCreate }: { workspace: Workspace; onClose: () => void; onCreate: (project: NewProject) => void; }) {
-  const [projectType, setProjectType] = useState<"PIM" | "AIM">("PIM");
+  const [projectType, setProjectType] = useState<ProjectType>("PIM");
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -765,19 +767,21 @@ function ProjectModal({ workspace, onClose, onCreate }: { workspace: Workspace; 
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-700 text-xs font-semibold text-white">
             {workspace.name.charAt(0)}
           </div>
-          <span className="text-xs font-medium text-[#404040]">{workspace.name}</span>
+          <span className="text-xs font-medium text-[#404040] dark:text-[#E5E5E5]">{workspace.name}</span>
         </div>
 
         <div className="flex items-center justify-between">
           <label className="text-[10px] font-semibold uppercase text-[#737373]">Project Type</label>
-          <div className="flex rounded-lg border border-[#E2E8F0] bg-[#F8F8F8] p-0.5">
+          <div className="flex rounded-lg border border-[#E2E8F0] bg-[#F8F8F8] p-0.5 dark:border-[#303030] dark:bg-[#0F0F0F]">
             {(["PIM", "AIM"] as const).map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setProjectType(type)}
                 className={`cursor-pointer rounded-md px-3 py-1.5 text-[11px] font-medium ${
-                  projectType === type ? "bg-white text-[#00A6F4] shadow-sm" : "text-[#737373]"
+                  projectType === type
+                    ? "bg-white text-[#00A6F4] shadow-sm dark:bg-[#262626]"
+                    : "text-[#737373]"
                 }`}
               >
                 {type}
@@ -810,13 +814,13 @@ function ProjectModal({ workspace, onClose, onCreate }: { workspace: Workspace; 
         confirmLabel="Create project"
         confirmIcon={<Plus size={14} />}
         onConfirm={() => {
-        onCreate({
-          name: projectName.trim(),
-          description: description.trim(),
-          type: projectType,
-        });
-        onClose();
-      }}
+          onCreate({
+            name: projectName.trim(),
+            description: description.trim(),
+            type: projectType,
+          });
+          onClose();
+        }}
       />
     </Modal>
   );
@@ -879,20 +883,20 @@ function TeamSidebar({
       />
 
       <aside
-        className={`fixed right-0 top-0 z-[100] h-full w-full max-w-[360px] bg-white shadow-xl transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-[100] h-full w-full max-w-[360px] bg-white shadow-xl transition-transform duration-300 ease-out dark:bg-[#151515] ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-1">
+        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-1 dark:border-[#262626]">
           <div className="flex flex-col">
-            <h2 className="text-md font-semibold text-[#404040]">Workspace Team</h2>
+            <h2 className="text-md font-semibold text-[#404040] dark:text-[#E5E5E5]">Workspace Team</h2>
             <p className="py-1.5 text-sm">{workspace.name}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="cursor-pointer text-[#737373] hover:text-[#2d2d2d]"
+            className="cursor-pointer text-[#737373] hover:text-[#2d2d2d] dark:hover:text-white"
           >
             <X size={18} />
           </button>
@@ -900,20 +904,20 @@ function TeamSidebar({
 
         <div className="flex items-center justify-between gap-2 px-5 py-5">
           <div className="flex flex-col">
-            <p className="text-base font-semibold text-[#404040]">Team Members</p>
+            <p className="text-base font-semibold text-[#404040] dark:text-[#E5E5E5]">Team Members</p>
             <p className="text-sm">1 member in this workspace</p>
           </div>
           <button
             type="button"
             onClick={() => setIsAddMemberOpen(true)}
-            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-black px-3 py-2 text-sm text-white hover:bg-[#1f1f1f]"
+            className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-black px-3 py-2 text-sm text-white hover:bg-[#1f1f1f] dark:bg-[#262626] dark:hover:bg-[#333333]"
           >
             <UserRoundPlus size={20} />
             Add member
           </button>
         </div>
 
-        <div className="mx-5 rounded-lg border border-gray-200 bg-white px-4 py-3">
+        <div className="mx-5 rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#262626] dark:bg-[#121212]">
           <div className="mb-3 flex items-center gap-2">
             <Shield size={13} strokeWidth={2} className="text-[#00A6F4]" />
             <span className="text-[11px] font-semibold tracking-wide text-[#00A6F4]">ADMINS</span>
@@ -921,13 +925,13 @@ function TeamSidebar({
 
           <div className="flex items-center justify-between gap-2">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-sm font-semibold text-white dark:bg-[#333333]">
                 P
               </div>
               <div className="flex min-w-0 flex-col">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-[#262626]">Peter</span>
-                  <span className="rounded bg-[#F5F5F5] px-1.5 py-0.5 text-[9px] text-[#737373]">
+                  <span className="text-sm font-semibold text-[#262626] dark:text-[#F5F5F5]">Peter</span>
+                  <span className="rounded bg-[#F5F5F5] px-1.5 py-0.5 text-[9px] text-[#737373] dark:bg-[#262626]">
                     you
                   </span>
                 </div>
@@ -936,7 +940,7 @@ function TeamSidebar({
                 </span>
               </div>
             </div>
-            <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-[#EFF6FF] px-3 py-1.5">
+            <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-[#EFF6FF] px-3 py-1.5 dark:bg-[#0C2A3D]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#00A6F4]" />
               <span className="text-[11px] font-semibold text-[#00A6F4]">Admin</span>
             </div>
@@ -953,6 +957,9 @@ function TeamSidebar({
 
 type GroupModal = "edit" | "delete" | "project" | "editProject" | "deleteProject" | null;
 
+const truncateText = (text: string, max: number) =>
+  text.length > max ? `${text.slice(0, max).trimEnd()}...` : text;
+
 function WorkspaceGroup({
   workspace,
   isCollapsed,
@@ -968,8 +975,6 @@ function WorkspaceGroup({
     id: workspace.id,
   });
   const style = { transform: CSS.Transform.toString(transform), transition };
-  const truncateText = (text: string, max: number) =>
-  text.length > max ? `${text.slice(0, max).trimEnd()}...` : text;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalType, setModalType] = useState<GroupModal>(null);
@@ -995,7 +1000,7 @@ function WorkspaceGroup({
 
   return (
     <>
-      <div ref={setNodeRef} style={style} className="border-b border-[#D4D4D4] px-2">
+      <div ref={setNodeRef} style={style} className="border-b border-[#D4D4D4] px-2 dark:border-[#303030]">
         {/* Header row */}
         <div className="flex items-center justify-between gap-2 px-1 py-3 sm:px-2">
           <div className="flex min-w-0 items-center gap-2 sm:gap-4">
@@ -1017,13 +1022,13 @@ function WorkspaceGroup({
               )}
             </button>
 
-            <div className="hidden h-[45px] w-[45px] shrink-0 items-center justify-center rounded-full bg-[#E5E5E5] text-[18px] text-[#404040] sm:flex">
+            <div className="hidden h-[45px] w-[45px] shrink-0 items-center justify-center rounded-full bg-[#E5E5E5] text-[18px] text-[#404040] sm:flex dark:bg-[#262626] dark:text-[#E5E5E5]">
               {workspace.name.split(" ").filter(Boolean).slice(0, 2).map((word) => word[0]).join("").toUpperCase()}
             </div>
 
             <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
               <div className="min-w-0 leading-tight">
-                <div className="truncate text-base font-medium text-[#404040] sm:text-[18px]">
+                <div className="truncate text-base font-medium text-[#404040] sm:text-[18px] dark:text-[#E5E5E5]">
                   {workspace.name}
                 </div>
                 <div className="text-xs text-[#737373] sm:text-sm">
@@ -1075,7 +1080,7 @@ function WorkspaceGroup({
               </button>
 
               {isMenuOpen && (
-                <div className="absolute right-0 top-11 z-50 w-44 rounded-md border border-[#D4D4D4] bg-white p-1 shadow-md">
+                <div className="absolute right-0 top-11 z-50 w-44 rounded-md border border-[#D4D4D4] bg-white p-1 shadow-md dark:border-[#303030] dark:bg-[#151515]">
                   <button
                     type="button"
                     onClick={openFromMenu(() => setModalType("project"))}
@@ -1287,7 +1292,8 @@ export default function WorkspacePage() {
             : w
         )
       ),
-      onAddProject: (workspaceId, newProject) => {
+
+    onAddProject: (workspaceId, newProject) => {
       const nextId =
         Math.max(
           0,
@@ -1313,19 +1319,6 @@ export default function WorkspacePage() {
     },
   };
 
-  // Filter/sort first; the search box only appears when more than one project is left
-  const filteredMy = applyWorkspaceFilters(
-    myWorkspaces,
-    filters.roleFilter,
-    filters.projectFilter,
-    filters.sortBy
-  );
-  const filteredShared = applyWorkspaceFilters(
-    sharedWorkspaces,
-    filters.roleFilter,
-    filters.projectFilter,
-    filters.sortBy
-  );
   const addWorkspace = (data: WorkspaceUpdate) => {
     const nextId =
       Math.max(0, ...[...myWorkspaces, ...sharedWorkspaces].map((w) => w.id)) + 1;
@@ -1341,6 +1334,21 @@ export default function WorkspacePage() {
     setMyWorkspaces((items) => [...items, created]);
     if (activeTab === "Shared") setActiveTab("My Workspace");
   };
+
+  // Filter/sort first; the search box only appears when more than one project is left
+  const filteredMy = applyWorkspaceFilters(
+    myWorkspaces,
+    filters.roleFilter,
+    filters.projectFilter,
+    filters.sortBy
+  );
+  const filteredShared = applyWorkspaceFilters(
+    sharedWorkspaces,
+    filters.roleFilter,
+    filters.projectFilter,
+    filters.sortBy
+  );
+
   const canSearchMy = countProjects(filteredMy) > 1;
   const canSearchShared = countProjects(filteredShared) > 1;
 
@@ -1386,7 +1394,7 @@ export default function WorkspacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-gray-500">
+    <div className="min-h-screen bg-[#F8F8F8] text-gray-500 dark:bg-[#080808]">
       <div className="flex flex-col gap-3 border-[#D4D4D4] px-2 py-4 sm:flex-row sm:items-center sm:justify-between">
         <ToggleBar tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
         <WorkspaceActions
