@@ -1,38 +1,96 @@
-import React from 'react';
+import logo from "../assets/logo.png";
+
+const platformLinks = [
+  "CDE",
+  "IFC Viewer",
+  "Collaboration",
+  "Cost Management",
+  "Scheduling",
+];
+
+const companyLinks = ["Contact", "About", "Career"];
 
 const Footer = () => {
-    return (
-        <footer className="bg-primary text-secondary pt-20 pb-10 px-6 md:px-20 min-h-[50vh] flex flex-col justify-between">
-            <div className="flex flex-col md:flex-row justify-between items-start">
-                <div className="mb-10 md:mb-0">
-                    <h2 className="text-5xl md:text-8xl font-display font-bold leading-tight" data-cursor="hover">
-                        LET'S <br /> CREATE.
-                    </h2>
-                </div>
+  return (
+    <footer className="flex min-h-[336px] flex-col justify-between bg-[#e9e9e9] px-6 pb-8 pt-12 text-[#1a1a1a] md:px-20 md:pb-10 md:pt-16">
+      <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+        <div className="max-w-[340px]">
+          <a href="/" className="flex items-center gap-3">
+            <img src={logo} alt="Yatzar Manage" className="h-7 w-auto" />
+            <span className="text-[20px] uppercase text-[#1a1a1a] font-semibold">
+              Yatzar Manage
+            </span>
+          </a>
 
-                <div className="flex flex-col gap-6 text-right md:-mt-4">
-                    <a href="#" className="text-xl md:text-2xl font-sans hover:text-accent transition-colors duration-300" data-cursor="hover">hello@agency.com</a>
-                    <a href="#" className="text-xl md:text-2xl font-sans hover:text-accent transition-colors duration-300" data-cursor="hover">+1 (555) 000-0000</a>
+          <p className="mt-6 text-[14px] leading-6 text-black">
+            Collaborative BIM workflows for architects, engineers, and
+            construction teams from complete lifecycle of asset, on a single
+            platform.
+          </p>
 
-                    <div className="flex gap-4 justify-end mt-4">
-                        {['Instagram', 'Twitter', 'LinkedIn'].map((social) => (
-                            <a key={social} href="#" className="text-sm border border-secondary/20 px-4 py-2 rounded-full hover:bg-secondary hover:text-primary transition-all duration-300" data-cursor="hover">
-                                {social}
-                            </a>
-                        ))}
-                    </div>
-                </div>
-            </div>
+          <div className="mt-6 inline-flex items-center gap-3 rounded-full border-2 border-[#1a1a1a] px-4 py-2 text-[13px] font-medium">
+            <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+            Now supporting IFC4.3 — ISO 16739 certified
+          </div>
+        </div>
+        <div className="flex gap-12 sm:gap-16 md:gap-20">
+          <div>
+            <h4 className="text-[14px] font-semibold uppercase tracking-wide">
+              Platform
+            </h4>
+            <ul className="mt-5 flex flex-col gap-3">
+              {platformLinks.map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="text-[14px] text-[#1a1a1a]/80 transition-colors hover:text-black"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="border-t border-secondary/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm text-secondary/40 font-sans tracking-widest mt-20">
-                <span>© 2026 CREATIVE AGENCY. ALL RIGHTS RESERVED.</span>
-                <div className="flex gap-8 mt-4 md:mt-0">
-                    <span>PRIVACY POLICY</span>
-                    <span>TERMS OF SERVICE</span>
-                </div>
-            </div>
-        </footer>
-    );
+          <div>
+            <h4 className="text-[14px] font-semibold uppercase tracking-wide">
+              Company
+            </h4>
+            <ul className="mt-5 flex flex-col gap-3">
+              {companyLinks.map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="text-[14px] text-[#1a1a1a]/80 transition-colors hover:text-black"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM ROW */}
+      <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-5 text-[13px] text-[#1a1a1a]/80 sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          copyrights {new Date().getFullYear()}, Yatzar Creations , All rights
+          reserved
+        </p>
+
+        <div className="flex items-center gap-3">
+          <a href="#" className="transition-colors hover:text-black">
+            Privacy policy
+          </a>
+          <span className="h-3.5 w-px bg-[#1a1a1a]/60" />
+          <a href="#" className="transition-colors hover:text-black">
+            Term and conditions
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;
