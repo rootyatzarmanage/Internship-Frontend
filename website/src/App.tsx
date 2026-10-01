@@ -1,7 +1,7 @@
 import SmoothScroll from './components/SmoothScroll';
 import Hero from './sections/Hero';
 import Features from './sections/Features';
-import Work from './sections/Work';
+import Ifcview from './sections/Ifc-view';
 import Experimental from './sections/Experimental';
 import Footer from './sections/Footer';
 
@@ -11,7 +11,7 @@ function App() {
       <main>
         <Hero />
         <Features />
-        <Work />  
+        <Ifcview />  
         <Experimental />
         <Footer />
       </main>
