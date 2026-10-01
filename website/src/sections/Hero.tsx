@@ -142,10 +142,10 @@ export default function Hero() {
 
         {/* desktop action */}
         <div className="hidden items-center gap-3 md:flex">
-          <button className="flex items-center gap-2 cursor-pointer rounded-md px-4 py-2 text-[12px] bg-white border border-white font-medium text-black transition hover:bg-white/10">
+          <button className="flex items-center gap-2 cursor-pointer rounded-md px-4 py-2 text-[12px] bg-white border border-white font-medium text-black transition hover:bg-[#171717] hover:border-white hover:text-white">
             Book a Demo <span aria-hidden="true">→</span>
           </button>
-          <button className="flex items-center gap-2 cursor-pointer rounded-md bg-[#0284C7] px-4 py-2 text-[12px] border border-[#0284C7] font-medium text-white transition hover:bg-white/10">
+          <button className="flex items-center gap-2 cursor-pointer rounded-md bg-[#0284C7] px-4 py-2 text-[12px] border border-[#0284C7] font-medium text-white transition hover:bg-[#171717] hover:border-[#38BDF8]">
             Login / Sign-up
           </button>
         </div>
