@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import image from "../assets/building-1.png";
 import logo from "../assets/logo.png";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = ["About", "Service", "Pricing", "Support", "Contact"];
 
@@ -20,6 +23,7 @@ export default function Hero() {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (
@@ -78,6 +82,27 @@ export default function Hero() {
         { scale: 1, opacity: 1, duration: 1.5, transformOrigin: "100% 100%" },
         0.8
       );
+
+      const scrollConfig = {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      };
+
+      // building lags behind as the hero scrolls out (parallax)
+      gsap.to(imageRef.current, {
+        y: 80,
+        ease: "none",
+        scrollTrigger: scrollConfig,
+      });
+
+      // headline + info panel drift up a bit faster than the scroll
+      gsap.to([headingRef.current, infoRef.current], {
+        y: -120,
+        ease: "none",
+        scrollTrigger: scrollConfig,
+      });
     });
 
     return () => ctx.revert();
@@ -117,7 +142,10 @@ export default function Hero() {
 
         {/* desktop action */}
         <div className="hidden items-center gap-3 md:flex">
-          <button className="flex items-center gap-2 cursor-pointer rounded-md border border-white/70 px-4 py-2 text-[12px] font-medium text-white transition hover:bg-white/10">
+          <button className="flex items-center gap-2 cursor-pointer rounded-md px-4 py-2 text-[12px] bg-white border border-white font-medium text-black transition hover:bg-white/10">
+            Book a Demo <span aria-hidden="true">→</span>
+          </button>
+          <button className="flex items-center gap-2 cursor-pointer rounded-md bg-[#0284C7] px-4 py-2 text-[12px] border border-[#0284C7] font-medium text-white transition hover:bg-white/10">
             Login / Sign-up
           </button>
         </div>
@@ -163,12 +191,15 @@ export default function Hero() {
             <button className="mt-3 w-full cursor-pointer rounded-md border border-white/70 px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
               Login / Sign-up
             </button>
+            <button className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[#0284C7] bg-[#0284C7] px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
+              Book a Demo <span aria-hidden="true">→</span>
+            </button>
           </div>
         )}
       </header>
 
       {/* ---------- HERO ---------- */}
-      <section className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-[#171717] px-5 text-white sm:px-8 md:block md:h-[calc(100vh-7rem)] md:min-h-[600px] md:px-20">
+      <section ref={sectionRef} className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-[#171717] px-5 text-white sm:px-8 md:block md:h-[calc(100vh-7rem)] md:min-h-[600px] md:px-20">
         <div
           ref={headingRef}
           className="relative z-10 flex flex-col gap-2 overflow-hidden py-6 md:gap-3 md:py-7"

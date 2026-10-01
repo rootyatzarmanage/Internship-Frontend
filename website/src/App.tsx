@@ -1,6 +1,6 @@
 import SmoothScroll from './components/SmoothScroll';
 import Hero from './sections/Hero';
-import About from './sections/About';
+import Features from './sections/Features';
 import Work from './sections/Work';
 import Experimental from './sections/Experimental';
 import Footer from './sections/Footer';
@@ -10,7 +10,7 @@ function App() {
     <SmoothScroll>
       <main>
         <Hero />
-        <About />
+        <Features />
         <Work />  
         <Experimental />
         <Footer />
