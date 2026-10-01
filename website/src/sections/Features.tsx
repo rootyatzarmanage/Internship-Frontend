@@ -103,7 +103,7 @@ export default function Features() {
       );
       tl.fromTo(
         building,
-        { scale: 0.6, opacity: 0, transformOrigin: "0% 100%" },
+        { scale: 0.6, opacity: 0, transformOrigin: "50% 100%" },
         { scale: 1, opacity: 1, duration: 1 },
         0.5
       );
@@ -115,7 +115,7 @@ export default function Features() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col gap-10 overflow-hidden bg-[#171717] px-5 pt-16 text-white sm:px-8 md:px-12 md:pt-20 xl:block xl:min-h-[max(100vh,56.25vw)] xl:p-0"
+      className="relative flex flex-col overflow-hidden bg-[#171717] px-5 pb-4 pt-12 text-white sm:px-8 xl:block xl:min-h-[max(100vh,56.25vw)] xl:p-0"
     >
       {/* LEFT CONTENT */}
       <div
@@ -136,7 +136,7 @@ export default function Features() {
       {/* FEATURES */}
       <div
         ref={gridRef}
-        className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10 xl:absolute xl:right-[4.1667vw] xl:top-[15.8646vw] xl:z-10 xl:w-[45.3125vw] xl:gap-x-[3.6458vw] xl:gap-y-[3.5469vw]"
+        className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 xl:absolute xl:right-[4.1667vw] xl:top-[15.8646vw] xl:z-10 xl:mt-0 xl:w-[45.3125vw] xl:gap-x-[3.6458vw] xl:gap-y-[3.5469vw]"
       >
         {features.map((f, i) => (
           <div
@@ -145,22 +145,22 @@ export default function Features() {
               i >= 4 ? "xl:mt-[0.5vw]" : ""
             }`}
           >
-            <h3 className="text-[22px] font-medium leading-[1.1] sm:text-[24px] xl:text-[max(16px,1.75vw)]">
+            <h3 className="text-[20px] font-medium leading-[1.1] sm:text-[22px] xl:text-[max(16px,1.75vw)]">
               {f.title}
             </h3>
-            <p className="mt-2 text-[14px] leading-6 text-white sm:text-[15px] xl:mt-[0.9427vw] xl:text-[max(12px,0.8333vw)] xl:leading-[1.5]">
+            <p className="mt-1.5 text-[13.5px] leading-5 text-white/80 sm:text-[14px] xl:mt-[0.9427vw] xl:text-[max(12px,0.8333vw)] xl:leading-[1.5]">
               {f.desc}
             </p>
           </div>
         ))}
       </div>
 
-      {/* BUILDING */}
+      {/* BUILDING IMAGE */}
       <img
         ref={buildingRef}
         src={smallBuilding}
         alt="Wireframe of a building"
-        className="pointer-events-none relative z-0 mt-auto block w-[80%] max-w-[460px] self-start object-contain xl:absolute xl:bottom-[0.4375vw] xl:left-[0.9896vw] xl:mt-0 xl:w-[39.0104vw] xl:max-w-none"
+        className="-mb-4 mt-2 mx-auto block w-[70%] max-w-[320px] object-contain xl:mb-0 xl:mt-0 xl:absolute xl:bottom-[0.4375vw] xl:left-[0.9896vw] xl:my-0 xl:w-[39.0104vw] xl:max-w-none"
       />
     </section>
   );

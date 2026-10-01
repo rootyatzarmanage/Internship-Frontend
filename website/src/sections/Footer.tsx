@@ -12,38 +12,42 @@ const companyLinks = ["Contact", "About", "Career"];
 
 const Footer = () => {
   return (
-    <footer className="flex min-h-[336px] flex-col justify-between bg-[#e9e9e9] px-6 pb-8 pt-12 text-[#1a1a1a] md:px-20 md:pb-10 md:pt-16">
-      <div className="flex flex-col gap-10 md:flex-row md:justify-between px-6">
+    <footer className="flex min-h-[300px] flex-col justify-between bg-[#e9e9e9] px-5 pb-6 pt-10 text-[#1a1a1a] sm:px-8 md:px-16 md:pb-8 md:pt-14 xl:px-20">
+      {/* Top Section */}
+      <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
+        {/* Brand & Info */}
         <div className="max-w-[440px]">
-          <a href="/" className="flex items-center gap-3">
-            <img src={logo} alt="Yatzar Manage" className="h-7 w-auto" />
-            <span className="text-[20px] uppercase text-[#1a1a1a] font-semibold">
+          <a href="/" className="flex items-center gap-2.5 sm:gap-3">
+            <img src={logo} alt="Yatzar Manage" className="h-6 w-auto sm:h-7" />
+            <span className="text-[18px] font-semibold uppercase text-[#1a1a1a] sm:text-[20px]">
               Yatzar Manage
             </span>
           </a>
 
-          <p className="mt-6 text-md leading-6 text-black">
+          <p className="mt-4 text-[13.5px] leading-5 text-[#1a1a1a]/90 sm:mt-5 sm:text-[15px] sm:leading-6">
             Collaborative BIM workflows for architects, engineers, and
             construction teams from complete lifecycle of asset, on a single
             platform.
           </p>
 
-          <div className="mt-6 inline-flex items-center gap-3 rounded-full border-2 border-[#1a1a1a] px-4 py-2 text-[13px] font-medium">
-            <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+          <div className="mt-5 inline-flex items-center gap-2.5 rounded-full border-2 border-[#1a1a1a] px-3.5 py-1.5 text-[12px] font-medium sm:mt-6 sm:px-4 sm:py-2 sm:text-[13px]">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Now supporting IFC4.3 — ISO 16739 certified
           </div>
         </div>
-        <div className="flex gap-12 sm:gap-16 md:gap-20">
+
+        {/* Links Navigation */}
+        <div className="flex flex-wrap gap-10 sm:gap-16 md:gap-20">
           <div>
-            <h4 className="text-md font-semibold uppercase tracking-wide">
+            <h4 className="text-[13px] font-semibold uppercase tracking-wider text-[#1a1a1a] sm:text-[14px]">
               Platform
             </h4>
-            <ul className="mt-5 flex flex-col gap-3">
+            <ul className="mt-3.5 flex flex-col gap-2.5 sm:mt-5 sm:gap-3">
               {platformLinks.map((link) => (
                 <li key={link}>
                   <a
                     href="#"
-                    className="text-md text-[#1a1a1a]/80 transition-colors hover:text-black"
+                    className="text-[13.5px] text-[#1a1a1a]/80 transition-colors hover:text-black sm:text-[15px]"
                   >
                     {link}
                   </a>
@@ -53,15 +57,15 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-md font-semibold uppercase tracking-wide">
+            <h4 className="text-[13px] font-semibold uppercase tracking-wider text-[#1a1a1a] sm:text-[14px]">
               Company
             </h4>
-            <ul className="mt-5 flex flex-col gap-3">
+            <ul className="mt-3.5 flex flex-col gap-2.5 sm:mt-5 sm:gap-3">
               {companyLinks.map((link) => (
                 <li key={link}>
                   <a
                     href="#"
-                    className="text-md text-[#1a1a1a]/80 transition-colors hover:text-black"
+                    className="text-[13.5px] text-[#1a1a1a]/80 transition-colors hover:text-black sm:text-[15px]"
                   >
                     {link}
                   </a>
@@ -71,19 +75,20 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mt-10 flex flex-col gap-4 border-t border-black/10 pt-5 px-5 text-[13px] text-[#1a1a1a]/80 sm:flex-row sm:items-center sm:justify-between">
+
+      {/* Bottom Bar */}
+      <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-5 text-[12px] text-[#1a1a1a]/80 sm:flex-row sm:items-center sm:justify-between sm:text-[13px]">
         <p>
-          copyrights {new Date().getFullYear()}, Yatzar Creations , All rights
-          reserved
+          © {new Date().getFullYear()} Yatzar Creations. All rights reserved.
         </p>
 
         <div className="flex items-center gap-3">
           <a href="#" className="transition-colors hover:text-black">
-            Privacy policy
+            Privacy Policy
           </a>
-          <span className="h-3.5 w-px bg-[#1a1a1a]/60" />
+          <span className="h-3 w-px bg-[#1a1a1a]/40" />
           <a href="#" className="transition-colors hover:text-black">
-            Term and conditions
+            Terms &amp; Conditions
           </a>
         </div>
       </div>

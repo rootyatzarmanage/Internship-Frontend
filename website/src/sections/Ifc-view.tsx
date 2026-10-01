@@ -126,9 +126,8 @@ export default function Work() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[#171717] px-5 py-12 text-white sm:px-8 md:px-12 xl:px-[4.1667vw] xl:py-[5vw]"
+      className="relative flex flex-col justify-center overflow-hidden bg-[#171717] px-5 py-8 text-white sm:px-8 md:px-12 xl:min-h-screen xl:px-[4.1667vw] xl:py-[2vw]"
     >
-      {/* TOP ROW: heading + paragraph (left), badges (right) */}
       <div
         ref={rowRef}
         className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between"
