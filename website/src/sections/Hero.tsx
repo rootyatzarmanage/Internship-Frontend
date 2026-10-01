@@ -107,21 +107,21 @@ export default function Hero() {
       {/* ---------- HEADER ---------- */}
       <header
         ref={headerRef}
-        className="relative z-20 flex h-16 items-center justify-between bg-[#171717] px-5 text-white sm:px-8 lg:h-28 lg:px-20"
+        className="relative z-20 flex h-16 items-center justify-between bg-[#171717] px-5 text-white sm:px-8 xl:h-28 xl:px-20"
       >
-        <a href="/" className="flex items-center gap-2 lg:gap-3">
+        <a href="/" className="flex items-center gap-2 xl:gap-3">
           <img
             src={logo}
             alt="Yatzar Manage"
-            className="h-5 w-auto brightness-0 invert lg:h-7"
+            className="h-5 w-auto brightness-0 invert xl:h-7"
           />
-          <span className="text-[16px] uppercase text-white sm:text-[20px] lg:text-[25px]">
+          <span className="text-[16px] uppercase text-white sm:text-[20px] xl:text-[25px]">
             Yatzar Manage
           </span>
         </a>
 
         {/* desktop nav */}
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 lg:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 xl:flex">
           {navLinks.map((link) => (
             <a
               key={link}
@@ -134,7 +134,7 @@ export default function Hero() {
         </nav>
 
         {/* desktop action */}
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <button className="flex items-center gap-2 cursor-pointer rounded-md px-4 py-2 text-[12px] bg-white border border-white font-medium text-black transition hover:bg-[#171717] hover:border-white hover:text-white">
             Book a Demo <span aria-hidden="true">→</span>
           </button>
@@ -149,7 +149,7 @@ export default function Hero() {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
-          className="flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] lg:hidden"
+          className="flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] xl:hidden"
         >
           <span
             className={`h-[2px] w-6 bg-white transition-transform duration-300 ${
@@ -170,7 +170,7 @@ export default function Hero() {
 
         {/* mobile dropdown */}
         {menuOpen && (
-          <div className="absolute left-0 right-0 top-full flex flex-col gap-1 border-t border-white/10 bg-[#171717] px-5 pb-5 pt-3 sm:px-8 lg:hidden">
+          <div className="absolute left-0 right-0 top-full flex flex-col gap-1 border-t border-white/10 bg-[#171717] px-5 pb-5 pt-3 sm:px-8 xl:hidden">
             {navLinks.map((link) => (
               <a
                 key={link}
@@ -194,25 +194,25 @@ export default function Hero() {
       {/* ---------- HERO ---------- */}
       <section
         ref={sectionRef}
-        className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-[#171717] px-5 text-white sm:px-8 lg:block lg:h-[calc(100vh-7rem)] lg:min-h-[600px] lg:px-20"
+        className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden bg-[#171717] px-5 text-white sm:px-8 xl:block xl:h-[calc(100vh-7rem)] xl:min-h-[600px] xl:px-20"
       >
         <div
           ref={headingRef}
-          className="relative z-10 flex flex-col gap-2 overflow-hidden py-6 lg:gap-3 lg:py-7"
+          className="relative z-10 flex flex-col gap-2 overflow-hidden py-6 xl:gap-3 xl:py-7"
         >
-          <h2 className="text-[40px] font-semibold leading-none tracking-[-2px] sm:text-[52px] sm:tracking-[-3px] lg:text-[64px] lg:tracking-[-5px]">
+          <h2 className="text-[40px] font-semibold leading-none tracking-[-2px] sm:text-[52px] sm:tracking-[-3px] xl:text-[64px] xl:tracking-[-5px]">
             DESIGN,
           </h2>
 
-          <h2 className="font-[Arial,sans-serif] text-[40px] font-semibold leading-none tracking-[-2px] text-transparent [-webkit-text-stroke:1.5px_white] sm:text-[52px] sm:tracking-[-3px] lg:text-[64px] lg:tracking-[-5px]">
+          <h2 className="font-[Arial,sans-serif] text-[40px] font-semibold leading-none tracking-[-2px] text-transparent [-webkit-text-stroke:1.5px_white] sm:text-[52px] sm:tracking-[-3px] xl:text-[64px] xl:tracking-[-5px]">
             COORDINATE,
           </h2>
 
-          <h2 className="text-[40px] font-semibold leading-none tracking-[-2px] sm:text-[52px] sm:tracking-[-3px] lg:text-[64px] lg:tracking-[-5px]">
+          <h2 className="text-[40px] font-semibold leading-none tracking-[-2px] sm:text-[52px] sm:tracking-[-3px] xl:text-[64px] xl:tracking-[-5px]">
             DELIVER.
           </h2>
 
-          <p className="max-w-[650px] pt-4 text-[15px] leading-5 text-white/80 lg:pt-5 lg:text-[17px]">
+          <p className="max-w-[650px] pt-4 text-[15px] leading-5 text-white/80 xl:pt-5 xl:text-[17px]">
             Collaborative BIM workflows for architects, engineers, and
             construction teams from complete lifecycle of asset, on a single
             platform.
@@ -220,12 +220,12 @@ export default function Hero() {
 
           <div
             ref={buttonsRef}
-            className="flex w-fit items-center gap-3 pt-5 lg:pt-6"
+            className="flex w-fit items-center gap-3 pt-5 xl:pt-6"
           >
-            <button className="cursor-pointer rounded-md bg-[#0b86cf] px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-[#0a74b3] lg:py-2">
+            <button className="cursor-pointer rounded-md bg-[#0b86cf] px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-[#0a74b3] xl:py-2">
               Get Started
             </button>
-            <button className="flex cursor-pointer items-center gap-2 rounded-md border border-white/70 px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10 lg:py-2">
+            <button className="flex cursor-pointer items-center gap-2 rounded-md border border-white/70 px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10 xl:py-2">
               Learn More <span aria-hidden="true">→</span>
             </button>
           </div>
@@ -234,9 +234,9 @@ export default function Hero() {
         {/* info text + 4 boxes */}
         <div
           ref={infoRef}
-          className="relative z-10 mt-2 flex w-full flex-col items-start gap-4 lg:absolute lg:right-20 lg:top-10 lg:mt-0 lg:w-[400px] lg:items-end lg:gap-7"
+          className="relative z-10 mt-2 flex w-full flex-col items-start gap-4 xl:absolute xl:right-20 xl:top-10 xl:mt-0 xl:w-[400px] xl:items-end xl:gap-7"
         >
-          <p className="info-item text-left text-[15px] font-medium text-white sm:text-[17px] lg:whitespace-nowrap lg:text-right lg:text-[18.5px]">
+          <p className="info-item text-left text-[15px] font-medium text-white sm:text-[17px] xl:whitespace-nowrap xl:text-right xl:text-[18.5px]">
             Now supporting IFC4.3 — ISO 16739 certified
           </p>
 
@@ -244,9 +244,9 @@ export default function Hero() {
             {stats.map((s) => (
               <div
                 key={s.value}
-                className="info-item flex flex-col items-center justify-center rounded-lg border border-white/30 px-3 py-2.5 text-center"
+                className="info-item flex flex-col items-center justify-center rounded-xl border border-white/30 px-3 py-2.5 text-center"
               >
-                <span className="text-[15px] font-medium leading-tight lg:text-[16px]">
+                <span className="text-[15px] font-medium leading-tight xl:text-[16px]">
                   {s.value}
                 </span>
                 <span className="text-[11px] text-white/70">{s.label}</span>
@@ -260,7 +260,7 @@ export default function Hero() {
           ref={imageRef}
           src={image}
           alt="Wireframe of a modern building"
-          className="-mr-5 mt-auto w-[115%] max-w-none self-end pt-8 sm:-mr-8 sm:w-[100%] lg:absolute lg:bottom-0 lg:right-0 lg:mr-0 lg:w-[74vw] lg:max-w-[1950px] lg:self-auto lg:pt-0"
+          className="-mr-5 mt-auto w-[115%] max-w-none self-end pt-8 sm:-mr-8 sm:w-[100%] xl:absolute xl:bottom-0 xl:right-0 xl:mr-0 xl:w-[74vw] xl:max-w-[1950px] xl:self-auto xl:pt-0"
         />
       </section>
     </>
