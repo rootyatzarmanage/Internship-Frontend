@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import image from "../assets/building-1.png";
-import logo from "../assets/logo.png";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const navLinks = ["About", "Service", "Pricing", "Support", "Contact"];
 
 const stats = [
   { value: "ISO 19650", label: "Compliant" },
@@ -16,9 +13,6 @@ const stats = [
 ];
 
 export default function Hero() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const headerRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
@@ -27,7 +21,6 @@ export default function Hero() {
 
   useEffect(() => {
     if (
-      !headerRef.current ||
       !headingRef.current ||
       !buttonsRef.current ||
       !infoRef.current
@@ -43,13 +36,6 @@ export default function Hero() {
       const infoItems = infoRef.current!.querySelectorAll(".info-item");
 
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.fromTo(
-        headerRef.current,
-        { y: isMobile ? -60 : -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9 },
-        0
-      );
 
       tl.fromTo(
         headings,
@@ -104,93 +90,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* ---------- HEADER ---------- */}
-      <header
-        ref={headerRef}
-        className="relative z-20 flex h-16 items-center justify-between bg-[#171717] px-5 text-white sm:px-8 xl:h-28 xl:px-20"
-      >
-        <a href="/" className="flex items-center gap-2 xl:gap-3">
-          <img
-            src={logo}
-            alt="Yatzar Manage"
-            className="h-5 w-auto brightness-0 invert xl:h-7"
-          />
-          <span className="text-[16px] uppercase text-white sm:text-[20px] xl:text-[25px]">
-            Yatzar Manage
-          </span>
-        </a>
-
-        {/* desktop nav */}
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 xl:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className="text-[15px] font-medium text-white/90 transition hover:text-white"
-            >
-              {link}
-            </a>
-          ))}
-        </nav>
-
-        {/* desktop action */}
-        <div className="hidden items-center gap-3 xl:flex">
-          <button className="flex items-center gap-2 cursor-pointer rounded-md px-4 py-2 text-[12px] bg-white border border-white font-medium text-black transition hover:bg-[#171717] hover:border-white hover:text-white">
-            Book a Demo <span aria-hidden="true">→</span>
-          </button>
-          <button className="flex items-center gap-2 cursor-pointer rounded-md bg-[#0284C7] px-4 py-2 text-[12px] border border-[#0284C7] font-medium text-white transition hover:bg-[#171717] hover:border-[#38BDF8]">
-            Login / Sign-up
-          </button>
-        </div>
-
-        {/* mobile hamburger */}
-        <button
-          type="button"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((o) => !o)}
-          className="flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-[5px] xl:hidden"
-        >
-          <span
-            className={`h-[2px] w-6 bg-white transition-transform duration-300 ${
-              menuOpen ? "translate-y-[7px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`h-[2px] w-6 bg-white transition-opacity duration-300 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`h-[2px] w-6 bg-white transition-transform duration-300 ${
-              menuOpen ? "-translate-y-[7px] -rotate-45" : ""
-            }`}
-          />
-        </button>
-
-        {/* mobile dropdown */}
-        {menuOpen && (
-          <div className="absolute left-0 right-0 top-full flex flex-col gap-1 border-t border-white/10 bg-[#171717] px-5 pb-5 pt-3 sm:px-8 xl:hidden">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                onClick={() => setMenuOpen(false)}
-                className="py-2.5 text-[16px] font-medium text-white/90 transition hover:text-white"
-              >
-                {link}
-              </a>
-            ))}
-            <button className="mt-3 w-full cursor-pointer rounded-md border border-white/70 px-4 py-2.5 text-[13px] bg-white text-black font-medium transition hover:bg-white/10">
-              Login / Sign-up
-            </button>
-            <button className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[#0284C7] bg-[#0284C7] px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
-              Book a Demo <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        )}
-      </header>
-
       {/* ---------- HERO ---------- */}
       <section
         ref={sectionRef}

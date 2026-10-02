@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const platformLinks = [
@@ -8,7 +9,11 @@ const platformLinks = [
   "Scheduling",
 ];
 
-const companyLinks = ["Contact", "About", "Career"];
+const companyLinks = [
+  { label: "Contact", to: "/#contact" },
+  { label: "About", to: "/about" },
+  { label: "Career", to: "/#career" },
+];
 
 const Footer = () => {
   return (
@@ -17,12 +22,12 @@ const Footer = () => {
       <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
         {/* Brand & Info */}
         <div className="max-w-[440px]">
-          <a href="/" className="flex items-center gap-2.5 sm:gap-3">
+          <Link to="/" className="flex items-center gap-2.5 sm:gap-3">
             <img src={logo} alt="Yatzar Manage" className="h-6 w-auto sm:h-7" />
             <span className="text-[18px] font-semibold uppercase text-[#1a1a1a] sm:text-[20px]">
               Yatzar Manage
             </span>
-          </a>
+          </Link>
 
           <p className="mt-4 text-[13.5px] leading-5 text-[#1a1a1a]/90 sm:mt-5 sm:text-[15px] sm:leading-6">
             Collaborative BIM workflows for architects, engineers, and
@@ -61,14 +66,14 @@ const Footer = () => {
               Company
             </h4>
             <ul className="mt-3.5 flex flex-col gap-2.5 sm:mt-5 sm:gap-3">
-              {companyLinks.map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
+              {companyLinks.map(({ label, to }) => (
+                <li key={label}>
+                  <Link
+                    to={to}
                     className="text-[13.5px] text-[#1a1a1a]/80 transition-colors hover:text-black sm:text-[15px]"
                   >
-                    {link}
-                  </a>
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>

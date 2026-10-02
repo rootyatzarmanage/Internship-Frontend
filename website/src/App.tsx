@@ -1,19 +1,16 @@
-import SmoothScroll from './components/SmoothScroll';
-import Hero from './sections/Hero';
-import Features from './sections/Features';
-import Ifcview from './sections/Ifc-view';
-import Footer from './sections/Footer';
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import About from "./pages/About";
 
 function App() {
   return (
-    <SmoothScroll>
-      <main>
-        <Hero />
-        <Features />
-        <Ifcview />  
-        <Footer />
-      </main>
-    </SmoothScroll>
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Route>
+    </Routes>
   );
 }
 
