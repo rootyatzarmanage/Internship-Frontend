@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Chart from 'react-apexcharts'
 import type { ApexOptions } from 'apexcharts'
 
 /* =========================================================
    ACTIVITY SECTION — heat map + activity log
+   Usage: <ActivitySection />  (e.g. at the end of Analytics)
    ========================================================= */
 
 type ActivityType = 'Projects' | 'Meetings' | 'Workspaces'
@@ -27,7 +28,7 @@ const DAY_FULL = [
   'Saturday',
 ]
 
-//dark theme
+/* ---------- theme hook (follows the `dark` class on <html>) ---------- */
 
 function useIsDark() {
   const [isDark, setIsDark] = useState(
@@ -48,7 +49,7 @@ function useIsDark() {
   return isDark
 }
 
-//mock data
+/* ---------- mock data (move to ../../mock/analyticsMock when ready) ---------- */
 
 type DailyActivity = {
   date: Date
@@ -64,7 +65,7 @@ function mulberry32(seed: number) {
   }
 }
 
-
+// 26 weeks, starting on a Sunday, ending today
 function buildDailyActivity(weeks = 26): DailyActivity[] {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -156,7 +157,7 @@ function ActivityTabs({ value, onChange }: ActivityTabsProps) {
           role="tab"
           aria-selected={tab === value}
           onClick={() => onChange(tab)}
-          className={`whitespace-nowrap rounded-[6px] px-3 py-1 text-[13px] font-medium transition-colors cursor-pointer ${
+          className={`whitespace-nowrap cursor-pointer rounded-[6px] px-3 py-1 text-[13px] font-medium transition-colors ${
             tab === value
               ? 'bg-white text-gray-900 shadow-sm dark:bg-neutral-950 dark:text-white'
               : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
@@ -173,12 +174,32 @@ function ActivityTabs({ value, onChange }: ActivityTabsProps) {
    ACTIVITY HEAT MAP
    ========================================================= */
 
-const CELL = 28 // px per cell (incl. gap)
+const MIN_CELL = 22 // below this the heat map scrolls sideways instead of shrinking
+const MAX_CELL_HEIGHT = 36 // keeps rows from getting too tall on wide screens
+const Y_AXIS_WIDTH = 36 // room for the Mon / Wed / Fri labels
+const X_AXIS_HEIGHT = 30 // room for the month labels
 
 function ActivityHeatmap() {
   const isDark = useIsDark()
   const [filter, setFilter] = useState<ActivityFilter>('All')
 
+  // measure the available width so the chart can fill it
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const [wrapWidth, setWrapWidth] = useState(0)
+
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+
+    setWrapWidth(el.clientWidth)
+    const observer = new ResizeObserver(([entry]) =>
+      setWrapWidth(entry.contentRect.width)
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // 1) daily totals for the selected tab
   const days = useMemo(
     () =>
       activityDailyMock.map((d) => ({
@@ -191,6 +212,7 @@ function ActivityHeatmap() {
     [filter]
   )
 
+  // 2) stat cards
   const stats = useMemo(() => {
     const total = days.reduce((sum, d) => sum + d.count, 0)
 
@@ -218,6 +240,7 @@ function ActivityHeatmap() {
     }
   }, [days])
 
+  // 3) chart series: one series per weekday, one point per week
   const weekCount = Math.ceil(days.length / 7)
 
   const series = useMemo(() => {
@@ -229,17 +252,18 @@ function ActivityHeatmap() {
       })),
     }))
 
+    // Apex draws the first series at the bottom -> reverse so Sun is on top
     return rows.reverse()
   }, [days, weekCount])
 
   const firstWeek = toISO(days[0].date)
 
-  //palette look
+  // 4) theme colours (Apex needs real colour strings, not CSS vars)
   const palette = isDark
     ? {
         empty: '#262626',
         levels: ['#0c4a6e', '#0369a1', '#0ea5e9', '#7dd3fc'],
-        gap: '#171717', 
+        gap: '#171717', // neutral-900 card background
         tooltipBg: '#262626',
         tooltipText: '#f3f4f6',
       }
@@ -283,6 +307,7 @@ function ActivityHeatmap() {
       },
     },
 
+    // the stroke acts as the gap between cells
     stroke: { show: true, width: 3, colors: [palette.gap] },
 
     dataLabels: { enabled: false },
@@ -302,6 +327,7 @@ function ActivityHeatmap() {
         hideOverlappingLabels: false,
         trim: false,
         style: { fontSize: '12px' },
+        // only label the first week of each month
         formatter: (value: string) => {
           const date = new Date(`${value}T00:00:00`)
           if (Number.isNaN(date.getTime())) return ''
@@ -329,6 +355,7 @@ function ActivityHeatmap() {
         const point = w.config.series?.[seriesIndex]?.data?.[dataPointIndex]
         if (!point || point.y === null || point.y === undefined) return ''
 
+        // series are reversed, so weekday = 6 - seriesIndex
         const date = new Date(`${point.x}T00:00:00`)
         date.setDate(date.getDate() + (6 - seriesIndex))
 
@@ -347,8 +374,13 @@ function ActivityHeatmap() {
     states: { hover: { filter: { type: 'none' } } },
   }
 
-  const chartWidth = weekCount * CELL + 36
-  const chartHeight = 7 * CELL + 30
+  // cell width that makes the chart exactly fill the container
+  const fitCell = Math.floor((wrapWidth - Y_AXIS_WIDTH) / weekCount)
+  const cellWidth = Math.max(MIN_CELL, fitCell || MIN_CELL)
+  const cellHeight = Math.min(cellWidth, MAX_CELL_HEIGHT)
+
+  const chartWidth = weekCount * cellWidth + Y_AXIS_WIDTH
+  const chartHeight = 7 * cellHeight + X_AXIS_HEIGHT
 
   const statCards = [
     { label: 'Total activities', value: stats.total.toLocaleString('en-IN') },
@@ -400,8 +432,11 @@ function ActivityHeatmap() {
         ))}
       </div>
 
-      {/* heat map (scrolls sideways on small screens) */}
-      <div className="w-full overflow-x-auto overflow-y-hidden [scrollbar-width:thin]">
+      {/* heat map (fills the card, scrolls sideways only when too narrow) */}
+      <div
+        ref={wrapRef}
+        className="w-full overflow-x-auto overflow-y-hidden [scrollbar-width:thin]"
+      >
         <div style={{ width: chartWidth, height: chartHeight }}>
           <Chart
             key={isDark ? 'dark' : 'light'}
@@ -522,7 +557,7 @@ function ActivityLog() {
 
       <button
         type="button"
-        className="w-full cursor-pointer rounded-[8px] border border-[#D4D4D4] py-2.5 text-[13px] font-semibold text-gray-800 transition-colors hover:bg-gray-50 dark:border-neutral-700 dark:text-gray-100 dark:hover:bg-neutral-800"
+        className="w-full rounded-[8px] cursor-pointer border border-[#D4D4D4] py-2.5 text-[13px] font-semibold text-gray-800 transition-colors hover:bg-gray-50 dark:border-neutral-700 dark:text-gray-100 dark:hover:bg-neutral-800"
       >
         See all activity
       </button>
