@@ -53,7 +53,7 @@ export default function AboutFirst() {
           clear visibility, streamlined workflows, and faster decisions.
         </p>
 
-        <NavLink className="mt-5 flex w-fit cursor-pointer items-center gap-2 rounded-md bg-[#0284C7] px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-[#0369A1] xl:mt-6 xl:py-2"
+        <NavLink to="/" className="mt-5 flex w-fit cursor-pointer items-center gap-2 rounded-md bg-[#0284C7] px-5 py-2.5 text-[13px] font-medium text-white transition hover:bg-[#0369A1] xl:mt-6 xl:py-2"
         >
           Book a Demo <span aria-hidden="true">→</span>
         </NavLink>
