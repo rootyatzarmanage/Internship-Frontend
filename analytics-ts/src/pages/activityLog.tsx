@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ActivityTabs } from '../features/analytics/activityTab'
 import type { ActivityFilter } from '../features/analytics/activityTab'
+import { Pagination } from '../features/analytics/pagination'
 
 type ActivityType = 'Projects' | 'Meetings' | 'Workspaces'
 
@@ -31,29 +32,42 @@ const activityBadgeClass: Record<ActivityType, string> = {
   Workspaces: 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400',
 }
 
-export default function ActivityLog({
-  className = '',
-}: {
-  className?: string
-}) {
-  const [filter, setFilter] = useState<ActivityFilter>('All')
+/* =========================================================
+   ACTIVITY LOG
+   ========================================================= */
 
-  const items = activityLogMock.filter(
+export default function ActivityLog() {
+  const [filter, setFilter] = useState<ActivityFilter>('All')
+  const [pageIndex, setPageIndex] = useState(0)
+  const [pageSize, setPageSize] = useState(10)
+
+  const filtered = activityLogMock.filter(
     (item) => filter === 'All' || item.type === filter
   )
 
+  const pageCount = Math.max(Math.ceil(filtered.length / pageSize), 1)
+  const currentPage = Math.min(pageIndex, pageCount - 1)
+
+  const items = filtered.slice(
+    currentPage * pageSize,
+    (currentPage + 1) * pageSize
+  )
+
+  const handleFilterChange = (value: ActivityFilter) => {
+    setFilter(value)
+    setPageIndex(0) // back to page 1 when the filter changes
+  }
+
   return (
-    <div className={`grid grid-cols-1 xl:grid-cols-[1.65fr_1fr] gap-5 items-stretch ${className}`}>
-      <div className="flex w-full min-w-0 flex-col gap-4 rounded-[8px] border border-[#d4d4d4] bg-white p-6 transition-colors duration-200 dark:border-neutral-800 dark:bg-neutral-900">
+    <div className={`grid grid-cols-1 xl:grid-cols-[1.65fr_1fr] gap-5 items-stretch`}>
+      <div className="flex w-full min-w-0 flex-col overflow-hidden rounded-[8px] border border-[#d4d4d4] bg-white transition-colors duration-200 dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 p-6">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-[20px] font-semibold text-gray-900 dark:text-gray-100">
                 Activity log
               </h3>
-              <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[11px] font-medium text-sky-600 dark:bg-sky-500/15 dark:text-sky-400">
-                New
-              </span>
             </div>
 
             <p className="mt-0.5 text-[13px] text-gray-500 dark:text-gray-400">
@@ -63,7 +77,7 @@ export default function ActivityLog({
         </div>
 
         <div>
-          <ActivityTabs value={filter} onChange={setFilter} />
+          <ActivityTabs value={filter} onChange={handleFilterChange} />
         </div>
 
         {/* list */}
@@ -125,6 +139,18 @@ export default function ActivityLog({
         >
           See all activity
         </button>
+        </div>
+
+        <Pagination
+          pageIndex={currentPage}
+          pageSize={pageSize}
+          pageCount={pageCount}
+          onPageChange={setPageIndex}
+          onPageSizeChange={(size) => {
+            setPageSize(size)
+            setPageIndex(0)
+          }}
+        />
       </div>
     </div>
   )
