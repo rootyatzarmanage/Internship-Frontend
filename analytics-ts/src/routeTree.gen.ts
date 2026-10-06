@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedActivityLogRouteImport } from './routes/_authenticated/activityLog'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAppSecurityRouteImport } from './routes/_authenticated/app-security'
+import { Route as AuthenticatedHeatmapRouteImport } from './routes/_authenticated/heatmap'
 import { Route as AuthenticatedHelpAndDocsRouteImport } from './routes/_authenticated/help-and-docs'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedPaymentRouteImport } from './routes/_authenticated/payment'
@@ -23,6 +25,12 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedActivityLogRoute =
+  AuthenticatedActivityLogRouteImport.update({
+    id: '/activityLog',
+    path: '/activityLog',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -34,6 +42,11 @@ const AuthenticatedAppSecurityRoute =
     path: '/app-security',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedHeatmapRoute = AuthenticatedHeatmapRouteImport.update({
+  id: '/heatmap',
+  path: '/heatmap',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHelpAndDocsRoute =
   AuthenticatedHelpAndDocsRouteImport.update({
     id: '/help-and-docs',
@@ -69,8 +82,10 @@ const AuthenticatedWorkspaceRoute = AuthenticatedWorkspaceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedRouteRouteWithChildren
+  '/activityLog': typeof AuthenticatedActivityLogRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/app-security': typeof AuthenticatedAppSecurityRoute
+  '/heatmap': typeof AuthenticatedHeatmapRoute
   '/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/payment': typeof AuthenticatedPaymentRoute
@@ -80,8 +95,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedRouteRouteWithChildren
+  '/activityLog': typeof AuthenticatedActivityLogRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/app-security': typeof AuthenticatedAppSecurityRoute
+  '/heatmap': typeof AuthenticatedHeatmapRoute
   '/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/payment': typeof AuthenticatedPaymentRoute
@@ -92,8 +109,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/activityLog': typeof AuthenticatedActivityLogRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/app-security': typeof AuthenticatedAppSecurityRoute
+  '/_authenticated/heatmap': typeof AuthenticatedHeatmapRoute
   '/_authenticated/help-and-docs': typeof AuthenticatedHelpAndDocsRoute
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/payment': typeof AuthenticatedPaymentRoute
@@ -105,8 +124,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/activityLog'
     | '/analytics'
     | '/app-security'
+    | '/heatmap'
     | '/help-and-docs'
     | '/library'
     | '/payment'
@@ -116,8 +137,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/activityLog'
     | '/analytics'
     | '/app-security'
+    | '/heatmap'
     | '/help-and-docs'
     | '/library'
     | '/payment'
@@ -127,8 +150,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_authenticated/activityLog'
     | '/_authenticated/analytics'
     | '/_authenticated/app-security'
+    | '/_authenticated/heatmap'
     | '/_authenticated/help-and-docs'
     | '/_authenticated/library'
     | '/_authenticated/payment'
@@ -150,6 +175,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/activityLog': {
+      id: '/_authenticated/activityLog'
+      path: '/activityLog'
+      fullPath: '/activityLog'
+      preLoaderRoute: typeof AuthenticatedActivityLogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/analytics': {
       id: '/_authenticated/analytics'
       path: '/analytics'
@@ -162,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/app-security'
       fullPath: '/app-security'
       preLoaderRoute: typeof AuthenticatedAppSecurityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/heatmap': {
+      id: '/_authenticated/heatmap'
+      path: '/heatmap'
+      fullPath: '/heatmap'
+      preLoaderRoute: typeof AuthenticatedHeatmapRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/help-and-docs': {
@@ -210,8 +249,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedActivityLogRoute: typeof AuthenticatedActivityLogRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedAppSecurityRoute: typeof AuthenticatedAppSecurityRoute
+  AuthenticatedHeatmapRoute: typeof AuthenticatedHeatmapRoute
   AuthenticatedHelpAndDocsRoute: typeof AuthenticatedHelpAndDocsRoute
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedPaymentRoute: typeof AuthenticatedPaymentRoute
@@ -221,8 +262,10 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedActivityLogRoute: AuthenticatedActivityLogRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedAppSecurityRoute: AuthenticatedAppSecurityRoute,
+  AuthenticatedHeatmapRoute: AuthenticatedHeatmapRoute,
   AuthenticatedHelpAndDocsRoute: AuthenticatedHelpAndDocsRoute,
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedPaymentRoute: AuthenticatedPaymentRoute,
