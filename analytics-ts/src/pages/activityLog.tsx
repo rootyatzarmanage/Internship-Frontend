@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Search } from 'lucide-react'
 import { ActivityTabs } from '../features/analytics/activityTab'
 import type { ActivityFilter } from '../features/analytics/activityTab'
 import { Pagination } from '../features/analytics/pagination'
@@ -38,11 +39,22 @@ const activityBadgeClass: Record<ActivityType, string> = {
 
 export default function ActivityLog() {
   const [filter, setFilter] = useState<ActivityFilter>('All')
+  const [searchQuery, setSearchQuery] = useState('')
   const [pageIndex, setPageIndex] = useState(0)
   const [pageSize, setPageSize] = useState(10)
 
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase()
   const filtered = activityLogMock.filter(
-    (item) => filter === 'All' || item.type === filter
+    (item) => {
+      const matchesFilter = filter === 'All' || item.type === filter
+      const matchesSearch =
+        normalizedSearchQuery.length === 0 ||
+        [item.user, item.action, item.target].some((value) =>
+          value.toLowerCase().includes(normalizedSearchQuery),
+        )
+
+      return matchesFilter && matchesSearch
+    },
   )
 
   const pageCount = Math.max(Math.ceil(filtered.length / pageSize), 1)
@@ -55,15 +67,20 @@ export default function ActivityLog() {
 
   const handleFilterChange = (value: ActivityFilter) => {
     setFilter(value)
-    setPageIndex(0) // back to page 1 when the filter changes
+    setPageIndex(0) 
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    setPageIndex(0)
   }
 
   return (
     <div className={`grid grid-cols-1 xl:grid-cols-[1.65fr_1fr] gap-5 items-stretch`}>
       <div className="flex w-full min-w-0 flex-col overflow-hidden rounded-[8px] border border-[#d4d4d4] bg-white transition-colors duration-200 dark:border-neutral-800 dark:bg-neutral-900">
         <div className="flex min-h-0 flex-1 flex-col gap-4 p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-[20px] font-semibold text-gray-900 dark:text-gray-100">
                 Activity log
@@ -74,6 +91,19 @@ export default function ActivityLog() {
               Latest changes across your workspaces
             </p>
           </div>
+
+          <label className="flex h-[35px] w-[300px] max-w-full min-w-0 shrink items-center gap-2 rounded-[6px] border-[0.5px] border-[#bbbbbb] bg-white px-2 text-black dark:border-[#303030] dark:bg-[#151515] dark:text-gray-100">
+            <Search size={14} strokeWidth={1.8} aria-hidden="true" />
+
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => handleSearchChange(event.target.value)}
+              placeholder="Search activity..."
+              aria-label="Search activity log"
+              className="min-w-0 flex-1 bg-transparent text-xs text-[#414141] outline-none placeholder:text-[#aeb0b4] dark:text-gray-100 dark:placeholder:text-gray-400"
+            />
+          </label>
         </div>
 
         <div>
