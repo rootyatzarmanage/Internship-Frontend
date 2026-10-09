@@ -11,10 +11,10 @@ import {
   Building2,
   type LucideIcon,
 } from "lucide-react";
-import siteImg from "../assets/bento-site.png";
-import teamImg from "../assets/bento-team.png";
-import buildingImg from "../assets/building-line-hd.png";
-import flowChart from "../assets/bim-chart-hd.png";
+import siteImg from "../../assets/bento-site.png";
+import teamImg from "../../assets/bento-team.png";
+import buildingImg from "../../assets/building-line-hd.png";
+import flowChart from "../../assets/bim-chart-hd.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

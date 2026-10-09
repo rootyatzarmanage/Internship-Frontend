@@ -1,5 +1,5 @@
-import ServiceFront from '../sections/ServiceFront';
-import Expertise from '../sections/Expertise'
+import ServiceFront from '../components/services/ServiceFront';
+import Expertise from '../components/services/Expertise'
 
 export default function Service(){
     return(

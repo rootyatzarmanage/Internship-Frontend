@@ -15,12 +15,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import concept from "../assets/concept.png";
-import modeling from "../assets/modeling.png";
-import collab from "../assets/collab.png";
-import clash from "../assets/clash.png";
-import construction from "../assets/construction.png";
-import handover from "../assets/handover.png";
+import concept from "../../assets/concept.png";
+import modeling from "../../assets/modeling.png";
+import collab from "../../assets/collab.png";
+import clash from "../../assets/clash.png";
+import construction from "../../assets/construction.png";
+import handover from "../../assets/handover.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

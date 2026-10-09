@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import gsap from "gsap";
-import building from "../assets/about-building.png";
+import building from "../../assets/about-building.png";
 
 export default function AboutFirst() {
   const textRef = useRef<HTMLDivElement>(null);

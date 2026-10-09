@@ -1,5 +1,5 @@
-import PricingFirst from '../sections/PricingFirst'
-import PricingPlans from '../sections/PricingPlans'
+import PricingFirst from '../components/pricing/PricingFirst'
+import PricingPlans from '../components/pricing/PricingPlans'
 
 export default function Pricing(){
     return(

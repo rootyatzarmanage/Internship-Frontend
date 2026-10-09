@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const platformLinks = [
   "CDE",
@@ -10,7 +10,7 @@ const platformLinks = [
 ];
 
 const companyLinks = [
-  { label: "Contact", to: "/#contact" },
+  { label: "Contact", to: "/contact" },
   { label: "About", to: "/about" },
   { label: "Career", to: "/#career" },
 ];
@@ -88,11 +88,11 @@ const Footer = () => {
         </p>
 
         <div className="flex items-center gap-3">
-          <a href="#" className="transition-colors hover:text-black">
+          <a href="/privacy" className="transition-colors hover:text-black">
             Privacy Policy
           </a>
           <span className="h-3 w-px bg-[#1a1a1a]/40" />
-          <a href="#" className="transition-colors hover:text-black">
+          <a href="/terms" className="transition-colors hover:text-black">
             Terms &amp; Conditions
           </a>
         </div>

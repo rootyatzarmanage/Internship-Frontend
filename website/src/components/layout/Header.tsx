@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import gsap from "gsap";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const navLinks = [
   { label: "About", to: "/about" },

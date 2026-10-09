@@ -1,10 +1,9 @@
 import { Outlet } from "react-router-dom";
-import SmoothScroll from "../components/SmoothScroll";
-import ScrollToTop from "../components/ScrollToTop";
-import Header from "../sections/Header";
-import Footer from "../sections/Footer";
+import SmoothScroll from "../components/common/SmoothScroll";
+import ScrollToTop from "../components/common/ScrollToTop";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
-// Header + Footer are rendered once; <Outlet /> is where each page appears.
 export default function MainLayout() {
   return (
     <SmoothScroll>

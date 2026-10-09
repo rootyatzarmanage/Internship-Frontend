@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize, Maximize2, Minimize } from "lucide-react";
-import building from "../assets/building-3.png";
+import building from "../../assets/building-3.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
