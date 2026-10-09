@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const platformLinks = [
-  "CDE",
+  "Documents",
   "IFC Viewer",
   "Collaboration",
   "Cost Management",
@@ -12,7 +12,14 @@ const platformLinks = [
 const companyLinks = [
   { label: "Contact", to: "/contact" },
   { label: "About", to: "/about" },
-  { label: "Career", to: "/#career" },
+  { label: "Career", to: "/career" },
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", to: "/privacy-policy" },
+  { label: "Terms of Service", to: "/terms-of-service" },
+  { label: "Refund Policy", to: "/refund-policy" },
+  { label: "License Agreement", to: "/license-agreement" },
 ];
 
 const Footer = () => {
@@ -87,14 +94,26 @@ const Footer = () => {
           © {new Date().getFullYear()} Yatzar Creations. All rights reserved.
         </p>
 
-        <div className="flex items-center gap-3">
-          <a href="/privacy" className="transition-colors hover:text-black">
-            Privacy Policy
-          </a>
-          <span className="h-3 w-px bg-[#1a1a1a]/40" />
-          <a href="/terms" className="transition-colors hover:text-black">
-            Terms &amp; Conditions
-          </a>
+        <div className="flex flex-wrap items-center gap-3">
+          {legalLinks.map(({ label, to }, index) => (
+            <span key={label} className="flex items-center gap-3">
+              <NavLink
+                to={to}
+                className={({ isActive }) =>
+                  `transition-colors hover:text-black ${
+                    isActive
+                      ? "font-semibold text-black"
+                      : "text-[#1a1a1a]/80"
+                  }`
+                }
+              >
+                {label}
+              </NavLink>
+              {index < legalLinks.length - 1 && (
+                <span className="h-3 w-px bg-[#1a1a1a]/40" aria-hidden="true" />
+              )}
+            </span>
+          ))}
         </div>
       </div>
     </footer>
