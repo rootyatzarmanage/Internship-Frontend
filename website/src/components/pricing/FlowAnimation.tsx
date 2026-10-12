@@ -1,8 +1,4 @@
-import { useEffect, useRef } from "react";
-import * as THREE from "three";
-import { Line2 } from "three/examples/jsm/lines/Line2.js";
-import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
-import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -15,6 +11,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+// NOTE: file names are case-sensitive on Linux hosts (Vercel, Netlify, etc).
+// These must match the files in src/assets EXACTLY (all lowercase here).
 import concept from "../../assets/concept.png";
 import modeling from "../../assets/modeling.png";
 import collab from "../../assets/collab.png";
@@ -24,23 +22,116 @@ import handover from "../../assets/handover.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ---------- path (design space: 1000 x 400, y up inside three.js) ----------
 const W = 1000;
 const H = 400;
-const SEGMENTS = 600; // line resolution
 const DURATION = 2; // seconds to draw the whole line
+const SAMPLES_PER_SEGMENT = 40;
+
+type Pt = { x: number; y: number };
 
 // gentle wave that rises left -> right
-const CONTROL = Array.from({ length: 15 }, (_, i) => {
+const CONTROL: Pt[] = Array.from({ length: 15 }, (_, i) => {
   const t = i / 14;
-  const x = 20 + 940 * t;
-  const yDown = 305 - 110 * t + 14 * Math.sin(t * Math.PI * 6);
-  return new THREE.Vector3(x, H - yDown, 0);
+  return {
+    x: 20 + 940 * t,
+    y: 305 - 110 * t + 14 * Math.sin(t * Math.PI * 6),
+  };
 });
-const CURVE = new THREE.CatmullRomCurve3(CONTROL, false, "centripetal");
 
+const dist = (a: Pt, b: Pt) => Math.hypot(b.x - a.x, b.y - a.y);
+
+// centripetal Catmull-Rom (Barry-Goldman), same curve type as before
+function catmullRom(p0: Pt, p1: Pt, p2: Pt, p3: Pt, t: number): Pt {
+  const t0 = 0;
+  const t1 = t0 + Math.sqrt(dist(p0, p1));
+  const t2 = t1 + Math.sqrt(dist(p1, p2));
+  const t3 = t2 + Math.sqrt(dist(p2, p3));
+  const tt = t1 + (t2 - t1) * t;
+
+  const mix = (a: Pt, b: Pt, ta: number, tb: number): Pt => {
+    const k = (tt - ta) / (tb - ta);
+    return { x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k };
+  };
+
+  const a1 = mix(p0, p1, t0, t1);
+  const a2 = mix(p1, p2, t1, t2);
+  const a3 = mix(p2, p3, t2, t3);
+  const b1 = mix(a1, a2, t0, t2);
+  const b2 = mix(a2, a3, t1, t3);
+  return mix(b1, b2, t1, t2);
+}
+
+function buildCurve(points: Pt[]) {
+  const n = points.length;
+  // phantom end points so the curve passes through the first and last control point
+  const first = {
+    x: 2 * points[0].x - points[1].x,
+    y: 2 * points[0].y - points[1].y,
+  };
+  const last = {
+    x: 2 * points[n - 1].x - points[n - 2].x,
+    y: 2 * points[n - 1].y - points[n - 2].y,
+  };
+  const ext = [first, ...points, last];
+
+  const samples: Pt[] = [];
+  for (let i = 0; i < n - 1; i++) {
+    for (let s = 0; s < SAMPLES_PER_SEGMENT; s++) {
+      samples.push(
+        catmullRom(ext[i], ext[i + 1], ext[i + 2], ext[i + 3], s / SAMPLES_PER_SEGMENT)
+      );
+    }
+  }
+  samples.push(points[n - 1]);
+
+  // cumulative arc length
+  const cum: number[] = [0];
+  for (let i = 1; i < samples.length; i++) {
+    cum.push(cum[i - 1] + dist(samples[i - 1], samples[i]));
+  }
+  const total = cum[cum.length - 1];
+
+  // index of the sample at arc-length fraction u
+  const locate = (u: number) => {
+    const target = Math.min(Math.max(u, 0), 1) * total;
+    let lo = 0;
+    let hi = cum.length - 1;
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (cum[mid] <= target) lo = mid;
+      else hi = mid;
+    }
+    const span = cum[hi] - cum[lo] || 1;
+    return { lo, hi, k: (target - cum[lo]) / span };
+  };
+
+  const pointAt = (u: number): Pt => {
+    const { lo, hi, k } = locate(u);
+    return {
+      x: samples[lo].x + (samples[hi].x - samples[lo].x) * k,
+      y: samples[lo].y + (samples[hi].y - samples[lo].y) * k,
+    };
+  };
+
+  const angleAtEnd = () => {
+    const a = samples[samples.length - 2];
+    const b = samples[samples.length - 1];
+    return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+  };
+
+  const d = samples
+    .map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(2)},${p.y.toFixed(2)}`)
+    .join(" ");
+
+  return { d, pointAt, angleAtEnd };
+}
+
+const CURVE = buildCurve(CONTROL);
+
+/* ------------------------------------------------------------------ */
+/* Content                                                             */
+/* ------------------------------------------------------------------ */
 const STOPS: {
-    
   u: number;
   label: string;
   sketch: string;
@@ -54,74 +145,35 @@ const STOPS: {
   { u: 0.9, label: "Project Delivery & Handover", sketch: handover, Icon: CircleCheck },
 ];
 
-const toPct = (p: THREE.Vector3) => ({
+const toPct = (p: Pt) => ({
   left: `${(p.x / W) * 100}%`,
-  top: `${((H - p.y) / H) * 100}%`,
+  top: `${(p.y / H) * 100}%`,
 });
 
-const STOP_POS = STOPS.map((s) => toPct(CURVE.getPointAt(s.u)));
-const END_POS = toPct(CURVE.getPointAt(1));
-const END_TANGENT = CURVE.getTangentAt(1);
-const END_DEG = -(Math.atan2(END_TANGENT.y, END_TANGENT.x) * 180) / Math.PI;
+const STOP_POS = STOPS.map((s) => toPct(CURVE.pointAt(s.u)));
+const END_POS = toPct(CURVE.pointAt(1));
+const END_DEG = CURVE.angleAtEnd();
 
+/* ------------------------------------------------------------------ */
+/* Component                                                           */
+/* ------------------------------------------------------------------ */
 export default function FlowAnimation() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = rootRef.current;
-    const canvas = canvasRef.current;
-    if (!root || !canvas) return;
+    const path = pathRef.current;
+    if (!root || !path) return;
 
-    // ---------- three.js scene ----------
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(0, W, H, 0, -1, 1);
-
-    const geo = new LineGeometry();
-    geo.setPositions(
-      CURVE.getSpacedPoints(SEGMENTS).flatMap((p) => [p.x, p.y, p.z])
-    );
-    const mat = new LineMaterial({ color: 0xffffff, linewidth: 2 });
-    const line = new Line2(geo, mat);
-    scene.add(line);
-
-    const state = { p: 0 };
-    const render = () => {
-      geo.instanceCount = Math.round(state.p * SEGMENTS); // draws the first N segments
-      renderer.render(scene, camera);
-    };
-
-    const resize = () => {
-      const w = root.clientWidth;
-      const h = root.clientHeight;
-      renderer.setSize(w, h, false);
-      mat.resolution.set(w, h);
-      mat.linewidth = Math.max(1.5, (w / W) * 2.6); // keep line weight proportional
-      render();
-    };
-    const ro = new ResizeObserver(resize);
-    ro.observe(root);
-    resize();
-
-    // ---------- GSAP: draw the line, reveal each stop when it arrives ----------
     const ctx = gsap.context(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
       const stops = gsap.utils.toArray<HTMLElement>(".flow-stop");
       const end = root.querySelector(".flow-end");
+      const len = path.getTotalLength();
 
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        state.p = 1;
-        render();
-        return;
-      }
-
+      gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
       gsap.set(".flow-dot, .flow-sketch, .flow-label, .flow-end", {
         autoAlpha: 0,
       });
@@ -130,8 +182,8 @@ export default function FlowAnimation() {
         scrollTrigger: { trigger: root, start: "top 85%", once: true },
       });
 
-      // linear ease so "time" maps 1:1 to "distance along the line"
-      tl.to(state, { p: 1, duration: DURATION, ease: "none", onUpdate: render }, 0);
+      // linear ease so time maps 1:1 to distance along the line
+      tl.to(path, { strokeDashoffset: 0, duration: DURATION, ease: "none" }, 0);
 
       stops.forEach((el, i) => {
         const t = STOPS[i].u * DURATION; // moment the line reaches this stop
@@ -163,13 +215,7 @@ export default function FlowAnimation() {
       );
     }, root);
 
-    return () => {
-      ctx.revert();
-      ro.disconnect();
-      geo.dispose();
-      mat.dispose();
-      renderer.dispose();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -179,7 +225,22 @@ export default function FlowAnimation() {
         ref={rootRef}
         className="relative mx-auto aspect-[5/2] w-full min-w-[640px] max-w-[1100px] [container-type:inline-size] sm:min-w-0"
       >
-        <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+        {/* the line; stroke width scales with the container */}
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            ref={pathRef}
+            d={CURVE.d}
+            stroke="white"
+            strokeWidth={2.6}
+            strokeLinejoin="round"
+          />
+        </svg>
 
         {STOPS.map(({ label, sketch, Icon }, i) => (
           <div
@@ -191,6 +252,8 @@ export default function FlowAnimation() {
             <img
               src={sketch}
               alt=""
+              loading="lazy"
+              decoding="async"
               className="flow-sketch absolute bottom-[2cqw] left-0 -ml-[6cqw] w-[12cqw] max-w-none object-contain brightness-0 invert"
             />
             {/* dot on the line */}
@@ -219,6 +282,7 @@ export default function FlowAnimation() {
             strokeWidth="1.6"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>

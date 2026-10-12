@@ -40,7 +40,7 @@ const Footer = () => {
             Collaborative BIM workflows for architects, engineers, and
             construction teams from complete lifecycle of asset, on a single
             platform.
-          </p>
+          </p> 
 
           <div className="mt-5 inline-flex items-center gap-2.5 rounded-full border-2 border-[#1a1a1a] px-3.5 py-1.5 text-[12px] font-medium sm:mt-6 sm:px-4 sm:py-2 sm:text-[13px]">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
