@@ -9,6 +9,7 @@ import Privacy from "./pages/Privacy"
 import Terms from "./pages/Terms"
 import Refund from "./pages/Refund"
 import License from "./pages/License"
+import BookDemo from "./pages/BookDemo";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/terms-of-service" element={<Terms />} />
         <Route path="/refund-policy" element={<Refund />} />
         <Route path="/license-agreement" element={<License />} />
+        <Route path="/book-a-demo" element={<BookDemo />} />
       </Route>
     </Routes>
   );

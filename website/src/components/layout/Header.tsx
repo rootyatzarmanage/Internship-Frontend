@@ -71,9 +71,9 @@ export default function Header() {
 
       {/* Desktop action */}
       <div className="hidden items-center gap-3 xl:flex">
-        <button className="flex cursor-pointer items-center gap-2 rounded-md border border-white bg-white px-4 py-2 text-[12px] font-medium text-black transition hover:border-white hover:bg-[#171717] hover:text-white">
+        <Link to="/book-a-demo" className="flex cursor-pointer items-center gap-2 rounded-md border border-white bg-white px-4 py-2 text-[12px] font-medium text-black transition hover:border-white hover:bg-[#171717] hover:text-white">
           Book a Demo <span aria-hidden="true">→</span>
-        </button>
+        </Link>
         <Link to="/sign-in">
         <button className="flex cursor-pointer items-center gap-2 rounded-md border border-[#0284C7] bg-[#0284C7] px-4 py-2 text-[12px] font-medium text-white transition hover:border-[#38BDF8] hover:bg-[#171717]">
           Login / Sign-up
@@ -131,9 +131,9 @@ export default function Header() {
             Login / Sign-up
           </button>
 
-          <button className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[#0284C7] bg-[#0284C7] px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
+          <Link to="/book-a-demo" onClick={() => setMenuOpen(false)} className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[#0284C7] bg-[#0284C7] px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
             Book a Demo <span aria-hidden="true">→</span>
-          </button>
+          </Link>
         </div>
       )}
     </header>
