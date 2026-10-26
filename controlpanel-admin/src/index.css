@@ -12,7 +12,7 @@
 body { margin: 0; min-width: 360px; min-height: 100vh; }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
-button:focus-visible, input:focus-visible, select:focus-visible, tr:focus-visible { outline: 2px solid #6962e8; outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible, tr:focus-visible { outline-offset: 2px; }
 .app { --surface:#fff; --canvas:#f7f8fa; --text:#222431; --muted:#858997; --line:#eceef2; --soft:#f8f9fb; --purple:#655ee8; --purple-soft:#f0efff; display:flex; min-height:100vh; color:var(--text); background:var(--canvas); }
 .app.dark { --surface:#171820; --canvas:#111219; --text:#eff0f6; --muted:#9b9eac; --line:#292b36; --soft:#1e2029; --purple:#928cff; --purple-soft:#292743; }
 .activity-log-page { --surface:#fff; --canvas:#f7f8fa; --text:#222431; --muted:#858997; --line:#eceef2; --soft:#f8f9fb; --purple:#00a6f4; --purple-soft:#e8f6fd; min-height:100%; color:var(--text); background:var(--canvas); }
