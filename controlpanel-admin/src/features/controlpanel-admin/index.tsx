@@ -304,22 +304,19 @@ export function ContentEditor() {
     <div className="min-h-full bg-slate-50 px-4 py-6 font-sans text-slate-800 sm:px-6 lg:px-8">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-sm text-slate-500">
-            Website <ChevronRight size={16} /> Content
-          </div>
           <h1 className="m-0 text-[30px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-[34px]">
-            Website content
+            Website Content
           </h1>
           <p className="mt-2 text-base text-slate-600">
             Manage your website content and appearance from one place.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <a
             href="/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 no-underline hover:bg-slate-50"
+            className="inline-flex h-11 items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 no-underline hover:bg-slate-50 hover:border-[#008cd2] hover:text-[#008cd2]"
           >
             <Eye size={17} /> Preview website
           </a>
