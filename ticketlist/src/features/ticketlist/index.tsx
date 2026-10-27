@@ -14,24 +14,22 @@ import {
 type TicketStatus = 'Solved' | 'Pending'
 type TicketRow = {
   id: string
-  name: string
-  email: string
   subject: string
   date: string
   status: TicketStatus
 }
 
 const tickets: TicketRow[] = [
-  { id: '#323534', name: 'Lindsey Curtis', email: 'demoemail@gmail.com', subject: 'Issue with Dashboard Login Access', date: '12 Feb, 2027', status: 'Solved' },
-  { id: '#323535', name: 'Kaiya George', email: 'demoemail@gmail.com', subject: 'Billing Information Not Updating Properly', date: '13 Mar, 2027', status: 'Pending' },
-  { id: '#323536', name: 'Zain Geidt', email: 'demoemail@gmail.com', subject: 'Bug Found in Dark Mode Layout', date: '19 Mar, 2027', status: 'Pending' },
-  { id: '#323537', name: 'Abram Schleifer', email: 'demoemail@gmail.com', subject: 'Request to Add New Integration Feature', date: '25 Apr, 2027', status: 'Solved' },
-  { id: '#323538', name: 'Mia Chen', email: 'mia.chen@email.com', subject: 'Unable to Reset Password', date: '28 Apr, 2027', status: 'Pending' },
-  { id: '#323539', name: 'John Doe', email: 'john.doe@email.com', subject: 'Feature Request: Dark Mode', date: '30 Apr, 2027', status: 'Solved' },
-  { id: '#323540', name: 'Jane Smith', email: 'jane.smith@email.com', subject: 'Error 500 on Dashboard', date: '01 May, 2027', status: 'Pending' },
-  { id: '#323541', name: 'Carlos Ruiz', email: 'carlos.ruiz@email.com', subject: 'Cannot Download Invoice', date: '02 May, 2027', status: 'Solved' },
-  { id: '#323542', name: 'Emily Clark', email: 'emily.clark@email.com', subject: 'UI Bug in Mobile View', date: '03 May, 2027', status: 'Pending' },
-  { id: '#323543', name: 'Noah Williams', email: 'noah.williams@email.com', subject: 'Unable to Update Account Details', date: '04 May, 2027', status: 'Solved' },
+  { id: '#323534', subject: 'Issue with Dashboard Login Access', date: '12 Feb, 2027', status: 'Solved' },
+  { id: '#323535', subject: 'Billing Information Not Updating Properly', date: '13 Mar, 2027', status: 'Pending' },
+  { id: '#323536', subject: 'Bug Found in Dark Mode Layout', date: '19 Mar, 2027', status: 'Pending' },
+  { id: '#323537', subject: 'Request to Add New Integration Feature', date: '25 Apr, 2027', status: 'Solved' },
+  { id: '#323538', subject: 'Unable to Reset Password', date: '28 Apr, 2027', status: 'Pending' },
+  { id: '#323539', subject: 'Feature Request: Dark Mode', date: '30 Apr, 2027', status: 'Solved' },
+  { id: '#323540', subject: 'Error 500 on Dashboard', date: '01 May, 2027', status: 'Pending' },
+  { id: '#323541', subject: 'Cannot Download Invoice', date: '02 May, 2027', status: 'Solved' },
+  { id: '#323542', subject: 'UI Bug in Mobile View', date: '03 May, 2027', status: 'Pending' },
+  { id: '#323543', subject: 'Unable to Update Account Details', date: '04 May, 2027', status: 'Solved' },
 ]
 
 const tabs = ['All', 'Solved', 'Pending'] as const
@@ -68,7 +66,7 @@ export default function TicketList() {
   const visibleTickets = useMemo(() => ticketData.filter((ticket) => {
     const matchesTab = activeTab === 'All' || ticket.status === activeTab
     const query = search.trim().toLowerCase()
-    const matchesSearch = !query || [ticket.id, ticket.name, ticket.email, ticket.subject, ticket.status].some((value) => value.toLowerCase().includes(query))
+    const matchesSearch = !query || [ticket.id, ticket.subject, ticket.status].some((value) => value.toLowerCase().includes(query))
     return matchesTab && matchesSearch
   }), [ticketData, activeTab, search])
 
@@ -104,7 +102,7 @@ export default function TicketList() {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <div role="tablist" aria-label="Filter tickets by status" className="flex rounded-lg bg-[#f2f4f7] p-1">
-                {tabs.map((tab) => <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} onClick={() => { setActiveTab(tab); setCurrentPage(1) }} className={`rounded-md px-3 py-2 text-sm transition hover:cursor-pointer ${activeTab === tab ? 'bg-white text-[#101828] shadow-sm' : 'text-[#667085] hover:text-[#101828]'}`}>{tab}</button>)}
+                {tabs.map((tab) => <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} onClick={() => { setActiveTab(tab); setCurrentPage(1) }} className={`rounded-md px-3 py-2 text-sm transition hover:cursor-pointer ${activeTab === tab ? 'bg-white text-[#008cd2] shadow-sm' : 'text-[#667085] hover:text-[#101828]'}`}>{tab}</button>)}
               </div>
               <label className="flex h-11 min-w-0 items-center gap-2 rounded-lg border border-[#d0d5dd] px-3 text-[#667085] focus-within:border-[#008cd2] sm:w-[300px]">
                 <Search size={19} aria-hidden="true" />
@@ -123,8 +121,7 @@ export default function TicketList() {
             <table className="w-full min-w-[850px] border-collapse text-left">
               <thead>
                 <tr className="h-[43px] border-b border-[#e1e6ee] text-xs font-medium text-[#344054]">
-                  <th className="w-[209px] pl-11 font-medium">Ticket ID</th>
-                  <th className="w-[310px] font-medium">Requested By </th>
+                  <th className="w-[100px] pl-4 font-medium">Ticket ID</th>
                   <th className="font-medium">Subject</th>
                   <th className="w-[210px] font-medium">Create Date </th>
                   <th className="w-[155px] font-medium">Status</th>
@@ -132,13 +129,12 @@ export default function TicketList() {
               </thead>
               <tbody>
                 {pageTickets.map((ticket) => <tr key={ticket.id} className="h-[69px] border-b border-[#e1e6ee] last:border-0 hover:bg-[#fafbfc]">
-                  <td className="pl-11 text-xs font-medium">{ticket.id}</td>
-                  <td><div className="text-sm font-medium">{ticket.name}</div><div className="mt-0.5 text-sm text-[#667085]">{ticket.email}</div></td>
+                  <td className="pl-4 text-xs font-medium">{ticket.id}</td>
                   <td className="pr-4 text-sm">{ticket.subject}</td>
                   <td className="text-sm">{ticket.date}</td>
                   <td><span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${ticket.status === 'Solved' ? 'bg-[#ecfdf3] text-[#039855]' : 'bg-[#fffaeb] text-[#dc6803]'}`}>{ticket.status}</span></td>
                 </tr>)}
-                {visibleTickets.length === 0 && <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-[#667085]">No tickets match your search.</td></tr>}
+                {visibleTickets.length === 0 && <tr><td colSpan={4} className="px-4 py-12 text-center text-sm text-[#667085]">No tickets match your search.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -162,7 +158,6 @@ export default function TicketList() {
         {ticketInView && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/50 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) setTicketInView(null) }}>
           <section role="dialog" aria-modal="true" aria-labelledby="ticket-dialog-title" className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-start justify-between gap-4"><div><p className="text-sm font-medium text-[#008cd2]">Ticket {ticketInView.id}</p><h2 id="ticket-dialog-title" className="mt-1 text-xl font-semibold">{ticketInView.subject}</h2></div><button type="button" aria-label="Close ticket details" onClick={() => setTicketInView(null)} className="rounded-md p-1 text-[#667085] hover:bg-gray-100 hover:cursor-pointer"><X size={20} /></button></div>
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2"><Detail label="Requested by" value={ticketInView.name} /><Detail label="Email" value={ticketInView.email} /><Detail label="Created" value={ticketInView.date} /><div><dt className="text-sm text-[#667085]">Status</dt><dd className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${ticketInView.status === 'Solved' ? 'bg-[#ecfdf3] text-[#039855]' : 'bg-[#fffaeb] text-[#dc6803]'}`}>{ticketInView.status}</dd></div></dl>
             <div className="mt-5 rounded-lg bg-[#f8fafc] p-4"><h3 className="text-sm font-medium">Ticket content</h3><p className="mt-2 text-sm leading-6 text-[#667085]">{ticketInView.subject}</p></div>
             <div className="mt-6 flex justify-end"><button type="button" onClick={() => setTicketInView(null)} className="rounded-lg border border-[#d0d5dd] px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:cursor-pointer">Close</button></div>
           </section>
@@ -182,10 +177,4 @@ function SummaryCard({ icon, tone, value, label }: { icon: React.ReactNode; tone
   }
   return <article className="flex min-h-[90px] items-center gap-5 rounded-xl border border-[#e1e6ee] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(16,24,40,0.05)] sm:px-5"><div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${colors[tone]}`}>{icon}</div><div><div className="text-2xl font-semibold leading-7">{value}</div><div className="mt-1 text-sm text-[#667085]">{label}</div></div></article>
 }
-
-function Detail({ label, value }: { label: string; value: string }) {
-  return <div><dt className="text-sm text-[#667085]">{label}</dt><dd className="mt-1 text-sm font-medium text-[#101828]">{value}</dd></div>
-}
-
-
 
