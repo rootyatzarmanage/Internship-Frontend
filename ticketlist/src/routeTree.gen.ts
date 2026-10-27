@@ -9,51 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedTicketlistAdminRouteImport } from './routes/_authenticated/ticketlist-admin'
+import { Route as AuthenticatedTicketlistRouteImport } from './routes/_authenticated/ticketlist'
 
-const AuthenticatedTicketlistAdminRoute =
-  AuthenticatedTicketlistAdminRouteImport.update({
-    id: '/_authenticated/ticketlist-admin',
-    path: '/ticketlist-admin',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const AuthenticatedTicketlistRoute = AuthenticatedTicketlistRouteImport.update({
+  id: '/_authenticated/ticketlist',
+  path: '/ticketlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/ticketlist-admin': typeof AuthenticatedTicketlistAdminRoute
+  '/ticketlist': typeof AuthenticatedTicketlistRoute
 }
 export interface FileRoutesByTo {
-  '/ticketlist-admin': typeof AuthenticatedTicketlistAdminRoute
+  '/ticketlist': typeof AuthenticatedTicketlistRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_authenticated/ticketlist-admin': typeof AuthenticatedTicketlistAdminRoute
+  '/_authenticated/ticketlist': typeof AuthenticatedTicketlistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/ticketlist-admin'
+  fullPaths: '/ticketlist'
   fileRoutesByTo: FileRoutesByTo
-  to: '/ticketlist-admin'
-  id: '__root__' | '/_authenticated/ticketlist-admin'
+  to: '/ticketlist'
+  id: '__root__' | '/_authenticated/ticketlist'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthenticatedTicketlistAdminRoute: typeof AuthenticatedTicketlistAdminRoute
+  AuthenticatedTicketlistRoute: typeof AuthenticatedTicketlistRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated/ticketlist-admin': {
-      id: '/_authenticated/ticketlist-admin'
-      path: '/ticketlist-admin'
-      fullPath: '/ticketlist-admin'
-      preLoaderRoute: typeof AuthenticatedTicketlistAdminRouteImport
+    '/_authenticated/ticketlist': {
+      id: '/_authenticated/ticketlist'
+      path: '/ticketlist'
+      fullPath: '/ticketlist'
+      preLoaderRoute: typeof AuthenticatedTicketlistRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AuthenticatedTicketlistAdminRoute: AuthenticatedTicketlistAdminRoute,
+  AuthenticatedTicketlistRoute: AuthenticatedTicketlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

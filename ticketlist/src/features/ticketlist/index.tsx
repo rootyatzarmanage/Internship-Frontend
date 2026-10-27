@@ -4,12 +4,10 @@ import {
   ChevronDown,
   ChevronRight,
   CircleCheck,
-  MoreHorizontal,
   Search,
   SlidersHorizontal,
   Ticket,
   Timer,
-  Trash2,
   X,
 } from 'lucide-react'
 
@@ -39,14 +37,10 @@ const tickets: TicketRow[] = [
 const tabs = ['All', 'Solved', 'Pending'] as const
 
 export default function TicketList() {
-  const [ticketData, setTicketData] = useState(tickets)
+  const ticketData = tickets
   const [ticketInView, setTicketInView] = useState<TicketRow | null>(null)
-  const [ticketToDelete, setTicketToDelete] = useState<TicketRow | null>(null)
-  const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false)
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('All')
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState<string[]>([])
-  const [menuFor, setMenuFor] = useState<string | null>(null)
   const [showFilter, setShowFilter] = useState(false)
   const [pageSize, setPageSize] = useState(10)
   const [currentPage, setCurrentPage] = useState(1)
@@ -55,16 +49,12 @@ export default function TicketList() {
     const handlePointerDown = (event: MouseEvent) => {
       const target = event.target
       if (!(target instanceof Element)) return
-      if (!target.closest('[data-ticket-actions]')) setMenuFor(null)
       if (!target.closest('[data-ticket-filter]')) setShowFilter(false)
     }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setMenuFor(null)
         setShowFilter(false)
         setTicketInView(null)
-        setTicketToDelete(null)
-        setShowBulkDeleteConfirm(false)
       }
     }
     document.addEventListener('pointerdown', handlePointerDown)
@@ -86,25 +76,7 @@ export default function TicketList() {
   const pageTickets = visibleTickets.slice((currentPage - 1) * pageSize, currentPage * pageSize)
   const firstEntry = visibleTickets.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
   const lastEntry = Math.min(currentPage * pageSize, visibleTickets.length)
-  const allVisibleSelected = pageTickets.length > 0 && pageTickets.every((ticket) => selected.includes(ticket.id))
-  const toggleTicket = (id: string) => setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
-  const toggleAll = () => setSelected((current) => allVisibleSelected ? current.filter((id) => !pageTickets.some((ticket) => ticket.id === id)) : [...new Set([...current, ...pageTickets.map((ticket) => ticket.id)])])
-  const confirmDelete = () => {
-    if (!ticketToDelete) return
-    const remainingCount = visibleTickets.length - (visibleTickets.some((ticket) => ticket.id === ticketToDelete.id) ? 1 : 0)
-    setTicketData((current) => current.filter((ticket) => ticket.id !== ticketToDelete.id))
-    setSelected((current) => current.filter((id) => id !== ticketToDelete.id))
-    setCurrentPage((page) => Math.min(page, Math.max(1, Math.ceil(remainingCount / pageSize))))
-    setTicketToDelete(null)
-  }
-  const confirmBulkDelete = () => {
-    const idsToDelete = new Set(selected)
-    const remainingCount = visibleTickets.filter((ticket) => !idsToDelete.has(ticket.id)).length
-    setTicketData((current) => current.filter((ticket) => !idsToDelete.has(ticket.id)))
-    setSelected([])
-    setCurrentPage((page) => Math.min(page, Math.max(1, Math.ceil(remainingCount / pageSize))))
-    setShowBulkDeleteConfirm(false)
-  }
+
 
   return (
     <main className="min-h-full bg-[#f8fafc] px-5 py-7 text-[#101828] sm:px-8 lg:px-10">
@@ -112,7 +84,7 @@ export default function TicketList() {
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-xl font-semibold">Support Tickets</h1>
           <nav aria-label="Breadcrumb" className="hidden items-center gap-2 text-sm sm:flex">
-            <a className="text-[#667085] hover:text-[#465fff]" href="#">Home</a>
+            <a className="text-[#667085] hover:text-[#008cd2]" href="#">Home</a>
             <ChevronRight size={15} className="text-[#667085]" />
             <span>Support Tickets</span>
           </nav>
@@ -146,32 +118,27 @@ export default function TicketList() {
             </div>
           </div>
 
-          {selected.length > 0 && <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e1e6ee] bg-[#f5f7ff] px-5 py-2.5 text-sm"><span>{selected.length} ticket{selected.length === 1 ? '' : 's'} selected</span><div className="flex items-center gap-4"><button type="button" onClick={() => setShowBulkDeleteConfirm(true)} className="inline-flex items-center gap-1.5 font-medium text-red-600 hover:text-red-700 hover:cursor-pointer"><Trash2 size={15} />Delete selected</button><button type="button" onClick={() => setSelected([])} className="font-medium text-[#465fff] hover:underline hover:cursor-pointer">Clear selection</button></div></div>}
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-[850px] border-collapse text-left">
               <thead>
                 <tr className="h-[43px] border-b border-[#e1e6ee] text-xs font-medium text-[#344054]">
-                  <th className="w-11 pl-4"><input type="checkbox" aria-label="Select all tickets" checked={allVisibleSelected} onChange={toggleAll} className="h-4 w-4 cursor-pointer accent-[#465fff]" /></th>
-                  <th className="w-[165px] font-medium">Ticket ID</th>
+                  <th className="w-[209px] pl-11 font-medium">Ticket ID</th>
                   <th className="w-[310px] font-medium">Requested By </th>
                   <th className="font-medium">Subject</th>
                   <th className="w-[210px] font-medium">Create Date </th>
                   <th className="w-[155px] font-medium">Status</th>
-                  <th className="w-14" aria-label="Actions" />
                 </tr>
               </thead>
               <tbody>
-                {pageTickets.map((ticket, index) => <tr key={ticket.id} className="h-[69px] border-b border-[#e1e6ee] last:border-0 hover:bg-[#fafbfc]">
-                  <td className="pl-4"><input type="checkbox" aria-label={`Select ticket ${ticket.id}`} checked={selected.includes(ticket.id)} onChange={() => toggleTicket(ticket.id)} className="h-4 w-4 cursor-pointer accent-[#465fff]" /></td>
-                  <td className="text-xs font-medium">{ticket.id}</td>
+                {pageTickets.map((ticket) => <tr key={ticket.id} className="h-[69px] border-b border-[#e1e6ee] last:border-0 hover:bg-[#fafbfc]">
+                  <td className="pl-11 text-xs font-medium">{ticket.id}</td>
                   <td><div className="text-sm font-medium">{ticket.name}</div><div className="mt-0.5 text-sm text-[#667085]">{ticket.email}</div></td>
                   <td className="pr-4 text-sm">{ticket.subject}</td>
                   <td className="text-sm">{ticket.date}</td>
                   <td><span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${ticket.status === 'Solved' ? 'bg-[#ecfdf3] text-[#039855]' : 'bg-[#fffaeb] text-[#dc6803]'}`}>{ticket.status}</span></td>
-                  <td className="relative pr-4 text-left" data-ticket-actions><button type="button" aria-label={`Actions for ${ticket.id}`} aria-expanded={menuFor === ticket.id} onClick={() => setMenuFor((current) => current === ticket.id ? null : ticket.id)} className="rounded p-1 text-[#667085] text-left hover:bg-gray-100 hover:cursor-pointer"><MoreHorizontal size={19} /></button>{menuFor === ticket.id && <div className={`absolute right-7 z-20 w-36 rounded-lg border border-[#e1e6ee] bg-white p-1 shadow-lg ${index === pageTickets.length - 1 ? 'bottom-full mb-2' : 'top-10'}`}><button type="button" onClick={() => { setTicketInView(ticket); setMenuFor(null) }} className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-50 hover:cursor-pointer">View ticket</button><button type="button" onClick={() => { setTicketToDelete(ticket); setMenuFor(null) }} className="w-full rounded px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50 hover:cursor-pointer">Delete ticket</button></div>}</td>
                 </tr>)}
-                {visibleTickets.length === 0 && <tr><td colSpan={7} className="px-4 py-12 text-left text-sm text-[#667085]">No tickets match your search.</td></tr>}
+                {visibleTickets.length === 0 && <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-[#667085]">No tickets match your search.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -201,14 +168,7 @@ export default function TicketList() {
           </section>
         </div>}
 
-        {(ticketToDelete || showBulkDeleteConfirm) && <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/50 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) { setTicketToDelete(null); setShowBulkDeleteConfirm(false) } }}>
-          <section role="alertdialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description" className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-red-600"><X size={22} /></div>
-            <h2 id="delete-dialog-title" className="text-lg font-semibold">Delete ticket?</h2>
-            <p id="delete-dialog-description" className="mt-2 text-sm leading-6 text-[#667085]">{showBulkDeleteConfirm ? <>Are you sure you want to delete <strong className="font-medium text-[#344054]">{selected.length} selected ticket{selected.length === 1 ? '' : 's'}</strong>? This action cannot be undone.</> : <>Are you sure you want to delete ticket <strong className="font-medium text-[#344054]">{ticketToDelete?.id}</strong> — {ticketToDelete?.subject}? This action cannot be undone.</>}</p>
-            <div className="mt-6 flex justify-end gap-3"><button type="button" onClick={() => { setTicketToDelete(null); setShowBulkDeleteConfirm(false) }} className="rounded-lg border border-[#d0d5dd] px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:cursor-pointer">Cancel</button><button type="button" onClick={showBulkDeleteConfirm ? confirmBulkDelete : confirmDelete} className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 hover:cursor-pointer">Delete {showBulkDeleteConfirm ? 'selected tickets' : 'ticket'}</button></div>
-          </section>
-        </div>}
+
       </div>
     </main>
   )
@@ -226,5 +186,6 @@ function SummaryCard({ icon, tone, value, label }: { icon: React.ReactNode; tone
 function Detail({ label, value }: { label: string; value: string }) {
   return <div><dt className="text-sm text-[#667085]">{label}</dt><dd className="mt-1 text-sm font-medium text-[#101828]">{value}</dd></div>
 }
+
 
 
