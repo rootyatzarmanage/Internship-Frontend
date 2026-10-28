@@ -14,8 +14,8 @@ const yatzarWorkflow = [
 
 export default function WhyYatzar() {
   return (
-    <section id="why-yatzar" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto w-[84%] max-w-[1600px]">
+    <section id="why-yatzar" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Why Yatzar Manage</p>
         <h2 className="max-w-[720px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
           More than <span className="text-[#08a9ed]">project<br className="hidden sm:block" /> management</span>.
@@ -60,3 +60,4 @@ function WorkflowCard({ title, items, variant }: { title: string; items: string[
     </article>
   )
 }
+

@@ -9,13 +9,13 @@ const audiences = [
 
 export default function Stakeholders() {
   return (
-    <section id="stakeholders" className="scroll-mt-[78px] bg-[#0a0a0a] px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto w-[84%] max-w-[1600px]">
+    <section id="stakeholders" className="scroll-mt-[78px] bg-[#0a0a0a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Built for the built environment</p>
-        <h2 className="max-w-[1000px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
-          Everyone works from the<br className="hidden sm:block" /> same <span className="text-[#08a9ed]">records</span>.
+        <h2 className="max-w-[1000px] text-5xl font-bold leading-[1.08] tracking-[-0.025] sm:text-6xl xl:text-[68px]">
+          Everyone Works From <br className="hidden sm:block" />The Same <span className="text-[#08a9ed]">Records</span>.
         </h2>
-        <p className="mt-8 max-w-[900px] text-base leading-[1.65] text-white/90 sm:text-lg">
+        <p className="mt-8 max-w-[900px] text-xl leading-[1.65] text-white/90">
           Give each stakeholder the information they need without losing the connection to the wider asset lifecycle.
         </p>
 
@@ -31,4 +31,5 @@ export default function Stakeholders() {
     </section>
   )
 }
+
 

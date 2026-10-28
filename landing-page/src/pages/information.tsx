@@ -15,8 +15,8 @@ const stats = [
 
 export default function Information() {
   return (
-    <section id="information-problem" className="scroll-mt-[78px] bg-[#0a0a0a] px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto w-[84%] max-w-[1600px]">
+    <section id="information-problem" className="scroll-mt-[78px] bg-[#0a0a0a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The information problem</p>
         <h2 className="max-w-[950px] font-bold leading-[1.08] tracking-tight text-[76px]">
           The project ends. The<br className="hidden sm:block" /> <span className="text-[#08a9ed]">information</span> shouldn’t.
@@ -37,3 +37,4 @@ export default function Information() {
     </section>
   )
 }
+

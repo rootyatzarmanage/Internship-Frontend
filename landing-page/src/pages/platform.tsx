@@ -10,8 +10,8 @@ const platformFeatures = [
 
 export default function Platform() {
   return (
-    <section id="platform" className="scroll-mt-[78px] bg-black px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto grid w-[84%] max-w-[1600px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
+    <section id="platform" className="scroll-mt-[78px] bg-black px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <div>
           <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The platform</p>
           <h2 className="max-w-[700px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
@@ -37,3 +37,4 @@ export default function Platform() {
     </section>
   )
 }
+

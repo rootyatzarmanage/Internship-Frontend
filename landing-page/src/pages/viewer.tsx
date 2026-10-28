@@ -33,8 +33,8 @@ export default function Viewer() {
   }, [])
 
   return (
-    <section id="how-it-works" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto w-[84%] max-w-[1600px]">
+    <section id="how-it-works" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">See the connection</p>
         <h2 className="max-w-full text-[76px] font-bold leading-[1.12] tracking-[-0.02em]">
           From a model element to<br className="hidden sm:block" /> its <span className="text-[#08a9ed]">records</span>.
@@ -59,4 +59,5 @@ export default function Viewer() {
     </section>
   )
 }
+
 

@@ -26,8 +26,8 @@ export default function EightStages() {
   const firstStageNumber = activePhase === 'build' ? 1 : 5
 
   return (
-    <section id="eight-stages" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white md:px-10 lg:py-24">
-      <div className="mx-auto w-[84%] max-w-[1600px]">
+    <section id="eight-stages" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+      <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-lg uppercase tracking-wide text-[#08b5f5]">One record. Eight stages.</p>
         <h2 className="max-w-[950px] text-[76px] font-bold leading-[1.08] tracking-tight">
           Information moves<br className="hidden sm:block" /> with the <span className="text-[#08a9ed]">asset</span>.
@@ -57,3 +57,4 @@ export default function EightStages() {
     </section>
   )
 }
+

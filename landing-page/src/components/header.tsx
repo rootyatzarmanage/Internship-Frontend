@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import logo from '../assets/logo.png'
 
 const links = [
   { label: 'Platform', href: '#platform' },
@@ -14,7 +15,7 @@ export default function Header() {
     <header className="sticky top-0 z-30 border-b border-white/10 bg-black text-white">
       <div className="mx-auto flex h-[78px] max-w-[1600px] items-center justify-between px-5 md:px-0">
         <a href="#top" aria-label="Yatzar Manage home" className="flex shrink-0 items-center gap-3 text-[19px] font-medium tracking-wide">
-          <svg aria-hidden="true" viewBox="0 0 32 20" className="h-6 w-8" fill="none"><path d="M2 10c0-4 2.7-7 6.5-7 3.2 0 5.4 3 7.5 7 2.1 4 4.3 7 7.5 7 3.8 0 6.5-3 6.5-7s-2.7-7-6.5-7c-3.2 0-5.4 3-7.5 7-2.1 4-4.3 7-7.5 7C4.7 17 2 14 2 10Z" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"/></svg>
+          <img src={logo} alt="" aria-hidden="true" className="h-6 w-8 object-contain brightness-0 invert" />
           <span>YATZAR MANAGE</span>
         </a>
 
