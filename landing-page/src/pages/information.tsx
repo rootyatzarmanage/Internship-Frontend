@@ -15,11 +15,11 @@ const stats = [
 
 export default function Information() {
   return (
-    <section id="information-problem" className="scroll-mt-[78px] bg-[#0a0a0a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+    <section id="information-problem" className="bg-[#0a0a0a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The information problem</p>
-        <h2 className="max-w-[950px] font-bold leading-[1.08] tracking-tight text-[76px]">
-          The project ends. The<br className="hidden sm:block" /> <span className="text-[#08a9ed]">information</span> shouldn’t.
+        <h2 className="max-w-[950px] text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[76px]">
+          The project ends. <br className="hidden sm:block" /> The <span className="text-[#08a9ed]">information</span><br className="hidden sm:block" /> shouldn’t.
         </h2>
         <p className="mt-8 max-w-[900px] text-xl leading-[1.65] text-white/85 sm:text-xl">
           Many teams create information, in many tools, and much of it is lost at handover. Yatzar Manage carries it forward into the working life of the asset.

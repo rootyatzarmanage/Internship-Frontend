@@ -64,13 +64,13 @@ export default function Faq() {
   return (
     <section
       id="faq"
-      className="w-full scroll-mt-20 bg-[#181818] px-5 py-16 text-white sm:px-8 lg:px-12 lg:py-20 2xl:px-0"
+      className="w-full bg-[#181818] px-5 py-16 text-white sm:px-8 lg:px-12 lg:py-20 2xl:px-0"
     >
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="text-base font-normal uppercase text-[#00aeef]">
           Questions
         </p>
-        <h2 className="mt-8 text-[76px] font-bold leading-tight tracking-[0.02em]">
+        <h2 className="mt-6 text-4xl font-bold leading-tight tracking-[0.02em] sm:mt-8 sm:text-5xl lg:text-[76px]">
           Frequently Asked <span className="text-[#00aeef]">Questions</span>.
         </h2>
 
@@ -111,7 +111,7 @@ export default function Faq() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="max-w-[1000px] pb-6 pr-10 text-base leading-[1.7] text-white/90 lg:pb-5 lg:text-xl lg:leading-[34px]">
+                    <p className="max-w-[1000px] pb-6 pr-2 text-base leading-[1.7] text-white/90 sm:pr-10 lg:pb-5 lg:text-xl lg:leading-[34px]">
                       {item.answer}
                     </p>
                   </div>

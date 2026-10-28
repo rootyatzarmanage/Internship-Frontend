@@ -8,7 +8,7 @@ const standards = ['ISO 19650', 'IFC 4.3', 'BCF', 'IDS', 'COBie', 'openBIM']
 
 export default function OpenByDesign() {
   return (
-    <section id="open-by-design" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+    <section id="open-by-design" className="bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Open by design</p>
         <h2 className="max-w-[1000px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">

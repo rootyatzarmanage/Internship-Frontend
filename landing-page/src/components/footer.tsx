@@ -22,16 +22,16 @@ const columns = [
     title: 'Account',
     links: [
       { label: 'Login', href: '#' },
-      { label: 'Sign up', href: '#' },
-      { label: 'Book a demo', href: '#cta' },
+      { label: 'Sign Up', href: '#' },
+      { label: 'Book a Demo', href: '#cta' },
     ],
   },
 ]
 
 const legal = [
-  { label: 'Privacy policy', href: '#' },
-  { label: 'Terms of use', href: '#' },
-  { label: 'Refund policy', href: '#' },
+  { label: 'Privacy Policy', href: '#' },
+  { label: 'Terms of Use', href: '#' },
+  { label: 'Refund Policy', href: '#' },
 ]
 
 const linkClass =
@@ -74,14 +74,11 @@ export default function Footer() {
     <footer className="w-full bg-black px-5 pb-10 pt-10 text-white sm:px-8 lg:px-12 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         {/* Top: brand + link columns */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[555px_245px_316px_284px_1fr] lg:gap-x-0">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
             <a href="#" className="flex items-center gap-2" aria-label="Yatzar Manage home">
-              <img src={logo} alt="" aria-hidden="true" className="h-7 w-9 object-contain brightness-0 invert" />
-              <span className="text-2xl font-normal uppercase tracking-tight lg:text-[32px]">
-                Yatzar Manage
-              </span>
+              <img src={logo} alt="Yatzar Manage" className="h-auto w-[180px] max-w-full object-contain" />
             </a>
             <p className="mt-4 max-w-[400px] text-base leading-7 text-white/90 lg:text-xl lg:leading-[34px]">
               Digital project and asset management for the built environment.
@@ -89,48 +86,50 @@ export default function Footer() {
           </div>
 
           {/* Link columns */}
-          {columns.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
-              <h3 className={headingClass}>{col.title}</h3>
-              <ul className="mt-5 flex flex-col gap-[22px]">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a href={link.href} className={linkClass}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+          <div className="col-span-2 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-2 lg:col-span-1 lg:ml-auto lg:w-fit lg:grid-cols-[repeat(4,max-content)] lg:gap-x-20">
+            {columns.map((col) => (
+              <nav key={col.title} aria-label={col.title}>
+                <h3 className={headingClass}>{col.title}</h3>
+                <ul className="mt-5 flex flex-col gap-[22px]">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <a href={link.href} className={linkClass}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
 
-          {/* Social */}
-          <div>
-            <h3 className={headingClass}>Social media</h3>
-            <ul className="mt-5 flex flex-col gap-[22px]">
-              <li>
-                <a
-                  href="https://www.instagram.com/yatzar_creations"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkClass} flex items-center gap-3`}
-                >
-                  <InstagramIcon />
-                  <span>yatzar_creations</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.linkedin.com/company/yatzar-creations-private-limited"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkClass} flex items-center gap-3`}
-                >
-                  <LinkedInIcon />
-                  <span>Yatzar Creations</span>
-                </a>
-              </li>
-            </ul>
+            {/* Social */}
+            <div>
+              <h3 className={headingClass}>Social media</h3>
+              <ul className="mt-5 flex flex-col gap-[22px]">
+                <li>
+                  <a
+                    href="https://www.instagram.com/yatzar_creations"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} flex items-center gap-3`}
+                  >
+                    <InstagramIcon />
+                    <span className="break-all">yatzar_creations</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/company/yatzar-creations-private-limited"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} flex items-center gap-3`}
+                  >
+                    <LinkedInIcon />
+                    <span>Yatzar Creations</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -144,7 +143,7 @@ export default function Footer() {
             Technology, Coimbatore.
           </p>
 
-          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+          <ul className="flex flex-wrap gap-x-4 gap-y-2 max-[450px]:flex-col max-[450px]:items-start">
             {legal.map((item) => (
               <li key={item.label}>
                 <a

@@ -10,7 +10,7 @@ const platformFeatures = [
 
 export default function Platform() {
   return (
-    <section id="platform" className="scroll-mt-[78px] bg-black px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+    <section id="platform" className="bg-black px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <div>
           <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The platform</p>
@@ -22,7 +22,7 @@ export default function Platform() {
             {platformFeatures.map((feature, index) => (
               <article key={feature.title} className={`py-6 max-w-[500px] ${index < platformFeatures.length - 1 ? 'border-b border-white/25' : ''}`}>
                 <p className="text-xl leading-7 sm:text-lg">
-                  <strong className="font-semibold text-[#08a9ed]">{feature.title} - </strong>
+                  <strong className="font-semibold capitalize text-[#08a9ed]">{feature.title} - </strong>
                   <span className="text-white/90">{feature.text}</span>
                 </p>
               </article>

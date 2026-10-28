@@ -33,24 +33,24 @@ export default function Viewer() {
   }, [])
 
   return (
-    <section id="how-it-works" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+    <section id="how-it-works" className="bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">See the connection</p>
-        <h2 className="max-w-full text-[76px] font-bold leading-[1.12] tracking-[-0.02em]">
+        <h2 className="max-w-full text-4xl font-bold leading-[1.12] tracking-[-0.02em] sm:text-5xl lg:text-[76px]">
           From a model element to<br className="hidden sm:block" /> its <span className="text-[#08a9ed]">records</span>.
         </h2>
-        <p className="mt-8 max-w-[780px] text-xl leading-6 text-white/85">
+        <p className="mt-6 max-w-[780px] text-lg leading-7 text-white/85 sm:mt-8 sm:text-xl">
           Select an element in the IFC model and see the asset ID, class, level and the records attached to it: manuals, warranties and work orders.
         </p>
 
-        <div className={`relative mt-8 aspect-[2.45] w-full overflow-hidden rounded-xl border border-white/15 bg-[#e9eef4] text-[#475467] shadow-[0_8px_30px_rgba(0,0,0,0.25)] ${fullscreen ? 'fixed inset-4 z-50 mt-0 aspect-auto' : ''}`}>
+        <div className={`relative mt-8 aspect-[1.2] w-full overflow-hidden rounded-xl border border-white/15 bg-[#e9eef4] text-[#475467] shadow-[0_8px_30px_rgba(0,0,0,0.25)] sm:aspect-[2.45] ${fullscreen ? 'fixed inset-2 z-50 mt-0 aspect-auto sm:inset-4' : ''}`}>
           <div ref={modelContainerRef} className="absolute inset-0 bg-[linear-gradient(180deg,#e9eef4_0%,#f5f7fa_55%,#e9eef4_100%)]" />
           {!modelLoaded && <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/30 p-6 text-center">
             <p className="rounded-lg bg-white/90 px-4 py-3 text-sm text-slate-600 shadow-sm">Loading house model…</p>
           </div>}
-          <div className="absolute bottom-4 right-4 flex gap-2">
-            <button type="button" onClick={() => modelViewerRef.current?.setAttribute('camera-orbit', '45deg 65deg 105%')} className="rounded-md border border-slate-300 bg-white/90 px-3 py-2 text-xs text-slate-600 shadow-sm hover:bg-white hover:cursor-pointer">Isometric</button>
-            <button type="button" onClick={() => setFullscreen((value) => !value)} className="rounded-md border border-slate-300 bg-white/90 px-3 py-2 text-xs text-slate-700 shadow-sm transition hover:bg-white hover:cursor-pointer">
+          <div className="absolute bottom-2 right-2 flex flex-wrap justify-end gap-2 sm:bottom-4 sm:right-4">
+            <button type="button" onClick={() => modelViewerRef.current?.setAttribute('camera-orbit', '45deg 65deg 105%')} className="rounded-md border border-slate-300 bg-white/90 px-2 py-2 text-[10px] text-slate-600 shadow-sm hover:bg-white hover:cursor-pointer sm:px-3 sm:text-xs">Isometric</button>
+            <button type="button" onClick={() => setFullscreen((value) => !value)} className="rounded-md border border-slate-300 bg-white/90 px-2 py-2 text-[10px] text-slate-700 shadow-sm transition hover:bg-white hover:cursor-pointer sm:px-3 sm:text-xs">
               {fullscreen ? 'Exit full screen' : 'Full screen'}
             </button>
           </div>

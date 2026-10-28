@@ -14,7 +14,7 @@ const yatzarWorkflow = [
 
 export default function WhyYatzar() {
   return (
-    <section id="why-yatzar" className="scroll-mt-[78px] bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
+    <section id="why-yatzar" className="bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Why Yatzar Manage</p>
         <h2 className="max-w-[720px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
@@ -37,8 +37,8 @@ function WorkflowCard({ title, items, variant }: { title: string; items: string[
   const isTraditional = variant === 'traditional'
 
   return (
-    <article className={`rounded-xl px-[30px] py-[60px] ${isTraditional ? 'bg-[#f8f8f8] text-black' : 'bg-black text-white'}`}>
-      <h3 className={`border-b pb-8 text-[39px] font-semibold ${isTraditional ? 'border-[#0A0A0A]' : 'border-[#525252]'}`}>{title}</h3>
+    <article className={`rounded-xl px-5 py-8 sm:px-[30px] sm:py-[60px] ${isTraditional ? 'bg-[#f8f8f8] text-black' : 'bg-black text-white'}`}>
+      <h3 className={`border-b pb-6 text-3xl font-semibold sm:pb-8 sm:text-[39px] ${isTraditional ? 'border-[#0A0A0A]' : 'border-[#525252]'}`}>{title}</h3>
       <ul className={`divide-y ${isTraditional ? 'divide-[#0A0A0A]' : 'divide-[#525252]'}`}>
         {items.map((item) => (
           <li key={item} className="flex min-h-[67px] items-center gap-3 py-3 text-sm leading-5 sm:text-base">
@@ -53,7 +53,7 @@ function WorkflowCard({ title, items, variant }: { title: string; items: string[
                 </svg>
               )}
             </span>
-            <span className="text-xl">{item}</span>
+            <span className="text-base sm:text-xl">{item}</span>
           </li>
         ))}
       </ul>
