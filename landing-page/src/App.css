@@ -19,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 section[id] {
@@ -36,6 +37,10 @@ body,
   min-width: 320px;
   min-height: 100%;
   margin: 0;
+}
+
+body {
+  overflow-x: clip;
 }
 
 h1,

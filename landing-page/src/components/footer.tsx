@@ -4,10 +4,10 @@ const columns = [
   {
     title: 'Product',
     links: [
-      { label: 'Lifecycle', href: '#lifecycle' },
-      { label: 'Platform', href: '#platform' },
-      { label: 'FAQ', href: '#faq' },
-      { label: 'Contact', href: '#contact' },
+      { label: 'Lifecycle', href: '/#eight-stages' },
+      { label: 'Platform', href: '/#platform' },
+      { label: 'FAQ', href: '/#faq' },
+      { label: 'Contact', href: '/#cta' },
     ],
   },
   {
@@ -23,7 +23,7 @@ const columns = [
     links: [
       { label: 'Login', href: '#' },
       { label: 'Sign Up', href: '#' },
-      { label: 'Book a Demo', href: '#cta' },
+      { label: 'Book a Demo', href: '/#cta' },
     ],
   },
 ]
@@ -77,7 +77,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
-            <a href="#" className="flex items-center gap-2" aria-label="Yatzar Manage home">
+            <a href="/" className="flex items-center gap-2" aria-label="Yatzar Manage home">
               <img src={logo} alt="Yatzar Manage" className="h-auto w-[180px] max-w-full object-contain" />
             </a>
             <p className="mt-4 max-w-[400px] text-base leading-7 text-white/90 lg:text-xl lg:leading-[34px]">
