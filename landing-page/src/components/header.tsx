@@ -21,6 +21,7 @@ export default function Header() {
         <nav aria-label="Main navigation" className="hidden items-center gap-4 text-base text-white/90 lg:flex xl:gap-7 xl:text-lg">
           {sectionLinks.map((link) => <Link key={link.label} to="/" hash={link.hash} className="transition hover:text-[#08a9ed] xl:text-xl">{link.label}</Link>)}
           <Link to="/pricing" className="transition hover:text-[#08a9ed] xl:text-xl">Pricing</Link>
+          <Link to="/contact" className="transition hover:text-[#08a9ed] xl:text-xl">Contact</Link>
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
@@ -36,6 +37,7 @@ export default function Header() {
         <div className="mx-auto flex max-w-[1600px] flex-col gap-3 text-sm">
           {sectionLinks.map((link) => <Link key={link.label} to="/" hash={link.hash} onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">{link.label}</Link>)}
           <Link to="/pricing" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Pricing</Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Contact</Link>
           <Link to="/" hash="cta" onClick={() => setMenuOpen(false)} className="mt-1 text-[#08a9ed]">Book a Demo <svg aria-hidden="true" viewBox="0 0 16 16" className="inline h-3 w-3 text-xs" fill="none"><path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></Link>
           <a href="#login" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Login / Sign-Up</a>
         </div>

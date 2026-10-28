@@ -7,7 +7,7 @@ const columns = [
       { label: 'Lifecycle', href: '/#eight-stages' },
       { label: 'Platform', href: '/#platform' },
       { label: 'FAQ', href: '/#faq' },
-      { label: 'Contact', href: '/#cta' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {

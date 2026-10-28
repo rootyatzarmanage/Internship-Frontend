@@ -1,6 +1,7 @@
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router'
 import Landing from './pages/landing'
 import Pricing from './pages/pricing'
+import Contact from './pages/contact'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -22,7 +23,13 @@ const pricingRoute = createRoute({
   component: Pricing,
 })
 
-const routeTree = rootRoute.addChildren([landingRoute, pricingRoute])
+const contactRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/contact',
+  component: Contact,
+})
+
+const routeTree = rootRoute.addChildren([landingRoute, pricingRoute, contactRoute])
 
 export const router = createRouter({
   routeTree,
