@@ -162,15 +162,15 @@ export default function Pricing() {
         <div className="mx-auto max-w-[1600px]">
           <header className="mx-auto text-center">
             <p className="text-base font-regular uppercase tracking-wide text-[#00A6F4]">Pricing</p>
-            <h1 className="mt-8 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[76px]">
+            <h1 className="mt-8 text-3xl font-bold leading-[1.08] tracking-tight min-[380px]:text-4xl sm:text-5xl lg:text-[76px]">
               Plans For Every Stage
               <br className="hidden sm:block" /> Of The Asset Lifecycle.
             </h1>
-            <p className="mt-8 text-[20px] sm:text-base">
+            <p className="mt-6 text-base sm:mt-8 sm:text-base">
               Choose project information, asset information, or both. Pay yearly or half yearly.
             </p>
 
-            <div className="relative mx-auto mt-[60px] mb-[60px] flex h-[70px] w-full max-w-[365px] items-center rounded-full border border-[#737373] p-[5px]" aria-label="Billing cycle">
+            <div className="relative mx-auto mt-10 mb-10 flex h-[58px] w-full max-w-[365px] items-center rounded-full border border-[#737373] p-[5px] sm:mt-[60px] sm:mb-[60px] sm:h-[70px]" aria-label="Billing cycle">
               <span
                 aria-hidden="true"
                 className={`pointer-events-none absolute top-[5px] bottom-[5px] left-[5px] w-[calc(50%-5px)] rounded-full bg-[#00A6F4] transition-transform duration-300 ease-in-out ${billingCycle === 'half-yearly' ? 'translate-x-full' : 'translate-x-0'}`}
@@ -182,17 +182,17 @@ export default function Pricing() {
                 className={`relative z-10 inline-flex h-full w-1/2 min-w-0 flex-none items-center justify-center rounded-full px-1 text-center transition-colors duration-300 hover:cursor-pointer ${billingCycle === 'yearly' ? 'text-white' : 'text-white/80'}`}
               >
                 <span className="inline-flex w-full items-center justify-center gap-1 whitespace-nowrap">
-                  <span className="text-xl font-bold leading-[34px]">Yearly</span>
-                  <span className="text-base font-xs leading-5">Save 20%</span>
+                  <span className="text-base font-bold leading-5 sm:text-xl sm:leading-[34px]">Yearly</span>
+                  <span className="text-xs leading-5 sm:text-base">Save 20%</span>
                 </span>
               </button>
               <button
                 type="button"
                 aria-pressed={billingCycle === 'half-yearly'}
                 onClick={() => setBillingCycle('half-yearly')}
-                className={`relative z-10 inline-flex h-full w-1/2 min-w-0 flex-none items-center justify-center rounded-full px-2 text-center font-semibold transition-colors duration-300 sm:px-4 sm:text-lg hover:cursor-pointer ${billingCycle === 'half-yearly' ? 'text-white' : 'text-white/80'}`}
+                className={`relative z-10 inline-flex h-full w-1/2 min-w-0 flex-none items-center justify-center rounded-full px-0 text-center font-semibold transition-colors duration-300 sm:px-4 sm:text-lg hover:cursor-pointer ${billingCycle === 'half-yearly' ? 'text-white' : 'text-white/80'}`}
               >
-                <span className="font-bold text-xl" style={{ fontWeight: 700 }}>Half Yearly</span>
+                <span className="whitespace-nowrap text-base font-bold sm:text-xl" style={{ fontWeight: 700 }}>Half Yearly</span>
             </button>
             </div>
           </header>

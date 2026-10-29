@@ -25,7 +25,7 @@ function ContactForm() {
     <form onSubmit={submitContactForm} className="mt-8 space-y-5 sm:mt-10">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className={labelClass}>
-          First Name <span className="text-red-500" aria-hidden="true">*</span>
+          First Name <span className="text-white" aria-hidden="true">*</span>
           <input className={fieldClass} name="firstName" autoComplete="given-name" placeholder="First name" required />
         </label>
         <label className={labelClass}>
@@ -35,7 +35,7 @@ function ContactForm() {
       </div>
 
       <label className={`block ${labelClass}`}>
-        Work Email <span className="text-red-500" aria-hidden="true">*</span>
+        Work Email <span className="text-white" aria-hidden="true">*</span>
         <input className={fieldClass} type="email" name="email" autoComplete="email" placeholder="you@company.com" required />
       </label>
 
@@ -64,7 +64,7 @@ function ContactForm() {
       </label>
 
       <label className={`block ${labelClass}`}>
-        Message <span className="text-red-500" aria-hidden="true">*</span>
+        Message <span className="text-white" aria-hidden="true">*</span>
         <textarea className="mt-2 min-h-32 w-full resize-y rounded-xl border border-[#525252] bg-black px-6 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] sm:text-base lg:text-lg" name="message" placeholder="Tell us how we can help..." required />
       </label>
 
