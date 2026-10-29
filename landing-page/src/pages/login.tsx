@@ -12,8 +12,6 @@ function Mark() {
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
-  // UI-only: no verification happens, this just toggles the box
-  const [robotChecked, setRobotChecked] = useState(false)
 
   function submitLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

@@ -19,7 +19,6 @@ const COPPER = '#D9895A'
 
 const SOLID: RGB = [18, 28, 38]
 const SOLID_TOP: RGB = [26, 40, 54]
-const GLASS: RGB = [8, 40, 60]
 const WOOD: RGB = [70, 46, 28]
 const WOOD_TOP: RGB = [96, 64, 38]
 const GREEN: RGB = [22, 84, 62]
