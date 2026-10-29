@@ -8,21 +8,22 @@ type Box = { x0: number; x1: number; y0: number; y1: number; z0: number; z1: num
 type FaceId = 'px' | 'nx' | 'pz' | 'nz' | 'top'
 
 /* ---------- the building ----------
-   The model is a set of simple boxes. Every visible face is filled (so the
-   back of the building is hidden), shaded by a fixed light, and patterned with
-   floor lines and mullions. Faces are depth-sorted every frame (painter's
-   algorithm), which is what makes it read as a solid building instead of
-   see-through outlines. y is up. */
+   Modelled on the concrete study model: a base plate with a timber rim, an
+   open-frame block on pilotis (slabs + columns, no walls), a solid concrete
+   core with slit windows, a roof box, a planted roof garden and a stacked
+   block tower at the back right. Faces are filled, lit by a fixed light and
+   depth-sorted every frame (painter's algorithm). y is up. */
 
-const FLOOR_H = 0.6
 const EDGE = '#00A6F4'
 const COPPER = '#D9895A'
 
-const GLASS: RGB = [8, 40, 60]
-const GLASS_TOP: RGB = [14, 52, 76]
 const SOLID: RGB = [18, 28, 38]
 const SOLID_TOP: RGB = [26, 40, 54]
-const COPPER_BASE: RGB = [52, 30, 18]
+const GLASS: RGB = [8, 40, 60]
+const WOOD: RGB = [70, 46, 28]
+const WOOD_TOP: RGB = [96, 64, 38]
+const GREEN: RGB = [22, 84, 62]
+const GREEN_TOP: RGB = [30, 110, 80]
 
 const NORMALS: Record<FaceId, V3> = {
   px: [1, 0, 0],
@@ -48,20 +49,20 @@ const facePts = (b: Box, id: FaceId): V3[] => {
   }
 }
 
-// floor lines and vertical mullions drawn on one side face
-const facadeLines = (b: Box, id: Exclude<FaceId, 'top'>, floorH: number, mull: number): Seg[] => {
+// horizontal bands and vertical joints drawn on one side face
+const facadeLines = (b: Box, id: Exclude<FaceId, 'top'>, bandH: number, joint: number): Seg[] => {
   const alongX = id === 'pz' || id === 'nz'
   const fixed = id === 'pz' ? b.z1 : id === 'nz' ? b.z0 : id === 'px' ? b.x1 : b.x0
   const a0 = alongX ? b.x0 : b.z0
   const a1 = alongX ? b.x1 : b.z1
   const pt = (a: number, y: number): V3 => (alongX ? [a, y, fixed] : [fixed, y, a])
   const out: Seg[] = []
-  const floors = Math.round((b.y1 - b.y0) / floorH)
-  for (let k = 1; k < floors; k++) {
-    const y = b.y0 + k * floorH
+  const bands = Math.round((b.y1 - b.y0) / bandH)
+  for (let k = 1; k < bands; k++) {
+    const y = b.y0 + k * bandH
     out.push([pt(a0, y), pt(a1, y)])
   }
-  const m = Math.max(1, Math.round((a1 - a0) / mull))
+  const m = Math.max(1, Math.round((a1 - a0) / joint))
   for (let k = 1; k < m; k++) {
     const a = a0 + ((a1 - a0) * k) / m
     out.push([pt(a, b.y0), pt(a, b.y1)])
@@ -71,7 +72,7 @@ const facadeLines = (b: Box, id: Exclude<FaceId, 'top'>, floorH: number, mull: n
 
 type Item = {
   pts: V3[]
-  n?: V3 // outward normal; the face is skipped when it points away from the viewer
+  n?: V3 // outward normal; face is skipped when it points away from the viewer
   base?: RGB // lit fill colour
   fill?: string // fixed fill (overrides base)
   fillOpacity?: number
@@ -90,13 +91,12 @@ type BoxOpts = {
   faces?: FaceId[]
   base: RGB
   topBase?: RGB
-  floorH?: number
-  mull?: number
-  fins?: FaceId[]
-  finMull?: number
+  bandH?: number
+  joint?: number
 }
 
 const ALL_FACES: FaceId[] = ['pz', 'nz', 'px', 'nx', 'top']
+const SIDES: FaceId[] = ['pz', 'nz', 'px', 'nx']
 
 function addBox(b: Box, o: BoxOpts) {
   for (const id of o.faces ?? ALL_FACES) {
@@ -107,85 +107,113 @@ function addBox(b: Box, o: BoxOpts) {
       stroke: EDGE,
       sw: 1,
     }
-    if (id !== 'top') {
-      if (o.fins?.includes(id)) {
-        item.base = COPPER_BASE
-        item.lines = facadeLines(b, id, 999, o.finMull ?? 0.1)
-        item.lineStroke = COPPER
-        item.lineOpacity = 0.9
-        item.lineSw = 1
-      } else if (o.mull !== undefined) {
-        item.lines = facadeLines(b, id, o.floorH ?? FLOOR_H, o.mull)
-        item.lineStroke = EDGE
-        item.lineOpacity = 0.5
-        item.lineSw = 0.6
-      }
+    if (id !== 'top' && o.joint !== undefined) {
+      item.lines = facadeLines(b, id, o.bandH ?? 999, o.joint)
+      item.lineStroke = EDGE
+      item.lineOpacity = 0.5
+      item.lineSw = 0.6
     }
     ITEMS.push(item)
   }
 }
 
-const SIDES: FaceId[] = ['pz', 'nz', 'px', 'nx']
+// a column is just a thick line
+const column = (x: number, z: number, y0: number, y1: number, sw: number) => {
+  ITEMS.push({ pts: [[x, y0, z], [x, y1, z]], fill: 'none', stroke: COPPER, sw })
+}
 
-const GROUND_FLOOR: Box = { x0: -2.2, x1: 2.2, z0: -1.4, z1: 1.3, y0: 0, y1: 1.1 }
-const PODIUM_SLAB: Box = { x0: -2.5, x1: 2.5, z0: -1.7, z1: 1.7, y0: 1.1, y1: 1.2 }
-const TOWER: Box = { x0: -1.4, x1: 1.0, z0: -1.1, z1: 1.1, y0: 1.2, y1: 4.8 }
-const TOWER_ROOF: Box = { x0: -1.55, x1: 1.15, z0: -1.25, z1: 1.25, y0: 4.8, y1: 4.9 }
-const WING: Box = { x0: 1.0, x1: 2.2, z0: -0.9, z1: 0.9, y0: 1.2, y1: 3.0 }
-const WING_SLAB: Box = { x0: 1.0, x1: 2.35, z0: -1.05, z1: 1.05, y0: 3.0, y1: 3.1 }
-const LOUVER: Box = { x0: -2.2, x1: -1.4, z0: -0.9, z1: 1.3, y0: 1.2, y1: 3.6 }
-const CANTILEVER: Box = { x0: -0.4, x1: 1.0, z0: 1.1, z1: 1.7, y0: 2.4, y1: 3.6 }
-const PENTHOUSE: Box = { x0: -0.9, x1: 0.6, z0: -0.8, z1: 0.7, y0: 4.9, y1: 5.6 }
-const STAIR: Box = { x0: 0.2, x1: 1.0, z0: -1.6, z1: -1.1, y0: 1.2, y1: 5.4 }
+// small vertical slit windows on one face of a box
+function addSlits(b: Box, id: 'pz' | 'px', at: number, y0: number, count: number) {
+  for (let k = 0; k < count; k++) {
+    const ya = y0 + k * 0.5
+    const yb = ya + 0.28
+    const w = 0.07
+    const pts: V3[] =
+      id === 'px'
+        ? [[b.x1, ya, at - w], [b.x1, ya, at + w], [b.x1, yb, at + w], [b.x1, yb, at - w]]
+        : [[at - w, ya, b.z1], [at + w, ya, b.z1], [at + w, yb, b.z1], [at - w, yb, b.z1]]
+    ITEMS.push({
+      pts,
+      n: NORMALS[id],
+      fill: EDGE,
+      fillOpacity: 0.55,
+      stroke: 'none',
+      sw: 0,
+      bias: -0.3,
+    })
+  }
+}
 
-addBox(GROUND_FLOOR, { faces: SIDES, base: GLASS, mull: 0.55, floorH: 99 })
-addBox(PODIUM_SLAB, { base: SOLID, topBase: SOLID_TOP })
-addBox(TOWER, { faces: SIDES, base: GLASS, mull: 0.4 })
-addBox(TOWER_ROOF, { base: SOLID, topBase: SOLID_TOP })
-addBox(WING, { faces: SIDES, base: GLASS, mull: 0.4 })
-addBox(WING_SLAB, { base: SOLID, topBase: SOLID_TOP })
-addBox(LOUVER, { base: SOLID, topBase: SOLID_TOP, fins: ['pz', 'nx', 'nz'], finMull: 0.1 })
-addBox(CANTILEVER, { base: GLASS, topBase: GLASS_TOP, mull: 0.35 })
-addBox(PENTHOUSE, { base: GLASS, topBase: SOLID_TOP, mull: 0.5, floorH: 99 })
-addBox(STAIR, { base: SOLID, topBase: SOLID_TOP, mull: 0.2, floorH: 999 })
+/* base plate with timber rim */
+const RIM: Box = { x0: -3.4, x1: 3.4, z0: -2.7, z1: 2.7, y0: -0.12, y1: 0.02 }
+const PLATE: Box = { x0: -3.1, x1: 3.1, z0: -2.4, z1: 2.4, y0: 0, y1: 0.05 }
 
-// highlighted floor on the tower (floor 5)
-const BAND: Box = { ...TOWER, y0: TOWER.y0 + FLOOR_H * 4, y1: TOWER.y0 + FLOOR_H * 5 }
+/* levels: podium top 1.1, then slabs at 2.0, 2.9 and the roof at 3.8 */
+const PODIUM: Box = { x0: -2.8, x1: 3.0, z0: -2.0, z1: 1.6, y0: 0.95, y1: 1.1 }
+const FRAME = { x0: -2.6, x1: 1.2, z0: -1.8, z1: 1.4 }
+const SLAB_2: Box = { ...FRAME, y0: 2.0, y1: 2.1 }
+const SLAB_3: Box = { ...FRAME, y0: 2.9, y1: 3.0 }
+const ROOF: Box = { x0: -2.7, x1: 1.2, z0: -1.9, z1: 1.5, y0: 3.8, y1: 3.9 }
+const CORE: Box = { x0: 1.2, x1: 2.4, z0: -1.8, z1: 0.4, y0: 1.1, y1: 4.7 }
+const CORE_PLANTER: Box = { x0: 1.5, x1: 2.1, z0: -1.4, z1: -0.8, y0: 4.7, y1: 5.1 }
+const ROOF_BOX: Box = { x0: -0.7, x1: 1.2, z0: -1.8, z1: -0.4, y0: 3.9, y1: 5.0 }
+const STACK: Box = { x0: 2.4, x1: 3.0, z0: -1.5, z1: -0.7, y0: 1.1, y1: 3.7 }
+const TREE: Box = { x0: -1.7, x1: -1.25, z0: -0.4, z1: 0.05, y0: 3.9, y1: 4.35 }
+
+addBox(RIM, { base: WOOD, topBase: WOOD_TOP })
+addBox(PLATE, { base: SOLID, topBase: SOLID_TOP })
+addBox(PODIUM, { base: SOLID, topBase: SOLID_TOP })
+addBox(STACK, { faces: SIDES, base: SOLID, bandH: 0.43, joint: 99 })
+addBox({ ...STACK, y0: 3.7, y1: 3.78 }, { base: SOLID, topBase: SOLID_TOP })
+addBox(CORE, { faces: SIDES, base: SOLID, bandH: 99, joint: 99 })
+addBox({ ...CORE, y0: 4.7, y1: 4.78 }, { base: SOLID, topBase: SOLID_TOP })
+addBox(CORE_PLANTER, { base: GREEN, topBase: GREEN_TOP })
+addBox(SLAB_2, { base: SOLID, topBase: SOLID_TOP })
+addBox(SLAB_3, { base: SOLID, topBase: SOLID_TOP })
+addBox(ROOF, { base: SOLID, topBase: GREEN })
+addBox(ROOF_BOX, { base: SOLID, topBase: SOLID_TOP })
+addBox(TREE, { base: GREEN, topBase: GREEN_TOP })
+
+addSlits(CORE, 'px', -0.35, 1.6, 6)
+addSlits(CORE, 'pz', 1.35, 1.6, 6)
+
+// highlighted floor on the core
+const BAND: Box = { ...CORE, y0: 2.1, y1: 2.9 }
 for (const id of SIDES) {
   ITEMS.push({
     pts: facePts(BAND, id),
     n: NORMALS[id],
     fill: EDGE,
-    fillOpacity: 0.28,
+    fillOpacity: 0.22,
     stroke: 'none',
     sw: 0,
     bias: -0.35,
   })
 }
 
-// copper columns under the podium slab
-const COL_Y: [number, number] = [0, 1.1]
-const colXs = [-2.4, -1.2, 0, 1.2, 2.4]
-const colZs = [-0.8, 0.8]
-const columnAt = (x: number, z: number) => {
-  ITEMS.push({
-    pts: [[x, COL_Y[0], z], [x, COL_Y[1], z]],
-    fill: 'none',
-    stroke: COPPER,
-    sw: 2.4,
-  })
+// pilotis under the podium
+for (const x of [-2.5, -0.9, 0.7]) {
+  column(x, 1.3, 0, 0.95, 4)
+  column(x, -1.7, 0, 0.95, 4)
 }
-for (const x of colXs) {
-  columnAt(x, 1.6)
-  columnAt(x, -1.6)
-}
-for (const z of colZs) {
-  columnAt(-2.4, z)
-  columnAt(2.4, z)
+column(2.5, -1.3, 0, 0.95, 4)
+column(2.9, -0.9, 0, 0.95, 4)
+
+// open frame: columns between slabs
+const LEVELS: [number, number][] = [[1.1, 2.0], [2.1, 2.9], [3.0, 3.8]]
+const FRAME_XS = [-2.5, -1.5, -0.5, 0.5, 1.1]
+for (const [ya, yb] of LEVELS) {
+  for (const x of FRAME_XS) {
+    column(x, 1.3, ya, yb, 2)
+    column(x, -1.7, ya, yb, 2)
+  }
+  for (const z of [-0.2]) {
+    column(-2.5, z, ya, yb, 2)
+  }
 }
 
-// site plan on the ground, like the drawing sheets under the render
-const SITE = { x0: -3.2, x1: 3.2, z0: -2.5, z1: 2.5 }
+// site plan on the ground
+const SITE = { x0: -3.8, x1: 3.8, z0: -3.0, z1: 3.0 }
 const GROUND: Seg[] = [
   [[SITE.x0, 0, SITE.z0], [SITE.x1, 0, SITE.z0]],
   [[SITE.x1, 0, SITE.z0], [SITE.x1, 0, SITE.z1]],
@@ -193,8 +221,8 @@ const GROUND: Seg[] = [
   [[SITE.x0, 0, SITE.z1], [SITE.x0, 0, SITE.z0]],
 ]
 const PLAN: Seg[] = [
-  ...[-1.67, -0.83, 0, 0.83, 1.67].map((z) => [[SITE.x0, 0, z], [SITE.x1, 0, z]] as Seg),
-  ...[-2.4, -1.6, -0.8, 0, 0.8, 1.6, 2.4].map((x) => [[x, 0, SITE.z0], [x, 0, SITE.z1]] as Seg),
+  ...[-2, -1, 0, 1, 2].map((z) => [[SITE.x0, 0, z], [SITE.x1, 0, z]] as Seg),
+  ...[-3, -2, -1, 0, 1, 2, 3].map((x) => [[x, 0, SITE.z0], [x, 0, SITE.z1]] as Seg),
 ]
 
 /* ---------- camera ---------- */
@@ -202,15 +230,15 @@ const PLAN: Seg[] = [
 const W = 480
 const H = 440
 const CX = 240
-const CY = 210
-const SCALE = 38
+const CY = 215
+const SCALE = 34
 const FOCAL = 18
 const TILT = 0.5
-const Y_OFFSET = 2.8
+const Y_OFFSET = 2.6
 const COS_T = Math.cos(TILT)
 const SIN_T = Math.sin(TILT)
 
-const START_ANGLE = 2.5 // radians, so the pinned faces start toward the viewer
+const START_ANGLE = 2.5
 const SPEED = 0.15 // radians per second (about 42s per full turn)
 
 // fixed light in camera space (upper left, in front of the model)
@@ -269,8 +297,8 @@ const CARD_X = { left: 6, right: W - CARD_W - 6 }
 
 type Pin = {
   color: string
-  p: V3 // point on the building
-  n: V3 // outward surface normal (the pin fades when it turns away)
+  p: V3
+  n: V3
   side: 'left' | 'right'
   y: number
   title: string
@@ -278,9 +306,9 @@ type Pin = {
 }
 
 const PINS: Pin[] = [
-  { color: '#5DCAA5', p: [-0.15, 5.6, -0.05], n: [0, 1, 0], side: 'right', y: 30, title: 'Model v12', sub: 'Uploaded now' },
-  { color: '#00A6F4', p: [0.3, 3.0, 1.7], n: [0, 0, 1], side: 'right', y: 168, title: 'New task', sub: 'Due Friday' },
-  { color: '#F5A524', p: [1.0, 3.9, 0.3], n: [1, 0, 0], side: 'left', y: 262, title: 'Clash found', sub: 'Duct vs beam' },
+  { color: '#5DCAA5', p: [0.25, 5.0, -1.1], n: [0, 1, 0], side: 'right', y: 30, title: 'Model v12', sub: 'Uploaded now' },
+  { color: '#00A6F4', p: [-0.5, 2.5, 1.4], n: [0, 0, 1], side: 'right', y: 168, title: 'New task', sub: 'Due Friday' },
+  { color: '#F5A524', p: [2.4, 3.4, -0.7], n: [1, 0, 0], side: 'left', y: 262, title: 'Clash found', sub: 'Duct vs beam' },
 ]
 
 const anchorX = (pin: Pin) => (pin.side === 'right' ? CARD_X.right : CARD_X.left + CARD_W)
@@ -305,7 +333,6 @@ export default function WireframeBuilding({ className = '' }: { className?: stri
       planRef.current?.setAttribute('d', segsPath(PLAN, cam))
       groundRef.current?.setAttribute('d', segsPath(GROUND, cam))
 
-      // 1. transform every item, drop faces that point away, remember depth + light
       const visible: { it: Item; cp: V3[]; depth: number; lam: number }[] = []
       for (const it of ITEMS) {
         const cp = it.pts.map(cam.point)
@@ -321,10 +348,8 @@ export default function WireframeBuilding({ className = '' }: { className?: stri
         visible.push({ it, cp, depth: cz + (it.bias ?? 0), lam })
       }
 
-      // 2. far to near
       visible.sort((a, b) => b.depth - a.depth)
 
-      // 3. write into the pooled path slots in that order
       for (let i = 0; i < ITEMS.length; i++) {
         const face = faceRefs.current[i]
         const lines = lineRefs.current[i]
@@ -398,7 +423,7 @@ export default function WireframeBuilding({ className = '' }: { className?: stri
       preserveAspectRatio="xMidYMid meet"
       className={className}
       role="img"
-      aria-label="Rotating 3D model of a multi-storey BIM building with task, clash and upload annotations"
+      aria-label="Rotating 3D model of an open-frame concrete building with task, clash and upload annotations"
     >
       <path ref={planRef} fill="none" stroke="#525252" strokeOpacity={0.45} strokeWidth={0.6} />
       <path ref={groundRef} fill="none" stroke="#525252" strokeWidth={1} strokeDasharray="4 5" />
@@ -411,7 +436,6 @@ export default function WireframeBuilding({ className = '' }: { className?: stri
         </g>
       ))}
 
-      {/* annotations are hidden on small screens, where they would be too small to read */}
       <g className="hidden sm:block">
         {PINS.map((pin, i) => {
           const x = CARD_X[pin.side]
@@ -440,10 +464,6 @@ export default function WireframeBuilding({ className = '' }: { className?: stri
           )
         })}
       </g>
-
-      <text x={CX} y={432} textAnchor="middle" fontSize={12} fill="#6f6f6f">
-        Tower A · live model
-      </text>
     </svg>
   )
 }
