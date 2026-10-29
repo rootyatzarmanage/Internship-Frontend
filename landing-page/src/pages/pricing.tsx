@@ -179,9 +179,9 @@ export default function Pricing() {
                 type="button"
                 aria-pressed={billingCycle === 'yearly'}
                 onClick={() => setBillingCycle('yearly')}
-                className={`relative z-10 inline-flex h-full min-w-0 flex-1 items-center justify-center rounded-full text-center transition-colors duration-300 hover:cursor-pointer ${billingCycle === 'yearly' ? 'text-white' : 'text-white/80'}`}
+                className={`relative z-10 inline-flex h-full w-1/2 min-w-0 flex-none items-center justify-center rounded-full px-1 text-center transition-colors duration-300 hover:cursor-pointer ${billingCycle === 'yearly' ? 'text-white' : 'text-white/80'}`}
               >
-                <span className="inline-flex items-center justify-center gap-1 whitespace-nowrap">
+                <span className="inline-flex w-full items-center justify-center gap-1 whitespace-nowrap">
                   <span className="text-xl font-bold leading-[34px]">Yearly</span>
                   <span className="text-base font-xs leading-5">Save 20%</span>
                 </span>
@@ -190,7 +190,7 @@ export default function Pricing() {
                 type="button"
                 aria-pressed={billingCycle === 'half-yearly'}
                 onClick={() => setBillingCycle('half-yearly')}
-                className={`relative z-10 inline-flex h-full min-w-0 flex-1 items-center justify-center rounded-full px-2 text-center font-semibold transition-colors duration-300 sm:px-4 sm:text-lg hover:cursor-pointer ${billingCycle === 'half-yearly' ? 'text-white' : 'text-white/80'}`}
+                className={`relative z-10 inline-flex h-full w-1/2 min-w-0 flex-none items-center justify-center rounded-full px-2 text-center font-semibold transition-colors duration-300 sm:px-4 sm:text-lg hover:cursor-pointer ${billingCycle === 'half-yearly' ? 'text-white' : 'text-white/80'}`}
               >
                 <span className="font-bold text-xl" style={{ fontWeight: 700 }}>Half Yearly</span>
             </button>
