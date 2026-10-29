@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import Header from '../components/header'
 import Footer from '../components/footer'
 
 type BillingCycle = 'yearly' | 'half-yearly'
@@ -159,8 +158,6 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Header />
-
       <main id="pricing" className="px-5 pb-12 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16 2xl:px-0">
         <div className="mx-auto max-w-[1600px]">
           <header className="mx-auto text-center">

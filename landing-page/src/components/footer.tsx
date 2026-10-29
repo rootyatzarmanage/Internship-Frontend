@@ -21,8 +21,8 @@ const columns = [
   {
     title: 'Account',
     links: [
-      { label: 'Login', href: '#' },
-      { label: 'Sign Up', href: '#' },
+      { label: 'Login', href: '/login' },
+      { label: 'Sign Up', href: '/login' },
       { label: 'Book a Demo', href: '/book-a-demo' },
     ],
   },

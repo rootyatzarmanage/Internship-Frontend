@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from 'react'
-import Header from '../components/header'
 import Footer from '../components/footer'
 import DropdownSelect from '../components/dropdown-select'
 
@@ -232,7 +231,6 @@ function DemoRequestForm({ selectedDateTime }: { selectedDateTime: string }) {
             </svg>
             </span>
 
-            {/* Text block: label + helper */}
             <span className="flex min-w-0 flex-col gap-1.5">
             <span className="text-sm leading-5 sm:text-base sm:leading-6 lg:text-lg">
                 Add this meeting directly to my Google Calendar
@@ -259,7 +257,6 @@ export default function Demo() {
   return (
     <>
     <div className="min-h-screen bg-black text-white">
-      <Header />
       <main className="px-5 py-10 sm:px-8 sm:py-14 min-[900px]:px-[clamp(5rem,8.333vw,10rem)] min-[900px]:py-[clamp(2.5rem,3.333vw,4rem)]">
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 min-[1000px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1000px]:items-start min-[1000px]:gap-[clamp(4.375rem,7.7vw,9.25rem)]">
           <section className="min-w-0">

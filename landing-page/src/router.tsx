@@ -4,11 +4,14 @@ import Pricing from './pages/pricing'
 import Contact from './pages/contact'
 import Demo from './pages/book-a-demo'
 import AnnouncementBanner from './components/announcement-banner'
+import Login from './pages/login'
+import Header from './components/header'
 
 const rootRoute = createRootRoute({
   component: () => (
     <div className="min-h-screen bg-black">
       <AnnouncementBanner />
+      <Header />
       <Outlet />
     </div>
   ),
@@ -38,7 +41,13 @@ const demoRoute = createRoute({
   component: Demo,
 })
 
-const routeTree = rootRoute.addChildren([landingRoute, pricingRoute, contactRoute, demoRoute])
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: Login,
+})
+
+const routeTree = rootRoute.addChildren([landingRoute, pricingRoute, contactRoute, demoRoute, loginRoute])
 
 export const router = createRouter({
   routeTree,

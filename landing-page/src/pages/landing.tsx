@@ -1,4 +1,3 @@
-import Header from '../components/header'
 import Hero from '../cards/hero'
 import Viewer from '../cards/viewer'
 import Information from '../cards/information'
@@ -15,7 +14,6 @@ import Footer from '../components/footer'
 export default function Landing() {
   return (
     <div className="min-h-screen bg-black">
-      <Header />
       <Hero />
       <Viewer />
       <Information />
