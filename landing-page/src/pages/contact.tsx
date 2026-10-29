@@ -17,7 +17,7 @@ function ContactForm() {
     window.location.href = `mailto:reachus@yatzarmanage.com?subject=${encodeURIComponent('Website enquiry')}&body=${encodeURIComponent(message)}`
   }
 
-  const fieldClass = 'mt-2 h-14 w-full rounded-xl border border-white/25 bg-black px-4 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef]'
+  const fieldClass = 'mt-2 h-14 w-full rounded-xl border border-white/25 bg-black px-4 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] hover:cursor-pointer'
   const labelClass = 'text-base text-white/90 sm:text-lg'
 
   return (
@@ -58,7 +58,6 @@ function ContactForm() {
           <option>Project Information Management (PIM)</option>
           <option>Asset Information Management (AIM)</option>
           <option>PIM + AIM</option>
-          <option>Enterprise portfolio</option>
           <option>Other</option>
         </select>
       </label>
@@ -68,10 +67,9 @@ function ContactForm() {
         <textarea className="mt-2 min-h-32 w-full resize-y rounded-xl border border-white/25 bg-black px-4 py-3 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef]" name="message" placeholder="Tell us how we can help..." required />
       </label>
 
-      <button type="submit" className="inline-flex h-12 items-center justify-center rounded-lg bg-[#00A6F4] px-6 text-base font-medium text-white transition hover:bg-[#078fc1] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00aeef]">
+      <button type="submit" className="inline-flex h-12 items-center justify-center rounded-lg bg-[#00A6F4] px-8 py-4 rounded-sm text-xl font-medium text-white transition hover:bg-[#078fc1] hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00aeef]">
         Send Message
       </button>
-      <p className="text-sm leading-6 text-white/55">Your email app will open with your message ready to send.</p>
     </form>
   )
 }
@@ -85,7 +83,7 @@ export default function Contact() {
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-8 xl:gap-12">
           <section className="min-w-0">
             <p className="text-base font-normal uppercase tracking-wide text-[#00aeef]">Contact Us</p>
-            <h1 className="mt-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:mt-8 lg:text-[76px]">
+            <h1 className="mt-5 text-4xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-5xl lg:mt-8 lg:text-[76px]">
               How Can We Help?
             </h1>
             <p className="mt-5 max-w-[760px] text-base leading-7 text-white/90 sm:mt-6 sm:text-lg sm:leading-[34px] lg:text-xl">
@@ -127,8 +125,7 @@ export default function Contact() {
           </div>
         </div>
       </main>
-
-      <Footer />
+      <Footer backgroundClass="bg-[#171717]" />
     </div>
   )
 }
