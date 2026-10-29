@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
+import DropdownSelect from '../components/dropdown-select'
 
 function ContactForm() {
   function submitContactForm(event: FormEvent<HTMLFormElement>) {
@@ -17,8 +18,9 @@ function ContactForm() {
     window.location.href = `mailto:reachus@yatzarmanage.com?subject=${encodeURIComponent('Website enquiry')}&body=${encodeURIComponent(message)}`
   }
 
-  const fieldClass = 'mt-2 h-14 w-full rounded-xl border border-white/25 bg-black px-4 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] hover:cursor-pointer'
-  const labelClass = 'text-base text-white/90 sm:text-lg'
+  const fieldClass = 'mt-2 h-[60px] w-full rounded-xl border border-[#525252] bg-black px-6 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] hover:cursor-pointer sm:text-base lg:text-lg'
+  const dropdownClass = 'h-[60px] w-full rounded-xl border border-[#525252] bg-black px-6 py-3 text-sm text-white outline-none focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] hover:cursor-pointer sm:text-base lg:text-lg'
+  const labelClass = 'text-sm text-white/90 sm:text-base lg:text-lg'
 
   return (
     <form onSubmit={submitContactForm} className="mt-8 space-y-5 sm:mt-10">
@@ -40,34 +42,34 @@ function ContactForm() {
 
       <label className={`block ${labelClass}`}>
         Phone Number
-        <div className="mt-2 flex gap-3">
-          <select name="countryCode" aria-label="Country calling code" defaultValue="+91" className="h-14 shrink-0 rounded-xl border border-white/25 bg-black px-3 text-base text-white outline-none focus:border-[#00aeef]">
+        <div className="mt-2 flex gap-[10px]">
+          <DropdownSelect name="countryCode" aria-label="Country calling code" defaultValue="+91" containerClassName="h-[60px] w-[96px] shrink-0" className="h-full w-full rounded-xl border border-[#525252] bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#00aeef] sm:text-base lg:text-lg" iconClassName="right-3 h-4 w-4" selectPaddingClassName="pr-8">
             <option value="+91">+91</option>
             <option value="+1">+1</option>
             <option value="+44">+44</option>
             <option value="+61">+61</option>
-          </select>
-          <input className="h-14 min-w-0 flex-1 rounded-xl border border-white/25 bg-black px-4 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef]" type="tel" name="phone" autoComplete="tel-national" placeholder="00000 00000" />
+          </DropdownSelect>
+          <input className="h-[60px] min-w-0 flex-1 rounded-xl border border-[#525252] bg-black px-6 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] sm:text-base lg:text-lg" type="tel" name="phone" autoComplete="tel-national" placeholder="00000 00000" />
         </div>
       </label>
 
       <label className={`block ${labelClass}`}>
         Interested In <span className="text-white/45">(Optional)</span>
-        <select name="interest" defaultValue="" className={fieldClass}>
+        <DropdownSelect name="interest" defaultValue="" containerClassName="mt-2 w-full" className={dropdownClass}>
           <option value="" disabled>Select an option</option>
           <option>Project Information Management (PIM)</option>
           <option>Asset Information Management (AIM)</option>
           <option>PIM + AIM</option>
           <option>Other</option>
-        </select>
+        </DropdownSelect>
       </label>
 
       <label className={`block ${labelClass}`}>
         Message <span className="text-red-500" aria-hidden="true">*</span>
-        <textarea className="mt-2 min-h-32 w-full resize-y rounded-xl border border-white/25 bg-black px-4 py-3 text-base text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef]" name="message" placeholder="Tell us how we can help..." required />
+        <textarea className="mt-2 min-h-32 w-full resize-y rounded-xl border border-[#525252] bg-black px-6 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#00aeef] focus:ring-1 focus:ring-[#00aeef] sm:text-base lg:text-lg" name="message" placeholder="Tell us how we can help..." required />
       </label>
 
-      <button type="submit" className="inline-flex h-12 items-center justify-center rounded-lg bg-[#00A6F4] px-8 py-4 rounded-sm text-xl font-medium text-white transition hover:bg-[#078fc1] hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00aeef]">
+      <button type="submit" className="inline-flex h-12 items-center justify-center rounded-lg bg-[#00A6F4] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#078fc1] hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00aeef] sm:px-8 sm:text-base lg:text-lg">
         Send Message
       </button>
     </form>
@@ -83,16 +85,16 @@ export default function Contact() {
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-8 xl:gap-12">
           <section className="min-w-0">
             <p className="text-base font-normal uppercase tracking-wide text-[#00aeef]">Contact Us</p>
-            <h1 className="mt-5 text-4xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-5xl lg:mt-8 lg:text-[76px]">
+            <h1 className="mt-5 text-3xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-4xl lg:mt-8 lg:text-[76px]">
               How Can We Help?
             </h1>
-            <p className="mt-5 max-w-[760px] text-base leading-7 text-white/90 sm:mt-6 sm:text-lg sm:leading-[34px] lg:text-xl">
+            <p className="mt-5 max-w-[760px] text-sm leading-6 text-white/90 sm:mt-6 sm:text-base sm:leading-7 lg:text-lg lg:leading-[34px]">
               Questions about Yatzar Manage, pricing or your projects? Send us a message and our team will get back to you.
             </p>
 
             <div className="mt-7 sm:mt-8">
-              <h2 className="text-lg font-semibold text-white/65 sm:text-xl">Address</h2>
-              <address className="mt-3 not-italic text-base leading-7 text-white/90 sm:text-lg sm:leading-[34px]">
+              <h2 className="text-base font-semibold text-white/65 sm:text-lg">Address</h2>
+              <address className="mt-3 not-italic text-sm leading-6 text-white/90 sm:text-base sm:leading-7 lg:text-lg lg:leading-[34px]">
                 <strong className="font-semibold text-white">PSG-STEP:</strong> Innosphere,<br />
                 PSG College of Technology,<br />
                 Peelamedu, Coimbatore - 641 004<br />
@@ -102,12 +104,12 @@ export default function Contact() {
 
             <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-8">
               <div>
-                <h2 className="text-lg font-semibold text-white/65 sm:text-xl">E-mail</h2>
-                <a href="mailto:reachus@yatzarmanage.com" className="mt-2 inline-block break-all text-base text-[#00aeef] transition hover:text-white sm:mt-3 sm:text-lg lg:text-xl">reachus@yatzarmanage.com</a>
+                <h2 className="text-base font-semibold text-white/65 sm:text-lg">E-mail</h2>
+                <a href="mailto:reachus@yatzarmanage.com" className="mt-2 inline-block break-all text-sm text-[#00aeef] transition hover:text-white sm:mt-3 sm:text-base lg:text-lg">reachus@yatzarmanage.com</a>
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-white/65 sm:text-xl">Phone</h2>
-                <a href="tel:+918870676664" className="mt-2 inline-block text-base text-[#00aeef] transition hover:text-white sm:mt-3 sm:text-lg lg:text-xl">+91 8870676664</a>
+                <h2 className="text-base font-semibold text-white/65 sm:text-lg">Phone</h2>
+                <a href="tel:+918870676664" className="mt-2 inline-block text-sm text-[#00aeef] transition hover:text-white sm:mt-3 sm:text-base lg:text-lg">+91 8870676664</a>
               </div>
             </div>
 

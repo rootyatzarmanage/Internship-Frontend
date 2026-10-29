@@ -25,7 +25,7 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
-          <Link to="/" hash="cta" className="flex h-10 items-center gap-2 rounded-md bg-[#00A6F4] px-3 text-sm text-white transition hover:bg-[#0095dc] xl:gap-4 xl:px-4 xl:text-base">Book a Demo <svg aria-hidden="true" viewBox="0 0 16 16" className="h-4 w-4" fill="none"><path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></Link>
+          <Link to="/book-a-demo" className="flex h-10 items-center gap-2 rounded-md bg-[#00A6F4] px-3 text-sm text-white transition hover:bg-[#0095dc] xl:gap-4 xl:px-4 xl:text-base">Book a Demo <svg aria-hidden="true" viewBox="0 0 16 16" className="h-4 w-4" fill="none"><path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></Link>
           <a href="#login" className="h-10 rounded-md border border-white px-3 py-2 text-sm transition hover:bg-white/10 xl:px-4 xl:text-base">Login / Sign-Up</a>
         </div>
 
@@ -38,7 +38,7 @@ export default function Header() {
           {sectionLinks.map((link) => <Link key={link.label} to="/" hash={link.hash} onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">{link.label}</Link>)}
           <Link to="/pricing" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Pricing</Link>
           <Link to="/contact" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Contact</Link>
-          <Link to="/" hash="cta" onClick={() => setMenuOpen(false)} className="mt-1 text-[#08a9ed]">Book a Demo <svg aria-hidden="true" viewBox="0 0 16 16" className="inline h-3 w-3 text-xs" fill="none"><path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></Link>
+          <Link to="/book-a-demo" onClick={() => setMenuOpen(false)} className="mt-1 text-[#08a9ed]">Book a Demo <svg aria-hidden="true" viewBox="0 0 16 16" className="inline h-3 w-3 text-xs" fill="none"><path d="M3 8h9m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></Link>
           <a href="#login" onClick={() => setMenuOpen(false)} className="py-1 text-white/90 hover:text-[#08a9ed]">Login / Sign-Up</a>
         </div>
       </nav>}
