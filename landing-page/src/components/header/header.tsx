@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useRouterState } from '@tanstack/react-router'
-import logo from '../assets/logo.png'
+import logo from '../../assets/logo.png'
 
 const sectionLinks = [
   { label: 'Platform', hash: 'platform' },
@@ -12,7 +12,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const showDemoAction = pathname !== '/book-a-demo'
-  const showLoginAction = pathname !== '/login'
+  const showLoginAction = pathname !== '/login' && pathname !== '/signup'
 
   return (
     <header className="sticky top-0 z-30 border-b border-white/10 bg-black text-white">
