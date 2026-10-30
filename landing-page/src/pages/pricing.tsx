@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import Footer from '../components/footer'
+import Footer from '../components/footer/footer'
 
 type BillingCycle = 'yearly' | 'half-yearly'
 

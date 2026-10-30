@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import AnnouncementBanner from '../components/announcement-banner'
-import Header from '../components/header'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
 
 function RootLayout() {
   return (

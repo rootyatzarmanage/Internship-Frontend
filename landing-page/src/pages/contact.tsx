@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react'
-import Footer from '../components/footer'
-import DropdownSelect from '../components/dropdown-select'
+import Footer from '../components/footer/footer'
+import DropdownSelect from '../components/dropdown/dropdown-select'
 
 function ContactForm() {
   function submitContactForm(event: FormEvent<HTMLFormElement>) {

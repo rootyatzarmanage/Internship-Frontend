@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import logo from '../assets/logo.png'
-import WireframeBuilding from '../components/wireframebuilding'
+import WireframeBuilding from '../components/wireframes/wireframebuilding'
 
 function Mark() {
   return (

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
-import Footer from '../components/footer'
-import DropdownSelect from '../components/dropdown-select'
+import Footer from '../components/footer/footer'
+import DropdownSelect from '../components/dropdown/dropdown-select'
 
 const timeSlots = [
   { label: '10:00 AM', value: '10:00', status: 'available' },

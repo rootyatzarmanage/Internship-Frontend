@@ -9,7 +9,7 @@ import Stakeholders from '../cards/stakeholders'
 import OpenByDesign from '../cards/open-by-design'
 import FrequentlyAsked from '../cards/frequently-asked'
 import CallToAction from '../cards/call-to-action'
-import Footer from '../components/footer'
+import Footer from '../components/footer/footer'
 
 export default function Landing() {
   return (
