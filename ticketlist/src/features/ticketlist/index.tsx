@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import {
   Check,
   ChevronDown,
   ChevronRight,
   CircleCheck,
+  Plus,
   Search,
   SlidersHorizontal,
   Ticket,
@@ -12,6 +14,7 @@ import {
 } from 'lucide-react'
 
 type TicketStatus = 'Solved' | 'Pending'
+type TicketFilter = 'All' | TicketStatus
 type TicketRow = {
   id: string
   subject: string
@@ -32,12 +35,12 @@ const tickets: TicketRow[] = [
   { id: '#323543', subject: 'Unable to Update Account Details', date: '04 May, 2027', status: 'Solved' },
 ]
 
-const tabs = ['All', 'Solved', 'Pending'] as const
+const ticketFilters: TicketFilter[] = ['All', 'Solved', 'Pending']
 
 export default function TicketList() {
   const ticketData = tickets
   const [ticketInView, setTicketInView] = useState<TicketRow | null>(null)
-  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('All')
+  const [activeFilter, setActiveFilter] = useState<TicketFilter>('All')
   const [search, setSearch] = useState('')
   const [showFilter, setShowFilter] = useState(false)
   const [pageSize, setPageSize] = useState(10)
@@ -64,11 +67,11 @@ export default function TicketList() {
   }, [])
 
   const visibleTickets = useMemo(() => ticketData.filter((ticket) => {
-    const matchesTab = activeTab === 'All' || ticket.status === activeTab
     const query = search.trim().toLowerCase()
     const matchesSearch = !query || [ticket.id, ticket.subject, ticket.status].some((value) => value.toLowerCase().includes(query))
-    return matchesTab && matchesSearch
-  }), [ticketData, activeTab, search])
+    const matchesFilter = activeFilter === 'All' || ticket.status === activeFilter
+    return matchesFilter && matchesSearch
+  }), [ticketData, activeFilter, search])
 
   const totalPages = Math.max(1, Math.ceil(visibleTickets.length / pageSize))
   const pageTickets = visibleTickets.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -101,18 +104,20 @@ export default function TicketList() {
               <p className="mt-0.5 text-sm text-[#667085]">Your most recent support tickets list</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div role="tablist" aria-label="Filter tickets by status" className="flex rounded-lg bg-[#f2f4f7] p-1">
-                {tabs.map((tab) => <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} onClick={() => { setActiveTab(tab); setCurrentPage(1) }} className={`rounded-md px-3 py-2 text-sm transition hover:cursor-pointer ${activeTab === tab ? 'bg-white text-[#008cd2] shadow-sm' : 'text-[#667085] hover:text-[#101828]'}`}>{tab}</button>)}
-              </div>
-              <label className="flex h-11 min-w-0 items-center gap-2 rounded-lg border border-[#d0d5dd] px-3 text-[#667085] focus-within:border-[#008cd2] sm:w-[300px]">
+              <label className="flex h-11 min-w-0 items-center gap-2 rounded-lg border border-[#d0d5dd] px-3 text-[#667085] focus-within:border-[#00a6d4] sm:w-[300px]">
                 <Search size={19} aria-hidden="true" />
                 <input value={search} onChange={(event) => { setSearch(event.target.value); setCurrentPage(1) }} placeholder="Search..." className="w-full bg-transparent text-sm text-[#101828] outline-none placeholder:text-[#98a2b3]" aria-label="Search tickets" />
                 {search && <button type="button" onClick={() => setSearch('')} aria-label="Clear search"><X size={16} /></button>}
               </label>
               <div className="relative" data-ticket-filter>
-                <button type="button" onClick={() => setShowFilter((value) => !value)} aria-expanded={showFilter} className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#d0d5dd] px-4 text-sm font-medium hover:bg-gray-50 hover:cursor-pointer sm:w-auto"><SlidersHorizontal size={18} />Filter</button>
-                {showFilter && <div className="absolute right-0 z-20 mt-2 w-52 rounded-lg border border-[#e1e6ee] bg-white p-3 text-sm shadow-lg"><p className="mb-2 font-medium">Status</p>{tabs.map((tab) => <button key={tab} type="button" onClick={() => { setActiveTab(tab); setCurrentPage(1); setShowFilter(false) }} className="flex w-full items-center justify-between rounded-md px-2 py-2 text-left hover:bg-gray-50 hover:cursor-pointer">{tab}{activeTab === tab && <Check size={15} className="text-[#008cd2]" />}</button>)}</div>}
+                <button type="button" onClick={() => setShowFilter((value) => !value)} aria-label="Filter tickets" title="Filter tickets" aria-expanded={showFilter} className="flex h-11 w-full items-center justify-center rounded-lg border border-[#d0d5dd] px-4 text-sm font-medium transition-colors hover:bg-[#f2f4f7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008cd2] sm:w-11 hover:cursor-pointer">
+                  <SlidersHorizontal size={20} className="h-5 w-5 shrink-0" />
+                </button>
+                {showFilter && <div className="absolute right-0 z-20 mt-2 w-52 rounded-lg border border-[#e1e6ee] bg-white p-3 text-sm shadow-lg"><p className="mb-2 font-medium">Status</p>{ticketFilters.map((filter) => <button key={filter} type="button" onClick={() => { setActiveFilter(filter); setCurrentPage(1); setShowFilter(false) }} className="flex w-full items-center justify-between rounded-md px-2 py-2 text-left hover:bg-gray-50 hover:cursor-pointer">{filter}{activeFilter === filter && <Check size={15} className="text-[#008cd2]" />}</button>)}</div>}
               </div>
+              <Link to="/ticketlist/create" aria-label="Create ticket" title="Create ticket" className="flex h-11 w-full items-center justify-center rounded-lg bg-[#00a6d4] text-white transition-colors hover:bg-[#008bb5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008cd2] focus-visible:ring-offset-2 sm:w-11">
+                <Plus size={20} aria-hidden="true" />
+              </Link>
             </div>
           </div>
 
@@ -162,8 +167,6 @@ export default function TicketList() {
             <div className="mt-6 flex justify-end"><button type="button" onClick={() => setTicketInView(null)} className="rounded-lg border border-[#d0d5dd] px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:cursor-pointer">Close</button></div>
           </section>
         </div>}
-
-
       </div>
     </main>
   )

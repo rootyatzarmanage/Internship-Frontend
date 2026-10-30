@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedTicketlistRouteImport } from './routes/_authenticated/ticketlist'
+import { Route as TicketlistCreateRouteImport } from './routes/ticketlist.create'
 
 const AuthenticatedTicketlistRoute = AuthenticatedTicketlistRouteImport.update({
   id: '/_authenticated/ticketlist',
   path: '/ticketlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TicketlistCreateRoute = TicketlistCreateRouteImport.update({
+  id: '/ticketlist/create',
+  path: '/ticketlist/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/ticketlist': typeof AuthenticatedTicketlistRoute
+  '/ticketlist/create': typeof TicketlistCreateRoute
 }
 export interface FileRoutesByTo {
   '/ticketlist': typeof AuthenticatedTicketlistRoute
+  '/ticketlist/create': typeof TicketlistCreateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated/ticketlist': typeof AuthenticatedTicketlistRoute
+  '/ticketlist/create': typeof TicketlistCreateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/ticketlist'
+  fullPaths: '/ticketlist' | '/ticketlist/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/ticketlist'
-  id: '__root__' | '/_authenticated/ticketlist'
+  to: '/ticketlist' | '/ticketlist/create'
+  id: '__root__' | '/_authenticated/ticketlist' | '/ticketlist/create'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedTicketlistRoute: typeof AuthenticatedTicketlistRoute
+  TicketlistCreateRoute: typeof TicketlistCreateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTicketlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ticketlist/create': {
+      id: '/ticketlist/create'
+      path: '/ticketlist/create'
+      fullPath: '/ticketlist/create'
+      preLoaderRoute: typeof TicketlistCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedTicketlistRoute: AuthenticatedTicketlistRoute,
+  TicketlistCreateRoute: TicketlistCreateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
