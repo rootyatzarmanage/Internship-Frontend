@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import infinite from '../assets/Infinity animation 1.gif'
 
 export default function Hero() {
@@ -10,7 +11,7 @@ export default function Hero() {
             <h1 className="max-w-[850px] text-4xl font-bold leading-[1.14] tracking-tight sm:text-5xl lg:text-[76px]">One connected record<br className="hidden sm:block" /> for every <span className="text-[#08a9ed]">project</span> and<br className="hidden sm:block" /> every <span className="text-[#08a9ed]">asset</span>.</h1>
             <p className="mt-6 max-w-[850px] text-lg leading-[1.65] text-white/80 sm:mt-8 sm:text-xl">Yatzar Manage connects the information created during design and construction with the asset records needed for operation, maintenance and renewal.</p>
             <div className="mt-7 flex flex-wrap gap-4 sm:mt-8 sm:gap-7">
-              <a href="#book-demo" className="rounded-md bg-[#08a9ed] px-6 py-3 text-lg transition hover:bg-[#0797d3] sm:px-8 sm:py-4 sm:text-xl">Book a Demo</a>
+              <Link to="/book-a-demo" className="rounded-md bg-[#08a9ed] px-6 py-3 text-lg transition hover:bg-[#0797d3] sm:px-8 sm:py-4 sm:text-xl">Book a Demo</Link>
               <a href="#how-it-works" className="rounded-md border border-white/60 px-6 py-3 text-lg transition hover:bg-white/10 sm:px-8 sm:py-4 sm:text-xl">See the Lifecycle</a>
             </div>
           </div>

@@ -18,7 +18,7 @@ export default function Login() {
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-40px)] items-center justify-center bg-black px-5 py-10 text-white sm:px-8 sm:py-14 lg:min-h-[calc(100vh-40px)] lg:px-10">
+    <main className="flex min-h-[calc(100vh-110px)] items-center justify-center bg-black px-5 py-10 text-white sm:px-8 sm:py-14 lg:min-h-[calc(100vh-120px)] lg:px-10">
       <div className="grid w-full max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <section className="mx-auto w-full max-w-[600px]">
           <div className="mb-3 flex justify-center"><Mark /></div>
