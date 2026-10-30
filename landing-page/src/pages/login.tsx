@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
+import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo.png'
 import WireframeBuilding from '../components/wireframes/wireframebuilding'
+import Footer from '../components/footer/footer'
 
 function Mark() {
   return (
@@ -18,6 +20,7 @@ export default function Login() {
   }
 
   return (
+    <>
     <main className="flex min-h-[calc(100vh-110px)] items-center justify-center bg-black px-5 py-10 text-white sm:px-8 sm:py-14 lg:min-h-[calc(100vh-120px)] lg:px-10">
       <div className="grid w-full max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <section className="mx-auto w-full max-w-[600px]">
@@ -80,7 +83,7 @@ export default function Login() {
             <svg aria-hidden="true" viewBox="0 0 48 48" className="h-5 w-5"><path fill="#FFC107" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15Z"/><path fill="#FF3D00" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5.1c-1.8 1.2-4 1.9-6.9 1.9-5.3 0-9.8-3.6-11.4-8.4H5.8v5.2A20 20 0 0 0 24 44Z"/><path fill="#4CAF50" d="M12.6 27.5a12 12 0 0 1 0-7v-5.2H5.8a20 20 0 0 0 0 17.4l6.8-5.2Z"/><path fill="#1976D2" d="M24 12.1c3 0 5.6 1 7.7 3.1l5.8-5.8A19.4 19.4 0 0 0 24 4 20 20 0 0 0 5.8 15.3l6.8 5.2C14.2 15.7 18.7 12.1 24 12.1Z"/></svg>
             Sign in with Google
           </button>
-          <p className="mt-3 text-center text-xs text-white/90 sm:text-sm">Don’t have an account? <span className="text-[#00aeef]">Sign up</span></p>
+          <p className="mt-3 text-center text-xs text-white/90 sm:text-sm">Don’t have an account? <Link to="/signup" className="cursor-pointer text-[#00aeef] transition hover:underline">Sign Up</Link></p>
         </section>
 
         <aside className="relative flex min-h-[260px] flex-col rounded-2xl border border-[#525252] p-6 sm:min-h-[320px] sm:p-10 lg:min-h-[520px] xl:min-h-[740px] xl:p-12">
@@ -94,5 +97,7 @@ export default function Login() {
         </aside>
       </div>
     </main>
+    <Footer backgroundClass="bg-[#171717]" />
+    </>
   )
 }

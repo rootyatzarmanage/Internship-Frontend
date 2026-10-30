@@ -1,4 +1,4 @@
-import logo from '../assets/logo.png'
+import logo from '../../assets/logo.png'
 
 const columns = [
   {
@@ -22,7 +22,7 @@ const columns = [
     title: 'Account',
     links: [
       { label: 'Login', href: '/login' },
-      { label: 'Sign Up', href: '/login' },
+      { label: 'Sign Up', href: '/signup' },
       { label: 'Book a Demo', href: '/book-a-demo' },
     ],
   },
