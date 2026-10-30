@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedTicketlistRouteImport } from './routes/_authenticated/ticketlist'
 import { Route as TicketlistCreateRouteImport } from './routes/ticketlist.create'
+import { Route as TicketlistReplyRouteImport } from './routes/ticketlist.reply'
 
 const AuthenticatedTicketlistRoute = AuthenticatedTicketlistRouteImport.update({
   id: '/_authenticated/ticketlist',
@@ -22,31 +23,44 @@ const TicketlistCreateRoute = TicketlistCreateRouteImport.update({
   path: '/ticketlist/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TicketlistReplyRoute = TicketlistReplyRouteImport.update({
+  id: '/ticketlist/reply',
+  path: '/ticketlist/reply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/ticketlist': typeof AuthenticatedTicketlistRoute
   '/ticketlist/create': typeof TicketlistCreateRoute
+  '/ticketlist/reply': typeof TicketlistReplyRoute
 }
 export interface FileRoutesByTo {
   '/ticketlist': typeof AuthenticatedTicketlistRoute
   '/ticketlist/create': typeof TicketlistCreateRoute
+  '/ticketlist/reply': typeof TicketlistReplyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated/ticketlist': typeof AuthenticatedTicketlistRoute
   '/ticketlist/create': typeof TicketlistCreateRoute
+  '/ticketlist/reply': typeof TicketlistReplyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/ticketlist' | '/ticketlist/create'
+  fullPaths: '/ticketlist' | '/ticketlist/create' | '/ticketlist/reply'
   fileRoutesByTo: FileRoutesByTo
-  to: '/ticketlist' | '/ticketlist/create'
-  id: '__root__' | '/_authenticated/ticketlist' | '/ticketlist/create'
+  to: '/ticketlist' | '/ticketlist/create' | '/ticketlist/reply'
+  id:
+    | '__root__'
+    | '/_authenticated/ticketlist'
+    | '/ticketlist/create'
+    | '/ticketlist/reply'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedTicketlistRoute: typeof AuthenticatedTicketlistRoute
   TicketlistCreateRoute: typeof TicketlistCreateRoute
+  TicketlistReplyRoute: typeof TicketlistReplyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +79,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicketlistCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ticketlist/reply': {
+      id: '/ticketlist/reply'
+      path: '/ticketlist/reply'
+      fullPath: '/ticketlist/reply'
+      preLoaderRoute: typeof TicketlistReplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedTicketlistRoute: AuthenticatedTicketlistRoute,
   TicketlistCreateRoute: TicketlistCreateRoute,
+  TicketlistReplyRoute: TicketlistReplyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

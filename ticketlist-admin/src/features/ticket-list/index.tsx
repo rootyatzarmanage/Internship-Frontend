@@ -25,7 +25,7 @@ export default function TicketListAdmin({ createOpen = false, onCreateClose }: {
       sub="Search, filter, assign and escalate tickets through the support hierarchy."
       tools={<>
         <button className="btn" onClick={exportCSV}><ArrowDownToLine className="ic" />Export CSV</button>
-        <button className="btn primary" onClick={() => setCreating(true)}><Plus className="ic" />Create Ticket</button>
+        {/* <button className="btn primary" onClick={() => setCreating(true)}><Plus className="ic" />Create Ticket</button> */}
       </>}
     >
       <section className="card">
