@@ -168,7 +168,7 @@ export default function Pricing() {
         <div className="mx-auto max-w-[1208px]">
           <header className="mx-auto text-center">
             <p className="text-base font-regular uppercase tracking-wide text-[#00A6F4]">Pricing</p>
-            <h1 className="mt-6 text-3xl font-bold leading-[1.08] tracking-tight min-[380px]:text-4xl sm:text-5xl lg:text-[56px]">
+            <h1 className="pricing-page-title mt-6 text-3xl font-bold leading-[1.08] tracking-tight min-[380px]:text-4xl sm:text-5xl lg:text-[56px]">
               Plans For Every Stage
               <br className="hidden sm:block" /> Of The Asset Lifecycle.
             </h1>

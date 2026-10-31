@@ -265,7 +265,7 @@ export default function Demo() {
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 min-[1000px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1000px]:items-start min-[1000px]:gap-[clamp(4.375rem,7.7vw,9.25rem)]">
           <section className="min-w-0">
             <p className="text-sm uppercase tracking-wide text-[#00aeef] sm:text-base">Contact Us</p>
-            <h1 className="mt-4 text-[clamp(2rem,4vw,4.75rem)] font-bold leading-tight tracking-tight">Book A Demo</h1>
+            <h1 className="book-demo-page-title mt-4 text-[clamp(2rem,4vw,4.75rem)] font-bold leading-tight tracking-tight">Book A Demo</h1>
             <p className="mt-3 max-w-[577px] text-[clamp(0.875rem,1.04vw,1.25rem)] leading-[1.6]">
               See how Yatzar Manage brings your BIM projects, models and teams into one workspace. Tell us a little about you, pick a time that suits you, and we’ll walk you through the platform.
             </p>

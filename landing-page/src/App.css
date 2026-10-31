@@ -397,3 +397,83 @@ input[type="tel"] {
     transition: none;
   }
 }
+
+/* Pixel-based sizes for the adjusted primary page titles. */
+@media (max-width: 639px) {
+  .pricing-page-title,
+  .contact-page-title { font-size: 21px; }
+  .book-demo-page-title,
+  .login-page-title { font-size: 20px; }
+}
+
+@media (min-width: 380px) and (max-width: 639px) {
+  .pricing-page-title,
+  .login-page-title { font-size: 23px; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .pricing-page-title,
+  .login-page-title { font-size: 35px; }
+  .contact-page-title { font-size: 25px; }
+  .book-demo-page-title { font-size: 30px; }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .pricing-page-title { font-size: 52px; }
+  .contact-page-title { font-size: 34px; }
+  .book-demo-page-title { font-size: 35px; }
+  .login-page-title { font-size: 28px; }
+}
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .pricing-page-title { font-size: 52px; }
+  .contact-page-title { font-size: 43px; }
+  .book-demo-page-title { font-size: 45px; }
+  .login-page-title { font-size: 36px; }
+}
+
+@media (min-width: 1536px) and (max-width: 1919px) {
+  .pricing-page-title { font-size: 52px; }
+  .contact-page-title { font-size: 52px; }
+  .book-demo-page-title { font-size: 55px; }
+  .login-page-title { font-size: 44px; }
+}
+
+@media (min-width: 1920px) {
+  .pricing-page-title { font-size: 52px; }
+  .contact-page-title { font-size: 66px; }
+  .book-demo-page-title { font-size: 66px; }
+  .login-page-title { font-size: 56px; }
+}
+
+/* Reduce non-hero landing card headings by 4px; keep the hero untouched. */
+@media (max-width: 639px) {
+  .scroll-reveal h2.text-4xl { font-size: clamp(17px, calc(8vw - 4px), 23px); }
+  .scroll-reveal h2.text-5xl { font-size: clamp(19px, calc(8.5vw - 4px), 25px); }
+  .scroll-reveal h2.text-6xl { font-size: clamp(19px, calc(9vw - 4px), 29px); }
+}
+
+@media (min-width: 640px) and (max-width: 1029px) {
+  .scroll-reveal h2[class~="sm:text-5xl"] { font-size: 35px; }
+  .scroll-reveal h2[class~="sm:text-6xl"] { font-size: 45px; }
+}
+
+@media (min-width: 1030px) and (max-width: 1919px) {
+  .scroll-reveal h2[class~="sm:text-5xl"] { font-size: calc(24.5px + 1.02vw); }
+  .scroll-reveal h2[class~="sm:text-6xl"] { font-size: calc(31.625px + 1.275vw); }
+}
+
+@media (min-width: 1024px) and (max-width: 1919px) {
+  .scroll-reveal h2[class~="lg:text-[76px]"] { font-size: calc(3.645833vw - 4px); }
+}
+
+@media (min-width: 1280px) and (max-width: 1919px) {
+  .scroll-reveal h2[class~="xl:text-[68px]"] { font-size: calc(3.541667vw - 4px); }
+}
+
+@media (min-width: 1920px) {
+  .scroll-reveal h2[class~="sm:text-6xl"] { font-size: 56px; }
+  .scroll-reveal h2[class~="lg:text-[76px]"] { font-size: 66px; }
+  .scroll-reveal h2[class~="xl:text-[68px]"] { font-size: 64px; }
+  .scroll-reveal h2[class~="sm:text-5xl"] { font-size: 44px; }
+}

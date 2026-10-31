@@ -29,7 +29,7 @@ export default function Login() {
       <div className="grid w-full max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <section className="mx-auto w-full max-w-[600px]">
           <div className="mb-3 flex justify-center"><Mark /></div>
-          <h1 className="text-center text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-[60px]">Welcome Back!</h1>
+          <h1 className="login-page-title text-center text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-[60px]">Welcome Back!</h1>
           <p className="mt-2 text-center text-sm text-white/80 sm:text-base">Please enter your details to get started</p>
 
           <form onSubmit={submitLogin} className="mt-7 space-y-4 sm:mt-8">

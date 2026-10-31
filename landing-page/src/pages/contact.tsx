@@ -86,7 +86,7 @@ export default function Contact() {
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-8 xl:gap-12">
           <section className="min-w-0">
             <p className="text-base font-normal uppercase tracking-wide text-[#00aeef]">Contact Us</p>
-            <h1 className="mt-5 text-3xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-4xl lg:mt-8 lg:text-[76px]">
+            <h1 className="contact-page-title mt-5 text-3xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-4xl lg:mt-8 lg:text-[76px]">
               How Can We Help?
             </h1>
             <p className="mt-5 max-w-[760px] text-sm leading-6 text-white/90 sm:mt-6 sm:text-base sm:leading-7 lg:text-lg lg:leading-[34px]">
