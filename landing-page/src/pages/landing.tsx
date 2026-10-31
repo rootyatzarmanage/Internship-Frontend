@@ -12,6 +12,7 @@ import CallToAction from '../cards/call-to-action'
 import AnnouncementBanner from '../components/banner/announcement-banner'
 import Header from '../components/header/header'
 import Footer from '../components/footer/footer'
+import ScrollReveal from '../components/animations/scroll-reveal'
 
 export default function Landing() {
   return (
@@ -19,16 +20,16 @@ export default function Landing() {
       <AnnouncementBanner />
       <Header />
       <Hero />
-      <Viewer />
-      <Information />
-      <EightStages />
-      <Platform />
-      <WhyYatzar />
-      <Stakeholders />
-      <OpenByDesign />
-      <Project />
-      <FrequentlyAsked />
-      <CallToAction />
+      <ScrollReveal><Viewer /></ScrollReveal>
+      <ScrollReveal delay={60}><Information /></ScrollReveal>
+      <ScrollReveal delay={100}><EightStages /></ScrollReveal>
+      <ScrollReveal delay={60}><Platform /></ScrollReveal>
+      <ScrollReveal delay={100}><WhyYatzar /></ScrollReveal>
+      <ScrollReveal delay={60}><Stakeholders /></ScrollReveal>
+      <ScrollReveal delay={100}><OpenByDesign /></ScrollReveal>
+      <ScrollReveal delay={60}><Project /></ScrollReveal>
+      <ScrollReveal delay={100}><FrequentlyAsked /></ScrollReveal>
+      <ScrollReveal delay={60}><CallToAction /></ScrollReveal>
       <Footer />
     </div>
   )
