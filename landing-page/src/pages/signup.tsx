@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from '@tanstack/react-router'
 import DropdownSelect from '../components/dropdown/dropdown-select'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
 import Footer from '../components/footer/footer'
 
 export default function Signup() {
@@ -15,6 +17,8 @@ export default function Signup() {
 
   return (
     <>
+      <AnnouncementBanner />
+      <Header />
       <main className="min-h-[calc(100vh-110px)] bg-black px-5 py-10 text-white sm:px-8 sm:py-14 lg:min-h-[calc(100vh-120px)]">
         <section className="mx-auto w-full max-w-[760px] overflow-hidden rounded-xl border border-[#525252] bg-[#0a0a0a]">
           <h1 className="border-b border-white/15 bg-[#171717] px-5 py-4 text-lg font-semibold sm:px-7 sm:py-5 sm:text-xl">Choose To Register As</h1>

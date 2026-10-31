@@ -29,9 +29,9 @@ const columns = [
 ]
 
 const legal = [
-  { label: 'Privacy Policy', href: '#' },
-  { label: 'Terms of Use', href: '#' },
-  { label: 'Refund Policy', href: '#' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of Use', href: '/terms-of-use' },
+  { label: 'Refund Policy', href: '/refund-policy' },
 ]
 
 const linkClass =

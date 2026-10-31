@@ -1,6 +1,8 @@
 import type { FormEvent } from 'react'
-import Footer from '../components/footer/footer'
 import DropdownSelect from '../components/dropdown/dropdown-select'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
+import Footer from '../components/footer/footer'
 
 function ContactForm() {
   function submitContactForm(event: FormEvent<HTMLFormElement>) {
@@ -78,6 +80,8 @@ function ContactForm() {
 export default function Contact() {
   return (
     <div className="min-h-screen bg-black text-white">
+      <AnnouncementBanner />
+      <Header />
       <main className="px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-[60px] 2xl:px-0">
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-8 xl:gap-12">
           <section className="min-w-0">

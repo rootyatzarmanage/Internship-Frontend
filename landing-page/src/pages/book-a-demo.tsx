@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
-import Footer from '../components/footer/footer'
 import DropdownSelect from '../components/dropdown/dropdown-select'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
+import Footer from '../components/footer/footer'
 
 const timeSlots = [
   { label: '10:00 AM', value: '10:00', status: 'available' },
@@ -256,6 +258,8 @@ export default function Demo() {
 
   return (
     <>
+    <AnnouncementBanner />
+    <Header />
     <div className="min-h-screen bg-black text-white">
       <main className="px-5 py-10 sm:px-8 sm:py-14 min-[900px]:px-[clamp(5rem,8.333vw,10rem)] min-[900px]:py-[clamp(2.5rem,3.333vw,4rem)]">
         <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 min-[1000px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1000px]:items-start min-[1000px]:gap-[clamp(4.375rem,7.7vw,9.25rem)]">
@@ -275,8 +279,8 @@ export default function Demo() {
           </div>
         </div>
       </main>
-      <Footer backgroundClass="bg-[#171717]"/>
     </div>
+    <Footer backgroundClass="bg-[#171717]" />
     </>
   )
 }

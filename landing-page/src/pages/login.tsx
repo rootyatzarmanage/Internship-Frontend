@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo.png'
 import WireframeBuilding from '../components/wireframes/wireframebuilding'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
 import Footer from '../components/footer/footer'
 
 function Mark() {
@@ -21,6 +23,8 @@ export default function Login() {
 
   return (
     <>
+    <AnnouncementBanner />
+    <Header />
     <main className="flex min-h-[calc(100vh-110px)] items-center justify-center bg-black px-5 py-10 text-white sm:px-8 sm:py-14 lg:min-h-[calc(100vh-120px)] lg:px-10">
       <div className="grid w-full max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <section className="mx-auto w-full max-w-[600px]">

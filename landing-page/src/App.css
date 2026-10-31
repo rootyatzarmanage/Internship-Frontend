@@ -7,9 +7,8 @@
 
 :root {
   font-family: var(--font-sans);
-  font-size: 16px;
   font-weight: 300;
-  line-height: 24px;
+  line-height: 1.5;
   letter-spacing: 0;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -59,3 +58,300 @@ select {
   font: inherit;
 }
 
+/* ==========================================================================
+   FLUID RESPONSIVENESS  (paste everything from here to the end of the file)
+   --------------------------------------------------------------------------
+   Idea: the page looks exactly like the 1920px design on large screens and
+   scales down smoothly as the width shrinks - text, buttons and spacing
+   all shrink together instead of jumping at breakpoints.
+   ========================================================================== */
+
+/* 1 fluid pixel. Equals 1px on the 1920px design and shrinks in
+   proportion to the viewport width below that. */
+:root {
+  --fx: calc(100vw / 1920);
+}
+
+/* Master scale: every rem-based Tailwind size (text-lg, p-6, gap-4 ...)
+   follows this. 16px at 1920px wide, shrinking smoothly to 13px. */
+html {
+  font-size: clamp(13px, 9.5px + 0.34vw, 16px);
+}
+
+/* Side space. On the 1920px design the content sits 160px (8.333%) from each
+   edge. Below 1600px that space used to vanish, because it only came from
+   max-w-[1600px] centering. Now it scales with the width (tablet and up). */
+@media (min-width: 640px) {
+  /* Every page section, page <main> and the footer */
+  section[id],
+  main,
+  footer {
+    padding-left: clamp(2rem, 8.333vw, 10rem);
+    padding-right: clamp(2rem, 8.333vw, 10rem);
+  }
+
+  /* The hero grid already has its own padding, so remove the extra one */
+  section#top > div {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Header bar: it is its own container, so shrink its width instead */
+  header > div:first-child {
+    max-width: min(1600px, 83.333vw);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Safety net so long words never cause sideways scrolling. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li {
+  overflow-wrap: break-word;
+}
+
+/* ---- Component fixes (all widths) ------------------------------------- */
+
+/* Landing page "Everyone works from the same records" cards:
+   remove the fixed 211px minimum so the card hugs its text. */
+#stakeholders article {
+  min-height: 0;
+}
+
+/* "Start with one project" step cards: same look as the 1920px design
+   (768 x 700 card, screenshot bleeding off the right and bottom edges), but
+   everything is a percentage of the card width, so the card and image scale
+   together at every screen width.
+   Design numbers: padding 40/768 = 5.2%, image starts 100px in (13%), image is
+   668px wide (87% of the card) and ends exactly at the card's bottom edge. */
+#project article {
+  height: auto;
+  padding: 5.2% 5.2% 0; /* no bottom padding: the image sits on the bottom edge */
+}
+
+/* Gap between the description and the image */
+#project article > p {
+  margin-bottom: 1rem;
+}
+
+#project article > img {
+  position: static;
+  display: block;
+  width: 97.07%;          /* 87% of the card, measured from the content box */
+  max-width: none;
+  height: auto;
+  margin-top: auto;       /* if the card is taller (equal-height row), the image stays on the bottom edge */
+  margin-left: 8.73%;     /* image starts ~13% in from the card's left edge */
+  margin-right: -5.8%;    /* bleed off the right edge */
+  border-radius: 0.5rem 0 0 0;
+  object-fit: cover;
+  object-position: left top;
+}
+
+/* Book-a-demo phone row: the country-code box shrinks with the screen and the
+   number field gets less padding, so "00000 00000" is no longer cut off. */
+.w-\[119px\] {
+  width: clamp(5.25rem, 7vw, 7.4375rem);
+}
+
+input[type="tel"] {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Large fixed minimum heights (pricing cards, contact map, login panel)
+   now scale with the width instead of staying 500-900px tall. */
+@media (min-width: 640px) {
+  .sm\:min-h-\[320px\] { min-height: clamp(160px, calc(320 * var(--fx)), 320px); }
+  .sm\:min-h-\[560px\] { min-height: clamp(280px, calc(560 * var(--fx)), 560px); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:min-h-\[520px\] { min-height: clamp(260px, calc(520 * var(--fx)), 520px); }
+  .lg\:min-h-\[900px\] { min-height: clamp(450px, calc(900 * var(--fx)), 900px); }
+  .lg\:min-h-\[914px\] { min-height: clamp(457px, calc(914 * var(--fx)), 914px); }
+}
+
+@media (min-width: 1280px) {
+  .xl\:min-h-\[740px\] { min-height: clamp(370px, calc(740 * var(--fx)), 740px); }
+}
+
+/* Login page icon: its box is 50x60px wide but its height is in rem and now
+   shrinks, so the crop let the "Y" of the name peek in. Make the width shrink
+   at the same rate (same 1.25 ratio as the height). */
+.overflow-hidden.w-\[50px\] {
+  width: 3.125rem;
+}
+
+@media (min-width: 640px) {
+  .overflow-hidden.sm\:w-\[60px\] {
+    width: 3.75rem;
+  }
+}
+
+/* Footer text: below 1280px the master scale made it too small (13px).
+   Keep it at a comfortable 15px (labels 13.5px). From 1280px up, Tailwind's
+   xl:/2xl: sizes already read well, so nothing is overridden there. */
+@media (max-width: 1279px) {
+  footer .text-base { font-size: max(1rem, 15px); }
+  footer .text-sm { font-size: max(0.875rem, 13.5px); }
+}
+
+@media (min-width: 640px) and (max-width: 1279px) {
+  footer .sm\:text-base { font-size: max(1rem, 15px); }
+}
+
+/* Hero buttons: when they stack on small phones, give both the same width
+   (the width of the wider one). */
+@media (max-width: 400px) {
+  section#top .flex-wrap {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    width: fit-content;
+  }
+
+  section#top .flex-wrap > * {
+    text-align: center;
+  }
+}
+
+/* Phones: keep big named heading sizes from overflowing a 320-390px screen. */
+@media (max-width: 639px) {
+  .text-6xl { font-size: clamp(1.75rem, 9vw, 2.5rem); }
+  .text-5xl { font-size: clamp(1.75rem, 8.5vw, 2.25rem); }
+  .text-4xl { font-size: clamp(1.6rem, 8vw, 2.1rem); }
+  .text-3xl { font-size: clamp(1.4rem, 6.5vw, 1.9rem); }
+}
+
+/* Fluid versions of every pixel-based size used in the project
+   (text-[76px], lg:text-[76px], h-[60px], mt-[60px] ...).
+   Small text/spacing follows the master scale; large headings follow --fx
+   with a minimum so they stay readable. Rules are ordered and scoped by
+   breakpoint so they behave exactly like Tailwind's sm:/lg:/xl: variants. */
+@media (max-width: 639px) {
+  .h-\[48px\] { height: max(3rem, 44px); }
+  .h-\[52px\] { height: max(3.25rem, 44px); }
+  .h-\[58px\] { height: max(3.625rem, 44px); }
+  .h-\[68px\] { height: max(4.25rem, 44px); }
+  .text-\[10px\] { font-size: 0.625rem; }
+  .text-\[11px\] { font-size: 0.6875rem; }
+  .text-\[12px\] { font-size: 0.75rem; }
+  .text-\[13px\] { font-size: 0.8125rem; }
+  .text-\[15px\] { font-size: 0.9375rem; }
+  .text-\[20px\] { font-size: 1.25rem; }
+  .text-\[34px\] { font-size: clamp(1.700rem, calc(34 * var(--fx)), 34px); }
+}
+
+@media (max-width: 1023px) {
+  .min-h-\[56px\] { min-height: max(3.5rem, 44px); }
+}
+
+@media (max-width: 1279px) {
+  .mt-\[60px\] { margin-top: 3.75rem; }
+}
+
+.gap-\[10px\] { gap: 0.625rem; }
+.h-\[60px\] { height: max(3.75rem, 44px); }
+.leading-\[83px\] { line-height: clamp(2.594rem, calc(83 * var(--fx)), 83px); }
+.min-h-\[42px\] { min-height: max(2.625rem, 42px); }
+.min-h-\[67px\] { min-height: max(4.1875rem, 44px); }
+.min-h-\[96px\] { min-height: max(6rem, 44px); }
+.mt-\[10px\] { margin-top: 0.625rem; }
+.mt-\[80px\] { margin-top: 5rem; }
+.pb-\[13px\] { padding-bottom: 0.8125rem; }
+.py-\[18px\] { padding-top: 1.125rem; padding-bottom: 1.125rem; }
+.text-\[25px\] { font-size: clamp(1.250rem, calc(25 * var(--fx)), 25px); }
+.text-\[39px\] { font-size: clamp(1.950rem, calc(39 * var(--fx)), 39px); }
+.text-\[76px\] { font-size: clamp(2.375rem, calc(76 * var(--fx)), 76px); }
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .sm\:text-\[12px\] { font-size: 0.75rem; }
+  .sm\:text-\[13px\] { font-size: 0.8125rem; }
+  .sm\:text-\[14px\] { font-size: 0.875rem; }
+  .sm\:text-\[17px\] { font-size: 1.0625rem; }
+  .sm\:text-\[23px\] { font-size: clamp(1.150rem, calc(23 * var(--fx)), 23px); }
+  .sm\:text-\[42px\] { font-size: clamp(1.785rem, calc(42 * var(--fx)), 42px); }
+}
+
+@media (min-width: 640px) {
+  .sm\:gap-\[10px\] { gap: 0.625rem; }
+  .sm\:h-\[56px\] { height: max(3.5rem, 44px); }
+  .sm\:h-\[60px\] { height: max(3.75rem, 44px); }
+  .sm\:h-\[70px\] { height: max(4.375rem, 44px); }
+  .sm\:h-\[78px\] { height: max(4.875rem, 44px); }
+  .sm\:leading-\[34px\] { line-height: 2.125rem; }
+  .sm\:mb-\[60px\] { margin-bottom: 3.75rem; }
+  .sm\:mt-\[60px\] { margin-top: 3.75rem; }
+  .sm\:px-\[30px\] { padding-left: 1.875rem; padding-right: 1.875rem; }
+  .sm\:py-\[60px\] { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+  .sm\:text-\[32px\] { font-size: clamp(1.600rem, calc(32 * var(--fx)), 32px); }
+  .sm\:text-\[39px\] { font-size: clamp(1.950rem, calc(39 * var(--fx)), 39px); }
+  .sm\:text-\[68px\] { font-size: clamp(2.125rem, calc(68 * var(--fx)), 68px); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:gap-\[34px\] { gap: 2.125rem; }
+  .lg\:h-\[66px\] { height: max(4.125rem, 44px); }
+  .lg\:leading-\[34px\] { line-height: 2.125rem; }
+  .lg\:min-h-\[68px\] { min-height: max(4.25rem, 44px); }
+  .lg\:py-\[25px\] { padding-top: 1.5625rem; padding-bottom: 1.5625rem; }
+  .lg\:py-\[60px\] { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+  .lg\:text-\[13px\] { font-size: 0.8125rem; }
+  .lg\:text-\[14px\] { font-size: 0.875rem; }
+  .lg\:text-\[15px\] { font-size: 0.9375rem; }
+  .lg\:text-\[18px\] { font-size: 1.125rem; }
+  .lg\:text-\[25px\] { font-size: clamp(1.250rem, calc(25 * var(--fx)), 25px); }
+  .lg\:text-\[48px\] { font-size: clamp(2.040rem, calc(48 * var(--fx)), 48px); }
+  .lg\:text-\[60px\] { font-size: clamp(1.875rem, calc(60 * var(--fx)), 60px); }
+  .lg\:text-\[76px\] { font-size: clamp(2.375rem, calc(76 * var(--fx)), 76px); }
+  .lg\:text-\[80px\] { font-size: clamp(2.500rem, calc(80 * var(--fx)), 80px); }
+}
+
+@media (min-width: 1280px) {
+  .xl\:gap-\[30px\] { gap: 1.875rem; }
+  .xl\:mt-\[50px\] { margin-top: 3.125rem; }
+  .xl\:text-\[38px\] { font-size: clamp(1.900rem, calc(38 * var(--fx)), 38px); }
+  .xl\:text-\[68px\] { font-size: clamp(2.125rem, calc(68 * var(--fx)), 68px); }
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:leading-\[34px\] { line-height: 2.125rem; }
+}
+
+/* Keep the pricing cards, setup card, and comparison table on one left edge. */
+#pricing > div > div.grid,
+#pricing > div > aside {
+  width: min(100%, 75rem);
+  max-width: 75rem;
+  margin-inline: auto;
+}
+
+#pricing > div > section {
+  padding-inline: 0;
+}
+
+#pricing > div > section > div {
+  width: min(75rem, calc(100% - 2.5rem));
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+@media (min-width: 640px) {
+  #pricing > div > section > div {
+    width: min(75rem, calc(100% - 4rem));
+  }
+}
+
+@media (min-width: 1024px) {
+  #pricing > div > section > div {
+    width: min(75rem, calc(100% - 6rem));
+  }
+}

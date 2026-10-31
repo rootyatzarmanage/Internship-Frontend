@@ -9,11 +9,15 @@ import Stakeholders from '../cards/stakeholders'
 import OpenByDesign from '../cards/open-by-design'
 import FrequentlyAsked from '../cards/frequently-asked'
 import CallToAction from '../cards/call-to-action'
+import AnnouncementBanner from '../components/banner/announcement-banner'
+import Header from '../components/header/header'
 import Footer from '../components/footer/footer'
 
 export default function Landing() {
   return (
     <div className="min-h-screen bg-black">
+      <AnnouncementBanner />
+      <Header />
       <Hero />
       <Viewer />
       <Information />
