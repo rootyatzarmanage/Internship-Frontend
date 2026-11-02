@@ -12,7 +12,7 @@ export default function Hero() {
             <p className="mt-6 max-w-[850px] text-lg leading-[1.65] text-white/80 sm:mt-8 sm:text-xl">Yatzar Manage connects the information created during design and construction with the asset records needed for operation, maintenance and renewal.</p>
             <div className="mt-7 flex flex-wrap gap-4 sm:mt-8 sm:gap-7">
               <Link to="/book-a-demo" className="rounded-md bg-[#08a9ed] px-6 py-3 text-lg transition hover:bg-[#0797d3] sm:px-8 sm:py-4 sm:text-xl">Book a Demo</Link>
-              <a href="#how-it-works" className="rounded-md border border-white/60 px-6 py-3 text-lg transition hover:bg-white/10 sm:px-8 sm:py-4 sm:text-xl">See the Lifecycle</a>
+              <a href="#eight-stages" className="rounded-md border border-white/60 px-6 py-3 text-lg transition hover:bg-white/10 sm:px-8 sm:py-4 sm:text-xl">See the Lifecycle</a>
             </div>
           </div>
 

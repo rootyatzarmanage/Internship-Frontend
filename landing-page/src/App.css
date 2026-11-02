@@ -477,3 +477,20 @@ input[type="tel"] {
   .scroll-reveal h2[class~="xl:text-[68px]"] { font-size: 64px; }
   .scroll-reveal h2[class~="sm:text-5xl"] { font-size: 44px; }
 }
+
+/* Hero heading (landing) */
+html body section#top h1[class] {
+  font-size: clamp(32px, calc(18.4px + 3.62vw), 74px);
+}
+
+/* All other headings */
+html body .scroll-reveal h2[class],
+html body section#cta h2[class],
+html body #pricing h1[class],
+html body #pricing h2[class*="text-4xl"],
+html body h1.contact-page-title,
+html body h1.book-demo-page-title,
+html body h1.login-page-title,
+html body article h1[class] {
+  font-size: clamp(28px, calc(14.4px + 3.62vw), 66px);
+}

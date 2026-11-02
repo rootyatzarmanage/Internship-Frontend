@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png'
 
 const sectionLinks = [
   { label: 'Platform', hash: 'platform' },
-  { label: 'How it Works', hash: 'eight-stages' },
+  { label: 'How it Works', hash: 'project' },
   { label: 'Why Yatzar', hash: 'why-yatzar' },
 ]
 
