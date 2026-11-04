@@ -77,7 +77,7 @@ export default function Login() {
             </span>
             </span>
         </label>
-              <button type="button" className="cursor-pointer text-white/90 transition hover:text-[#00aeef]">Forgot Password?</button>
+              <Link to="/forgot-password" className="cursor-pointer text-white/90 transition hover:text-[#00aeef]">Forgot Password?</Link>
             </div>
             <button type="submit" className="h-[52px] w-full cursor-pointer rounded-lg bg-[#00A6F4] px-5 text-center text-sm font-medium text-white transition hover:bg-[#078fc1] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00aeef] sm:h-[60px] sm:text-base">Sign In</button>
           </form>
