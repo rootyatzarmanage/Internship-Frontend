@@ -176,7 +176,6 @@ export default function ForgotPassword() {
                   Verification code
                   <input className={`${inputClass} text-center tracking-[0.35em] sm:tracking-[0.45em]`} type="text" name="otp" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required value={otp} onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="000000" />
                 </label>
-                <p className="text-xs text-white/55">Prototype preview code: <span className="font-semibold text-white/75">123456</span></p>
                 <button type="submit" className={buttonClass}>Verify code</button>
                 <button type="button" onClick={() => { setStep('email'); setOtp(''); setError('') }} className="w-full cursor-pointer py-1 text-sm text-white/75 transition hover:text-[#00aeef]">Change email address</button>
               </form>
