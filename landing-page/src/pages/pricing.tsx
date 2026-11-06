@@ -252,7 +252,7 @@ export default function Pricing() {
               <h2 className="pb-2 text-xl">Need A Setup For A Large Portfolio?</h2>
               <p className="text-base text-white/80">Talk to us about teams, projects and assets across several organisations.</p>
             </div>
-            <Link to="/" hash="cta" className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-white/25 px-4 text-sm transition hover:bg-white/10">
+            <Link to="/contact" className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-white/25 px-4 text-sm transition hover:bg-white/10">
               Talk To Us
             </Link>
           </aside>

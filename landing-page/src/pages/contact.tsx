@@ -96,7 +96,7 @@ export default function Contact() {
             <div className="mt-7 sm:mt-8">
               <h2 className="text-base font-semibold text-white/65 sm:text-lg">Address</h2>
               <address className="mt-3 not-italic text-sm leading-6 text-white/90 sm:text-base sm:leading-7 lg:text-lg lg:leading-[34px]">
-                <strong className="font-semibold text-white">PSG-STEP:</strong> Innosphere,<br />
+                <strong className="font-semibold text-white">PSG-STEP</strong> <br />
                 PSG College of Technology,<br />
                 Peelamedu, Coimbatore - 641 004<br />
                 Tamil Nadu, India

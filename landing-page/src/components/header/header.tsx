@@ -15,16 +15,15 @@ export default function Header() {
   const showLoginAction = pathname !== '/login' && pathname !== '/signup'
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/10 bg-black text-white">
+    <header className="sticky top-0 z-30 bg-[#171717] text-white">
       <div className="mx-auto flex h-[68px] max-w-[1600px] items-center justify-between px-4 sm:h-[78px] sm:px-5 2xl:px-0">
         <Link to="/" hash="top" aria-label="Yatzar Manage home" className="flex shrink-0 items-center">
           <img src={logo} alt="" aria-hidden="true" className="h-auto w-[150px] max-w-full object-contain sm:w-[160px] lg:w-[180px]" />
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden items-center gap-4 text-base text-white/90 lg:flex xl:gap-7 xl:text-lg">
+        <nav aria-label="Main navigation" className="hidden items-center gap-6 text-base text-white/90 lg:flex xl:gap-12 xl:text-lg">
           {sectionLinks.map((link) => <Link key={link.label} to="/" hash={link.hash} className="transition hover:text-[#08a9ed] xl:text-xl">{link.label}</Link>)}
           <Link to="/pricing" className="transition hover:text-[#08a9ed] xl:text-xl">Pricing</Link>
-          <Link to="/contact" className="transition hover:text-[#08a9ed] xl:text-xl">Contact</Link>
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
