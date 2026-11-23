@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { ReactNode } from 'react'
 
@@ -748,6 +748,9 @@ export type LiveTableProps<TData extends RowData> = {
 
   defaultVisibleColumnIds?: string[]
 
+  /** When set, rows become expandable and this renders the dropdown content. */
+  renderRowDetail?: (row: TableRow<TData>) => ReactNode
+
 }
  
 export function LiveTable<TData extends RowData>({
@@ -768,11 +771,22 @@ export function LiveTable<TData extends RowData>({
 
   defaultVisibleColumnIds,
 
+  renderRowDetail,
+
 }: LiveTableProps<TData>) {
 
   const [globalFilter, setGlobalFilter] = useState('')
 
   const [showFilters, setShowFilters] = useState(defaultShowFilters)
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+
+  const toggleRow = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
  
   const initialColumnFilters = useMemo(
 
@@ -972,26 +986,60 @@ export function LiveTable<TData extends RowData>({
 
           ) : (
 
-            rows.map((row) => (
-<tr key={row.id} className={trClass}>
+            rows.map((row) => {
+              const isOpen = expanded.has(row.id)
+              const cells = row.getVisibleCells()
 
-                {row.getVisibleCells().map((cell) => (
-<td
+              return (
+                <Fragment key={row.id}>
+                  <tr
+                    className={`${trClass} ${
+                      renderRowDetail ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800' : ''
+                    }`}
+                    onClick={renderRowDetail ? () => toggleRow(row.id) : undefined}
+                  >
+                    {cells.map((cell, index) => {
+                      const content = flexRender(cell.column.columnDef.cell, cell.getContext())
 
-                    key={cell.id}
+                      return (
+                        <td key={cell.id} style={{ width: cell.column.getSize() }} className={tdClass}>
+                          {renderRowDetail && index === 0 ? (
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                aria-expanded={isOpen}
+                                aria-label={isOpen ? 'Hide details' : 'Show details'}
+                                onClick={(event) => {
+                                  event.stopPropagation()
+                                  toggleRow(row.id)
+                                }}
+                                className="flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded text-gray-500 outline-none focus-visible:ring-2 focus-visible:ring-[#00B2FF]/60 dark:text-gray-400"
+                              >
+                                <Icon
+                                  d={iconPaths.chevron}
+                                  className={`h-3.5 w-3.5 transition-transform ${isOpen ? '' : '-rotate-90'}`}
+                                />
+                              </button>
+                              <span className="min-w-0 truncate">{content}</span>
+                            </div>
+                          ) : (
+                            content
+                          )}
+                        </td>
+                      )
+                    })}
+                  </tr>
 
-                    style={{ width: cell.column.getSize() }}
-
-                    className={tdClass}
->
-
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-</td>
-
-                ))}
-</tr>
-
-            ))
+                  {renderRowDetail && isOpen && (
+                    <tr className={trClass}>
+                      <td colSpan={cells.length} className="bg-gray-50 px-4 py-4 dark:bg-neutral-800/50">
+                        {renderRowDetail(row)}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
+              )
+            })
 
           )}
 </tbody>

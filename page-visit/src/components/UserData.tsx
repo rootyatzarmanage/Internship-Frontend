@@ -4,10 +4,17 @@ export type VisitInput = {
   ipAddress: string; pageUrl: string; country: string; region: string; city: string
   viewedAt: string; user: { name: string; role?: string }
 }
+export type RoleBreakdown = {
+  role: string
+  visits: number
+  users: string[]
+  pages: { page: string; locations: { location: string; visits: number }[] }[]
+}
 export type UserRow = {
   sNo: number; ipAddress: string; users: string; roles: string; totalVisits: number
   pagesVisited: string; uniquePages: number; rolePages: string; locations: string
   pageLocations: string; lastSeen: string
+  breakdown: RoleBreakdown[] // used by the row dropdown
 }
 
 const CBE = { country: 'India', region: 'Tamil Nadu', city: 'Coimbatore' }
@@ -36,11 +43,13 @@ export function aggregateUserAnalytics(visits: VisitInput[]): UserRow[] {
     const role = v.user.role ?? 'Unknown'
     const loc = [v.city, v.region, v.country].filter(Boolean).join(', ')
     const a = map.get(v.ipAddress) ?? { users: new Set(), roles: new Map(), pages: new Map(), locs: new Map(),
-      rolePages: new Map(), pageLocs: new Map(), total: 0, last: v.viewedAt }
-    map.set(v.ipAddress, a)
+      rolePages: new Map(), pageLocs: new Map(), det: new Map(), total: 0, last: v.viewedAt }
+    map.set(v.ipAddress, a) 
     a.total++; a.users.add(v.user.name)
     bump(a.roles, role); bump(a.pages, v.pageUrl); bump(a.locs, loc)
     bump(sub(a.rolePages, role), v.pageUrl); bump(sub(a.pageLocs, v.pageUrl), loc)
+    const d = a.det.get(role) ?? a.det.set(role, { visits: 0, users: new Set(), pages: new Map() }).get(role)
+    d.visits++; d.users.add(v.user.name); bump(sub(d.pages, v.pageUrl), loc)
   }
   return [...map].map(([ip, a], i) => ({
     sNo: i + 1, ipAddress: ip, users: [...a.users].join(', '), roles: fmt(a.roles),
@@ -49,6 +58,12 @@ export function aggregateUserAnalytics(visits: VisitInput[]): UserRow[] {
     locations: fmt(a.locs, '; '),
     pageLocations: [...a.pageLocs].map(([p, l]: any) => `${p}: ${fmt(l, '; ')}`).join(' | '),
     lastSeen: a.last,
+    breakdown: [...a.det].map(([role, d]: any) => ({
+      role, visits: d.visits, users: [...d.users],
+      pages: [...d.pages].map(([page, locs]: any) => ({
+        page, locations: [...locs].map(([location, visits]: any) => ({ location, visits })),
+      })),
+    })),
   }))
 }
 
