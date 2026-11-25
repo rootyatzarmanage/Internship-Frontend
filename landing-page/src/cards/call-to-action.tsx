@@ -13,7 +13,7 @@ export default function Cta() {
           Ready to explore ?
         </p>
 
-        <h2 className="text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-[76px]">
+        <h2 className="landing-card-heading leading-[1.05] tracking-tight">
           See Yatzar Manage
           <br />
           On Your Own Project.

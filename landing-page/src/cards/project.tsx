@@ -44,7 +44,7 @@ export default function Project() {
         <p className="text-base font-normal uppercase text-[#00aeef]">
           Start small. Scale with proof.
         </p>
-        <h2 className="mt-6 text-4xl font-bold leading-tight tracking-[-0.025] sm:mt-8 sm:text-5xl lg:text-[76px]">
+        <h2 className="landing-card-heading mt-6 leading-tight tracking-[-0.025] sm:mt-8">
           Start With <span className="text-[#00aeef]">One</span> Project.
         </h2>
         <p className="mt-6 max-w-[900px] text-lg leading-7 text-[#ffffff] sm:mt-8 sm:text-xl sm:leading-8">

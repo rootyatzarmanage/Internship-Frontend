@@ -11,7 +11,7 @@ export default function OpenByDesign() {
     <section id="open-by-design" className="bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Open by design</p>
-        <h2 className="max-w-[1000px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
+        <h2 className="landing-card-heading max-w-[1000px] leading-[1.08] tracking-tight">
           Built around information,<br className="hidden sm:block" /> not <span className="text-[#08a9ed]">lock-in</span>.
         </h2>
 

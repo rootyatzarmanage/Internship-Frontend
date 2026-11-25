@@ -70,7 +70,7 @@ export default function Faq() {
         <p className="text-base font-normal uppercase text-[#00aeef]">
           Questions
         </p>
-        <h2 className="mt-6 text-4xl font-bold leading-tight tracking-[0.02em] sm:mt-8 sm:text-5xl lg:text-[76px]">
+        <h2 className="landing-card-heading mt-6 leading-tight tracking-[0.02em]">
           Frequently Asked <span className="text-[#00aeef]">Questions</span>.
         </h2>
 

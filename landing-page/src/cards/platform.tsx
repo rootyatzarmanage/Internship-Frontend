@@ -14,7 +14,7 @@ export default function Platform() {
       <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
         <div>
           <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The platform</p>
-          <h2 className="max-w-[700px] text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl xl:text-[68px]">
+          <h2 className="landing-card-heading max-w-[700px] leading-[1.08] tracking-tight">
             One login. One<br className="hidden sm:block" /> connected <span className="text-[#08a9ed]">record</span>.
           </h2>
 

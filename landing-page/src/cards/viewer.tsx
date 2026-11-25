@@ -36,7 +36,7 @@ export default function Viewer() {
     <section id="how-it-works" className="bg-[#171717] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">See the connection</p>
-        <h2 className="max-w-full text-4xl font-bold leading-[1.12] tracking-[-0.02em] sm:text-5xl lg:text-[76px]">
+        <h2 className="landing-card-heading max-w-full leading-[1.12] tracking-[-0.02em]">
           From a model element to<br className="hidden sm:block" /> its <span className="text-[#08a9ed]">records</span>.
         </h2>
         <p className="mt-6 max-w-[780px] text-lg leading-7 text-white/85 sm:mt-8 sm:text-xl">

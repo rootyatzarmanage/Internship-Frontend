@@ -1,0 +1,875 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+@import "tailwindcss";
+ 
+@variant dark (&:where(.dark, .dark *));
+ 
+@theme {
+
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+    --color-brand: #008cd2;
+
+    --color-gray-800: #1d2939;
+
+}
+ 
+:root {
+
+    font-family: var(--font-sans);
+
+    line-height: 1.5;
+
+    letter-spacing: 0;
+
+    font-synthesis: none;
+
+    text-rendering: optimizeLegibility;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale;
+
+}
+ 
+.tpl-site {
+
+    font-weight: 300;
+
+}
+ 
+html {
+
+    scroll-behavior: smooth;
+
+    overflow-x: clip;
+
+}
+ 
+.tpl-site section[id] {
+
+    scroll-margin-top: 68px;
+
+}
+ 
+@media (min-width: 640px) {
+
+    .tpl-site section[id] {
+
+        scroll-margin-top: 78px;
+
+    }
+
+}
+ 
+body,
+
+#root {
+
+    min-width: 320px;
+
+    min-height: 100%;
+
+    margin: 0;
+
+}
+ 
+body {
+
+    overflow-x: clip;
+
+}
+ 
+.tpl-site h1,
+
+.tpl-site h2,
+
+.tpl-site h3,
+
+.tpl-site h4,
+
+.tpl-site h5,
+
+.tpl-site h6 {
+
+    text-transform: capitalize;
+
+}
+ 
+.tpl-site button,
+
+.tpl-site input,
+
+.tpl-site textarea,
+
+.tpl-site select {
+
+    font: inherit;
+
+}
+ 
+/* ==========================================================================
+
+   FLUID RESPONSIVENESS  (paste everything from here to the end of the file)
+
+   --------------------------------------------------------------------------
+
+   Idea: the page looks exactly like the 1920px design on large screens and
+
+   scales down smoothly as the width shrinks - text, buttons and spacing
+
+   all shrink together instead of jumping at breakpoints.
+
+   ========================================================================== */
+ 
+/* 1 fluid pixel. Equals 1px on the 1920px design and shrinks in
+
+   proportion to the viewport width below that. */
+
+:root {
+
+    --fx: calc(100vw / 1920);
+
+}
+ 
+/* Master scale: every rem-based Tailwind size (text-lg, p-6, gap-4 ...)
+
+   follows this. 16px at 1920px wide, shrinking smoothly to 13px. */
+
+html {
+
+    font-size: clamp(13px, 9.5px + 0.34vw, 16px);
+
+}
+ 
+/* Side space. On the 1920px design the content sits 160px (8.333%) from each
+
+   edge. Below 1600px that space used to vanish, because it only came from
+
+   max-w-[1600px] centering. Now it scales with the width (tablet and up). */
+
+@media (min-width: 640px) {
+
+    /* Every page section, page <main> and the footer */
+
+    .tpl-site section[id],
+
+    .tpl-site footer {
+
+        padding-left: clamp(2rem, 8.333vw, 10rem);
+
+        padding-right: clamp(2rem, 8.333vw, 10rem);
+
+    }
+ 
+    /* The hero grid already has its own padding, so remove the extra one */
+
+    .tpl-site section#top > div {
+
+        padding-left: 0;
+
+        padding-right: 0;
+
+    }
+ 
+    /* Header bar: it is its own container, so shrink its width instead */
+
+    .tpl-site header > div:first-child {
+
+        max-width: min(1600px, 83.333vw);
+
+        padding-left: 0;
+
+        padding-right: 0;
+
+    }
+
+}
+ 
+/* Safety net so long words never cause sideways scrolling. */
+
+.tpl-site h1,
+
+.tpl-site h2,
+
+.tpl-site h3,
+
+.tpl-site h4,
+
+.tpl-site h5,
+
+.tpl-site h6,
+
+.tpl-site p,
+
+.tpl-site a,
+
+.tpl-site li {
+
+    overflow-wrap: break-word;
+
+}
+ 
+/* ---- Component fixes (all widths) ------------------------------------- */
+ 
+/* Landing page "Everyone works from the same records" cards:
+
+   remove the fixed 211px minimum so the card hugs its text. */
+
+.tpl-site #stakeholders article {
+
+    min-height: 0;
+
+}
+ 
+/* "Start with one project" step cards: same look as the 1920px design
+
+   (768 x 700 card, screenshot bleeding off the right and bottom edges), but
+
+   everything is a percentage of the card width, so the card and image scale
+
+   together at every screen width.
+
+   Design numbers: padding 40/768 = 5.2%, image starts 100px in (13%), image is
+
+   668px wide (87% of the card) and ends exactly at the card's bottom edge. */
+
+.tpl-site #project article {
+
+    height: auto;
+
+    padding: 5.2% 5.2% 0; /* no bottom padding: the image sits on the bottom edge */
+
+}
+ 
+/* Gap between the description and the image */
+
+.tpl-site #project article > p {
+
+    margin-bottom: 1rem;
+
+}
+ 
+.tpl-site #project article > img {
+
+    position: static;
+
+    display: block;
+
+    width: 97.07%;          /* 87% of the card, measured from the content box */
+
+    max-width: none;
+
+    height: auto;
+
+    margin-top: auto;       /* if the card is taller (equal-height row), the image stays on the bottom edge */
+
+    margin-left: 8.73%;     /* image starts ~13% in from the card's left edge */
+
+    margin-right: -5.8%;    /* bleed off the right edge */
+
+    border-radius: 0.5rem 0 0 0;
+
+    object-fit: cover;
+
+    object-position: left top;
+
+}
+ 
+/* Book-a-demo phone row: the country-code box shrinks with the screen and the
+
+   number field gets less padding, so "00000 00000" is no longer cut off. */
+
+.tpl-site .w-\[119px\] {
+
+    width: clamp(5.25rem, 7vw, 7.4375rem);
+
+}
+ 
+.tpl-site input[type="tel"] {
+
+    padding-left: 0.75rem;
+
+    padding-right: 0.75rem;
+
+}
+ 
+/* Large fixed minimum heights (pricing cards, contact map, login panel)
+
+   now scale with the width instead of staying 500-900px tall. */
+
+@media (min-width: 640px) {
+
+    .tpl-site .sm\:min-h-\[320px\] { min-height: clamp(160px, calc(320 * var(--fx)), 320px); }
+
+    .tpl-site .sm\:min-h-\[560px\] { min-height: clamp(280px, calc(560 * var(--fx)), 560px); }
+
+}
+ 
+@media (min-width: 1024px) {
+
+    .tpl-site .lg\:min-h-\[520px\] { min-height: clamp(260px, calc(520 * var(--fx)), 520px); }
+
+    .tpl-site .lg\:min-h-\[900px\] { min-height: clamp(450px, calc(900 * var(--fx)), 900px); }
+
+    .tpl-site .lg\:min-h-\[914px\] { min-height: clamp(457px, calc(914 * var(--fx)), 914px); }
+
+}
+ 
+@media (min-width: 1280px) {
+
+    .tpl-site .xl\:min-h-\[740px\] { min-height: clamp(370px, calc(740 * var(--fx)), 740px); }
+
+}
+ 
+/* Login page icon: its box is 50x60px wide but its height is in rem and now
+
+   shrinks, so the crop let the "Y" of the name peek in. Make the width shrink
+
+   at the same rate (same 1.25 ratio as the height). */
+
+.tpl-site .overflow-hidden.w-\[50px\] {
+
+     width: 3.125rem;
+
+}
+ 
+@media (min-width: 640px) {
+
+    .tpl-site .overflow-hidden.sm\:w-\[60px\] {
+
+        width: 3.75rem;
+
+    }
+
+}
+ 
+/* Footer text: below 1280px the master scale made it too small (13px).
+
+   Keep it at a comfortable 15px (labels 13.5px). From 1280px up, Tailwind's
+
+   xl:/2xl: sizes already read well, so nothing is overridden there. */
+
+@media (max-width: 1279px) {
+
+    .tpl-site footer .text-base { font-size: max(1rem, 15px); }
+
+    .tpl-site footer .text-sm { font-size: max(0.875rem, 13.5px); }
+
+}
+ 
+@media (min-width: 640px) and (max-width: 1279px) {
+
+    .tpl-site footer .sm\:text-base { font-size: max(1rem, 15px); }
+
+}
+ 
+/* Hero buttons: when they stack on small phones, give both the same width
+
+   (the width of the wider one). */
+
+@media (max-width: 400px) {
+
+    .tpl-site section#top .flex-wrap {
+
+        display: inline-grid;
+
+        grid-template-columns: 1fr;
+
+        width: fit-content;
+
+    }
+ 
+    .tpl-site section#top .flex-wrap > * {
+
+        text-align: center;
+
+    }
+
+}
+ 
+/* Phones: keep big named heading sizes from overflowing a 320-390px screen. */
+
+@media (max-width: 639px) {
+
+    .tpl-site .text-6xl { font-size: clamp(1.75rem, 9vw, 2.5rem); }
+
+    .tpl-site .text-5xl { font-size: clamp(1.75rem, 8.5vw, 2.25rem); }
+
+    .tpl-site .text-4xl { font-size: clamp(1.6rem, 8vw, 2.1rem); }
+
+    .tpl-site .text-3xl { font-size: clamp(1.4rem, 6.5vw, 1.9rem); }
+
+}
+ 
+/* Fluid versions of every pixel-based size used in the project
+
+   (text-[76px], lg:text-[76px], h-[60px], mt-[60px] ...).
+
+   Small text/spacing follows the master scale; large headings follow --fx
+
+   with a minimum so they stay readable. Rules are ordered and scoped by
+
+   breakpoint so they behave exactly like Tailwind's sm:/lg:/xl: variants. */
+
+@media (max-width: 639px) {
+
+    .tpl-site .h-\[48px\] { height: max(3rem, 44px); }
+
+    .tpl-site .h-\[52px\] { height: max(3.25rem, 44px); }
+
+    .tpl-site .h-\[58px\] { height: max(3.625rem, 44px); }
+
+    .tpl-site .h-\[68px\] { height: max(4.25rem, 44px); }
+
+    .tpl-site .text-\[10px\] { font-size: 0.625rem; }
+
+    .tpl-site .text-\[11px\] { font-size: 0.6875rem; }
+
+    .tpl-site .text-\[12px\] { font-size: 0.75rem; }
+
+    .tpl-site .text-\[13px\] { font-size: 0.8125rem; }
+
+    .tpl-site .text-\[15px\] { font-size: 0.9375rem; }
+
+    .tpl-site .text-\[20px\] { font-size: 1.25rem; }
+
+    .tpl-site .text-\[34px\] { font-size: clamp(1.700rem, calc(34 * var(--fx)), 34px); }
+
+}
+ 
+@media (max-width: 1023px) {
+
+    .tpl-site .min-h-\[56px\] { min-height: max(3.5rem, 44px); }
+
+}
+ 
+@media (max-width: 1279px) {
+
+    .tpl-site .mt-\[60px\] { margin-top: 3.75rem; }
+
+}
+ 
+.tpl-site .gap-\[10px\] { gap: 0.625rem; }
+
+.tpl-site .h-\[60px\] { height: max(3.75rem, 44px); }
+
+.tpl-site .leading-\[83px\] { line-height: clamp(2.594rem, calc(83 * var(--fx)), 83px); }
+
+.tpl-site .min-h-\[42px\] { min-height: max(2.625rem, 42px); }
+
+.tpl-site .min-h-\[67px\] { min-height: max(4.1875rem, 44px); }
+
+.tpl-site .min-h-\[96px\] { min-height: max(6rem, 44px); }
+
+.tpl-site .mt-\[10px\] { margin-top: 0.625rem; }
+
+.tpl-site .mt-\[80px\] { margin-top: 5rem; }
+
+.tpl-site .pb-\[13px\] { padding-bottom: 0.8125rem; }
+
+.tpl-site .py-\[18px\] { padding-top: 1.125rem; padding-bottom: 1.125rem; }
+
+.tpl-site .text-\[25px\] { font-size: clamp(1.250rem, calc(25 * var(--fx)), 25px); }
+
+.tpl-site .text-\[39px\] { font-size: clamp(1.950rem, calc(39 * var(--fx)), 39px); }
+
+.tpl-site .text-\[76px\] { font-size: clamp(2.1875rem, calc(70 * var(--fx)), 68px); }
+ 
+@media (min-width: 640px) and (max-width: 1023px) {
+
+    .tpl-site .sm\:text-\[12px\] { font-size: 0.75rem; }
+
+    .tpl-site .sm\:text-\[13px\] { font-size: 0.8125rem; }
+
+    .tpl-site .sm\:text-\[14px\] { font-size: 0.875rem; }
+
+    .tpl-site .sm\:text-\[17px\] { font-size: 1.0625rem; }
+
+    .tpl-site .sm\:text-\[23px\] { font-size: clamp(1.150rem, calc(23 * var(--fx)), 23px); }
+
+    .tpl-site .sm\:text-\[42px\] { font-size: clamp(1.785rem, calc(42 * var(--fx)), 42px); }
+
+}
+ 
+@media (min-width: 640px) {
+
+    .tpl-site .sm\:gap-\[10px\] { gap: 0.625rem; }
+
+    .tpl-site .sm\:h-\[56px\] { height: max(3.5rem, 44px); }
+
+    .tpl-site .sm\:h-\[60px\] { height: max(3.75rem, 44px); }
+
+    .tpl-site .sm\:h-\[70px\] { height: max(4.375rem, 44px); }
+
+    .tpl-site .sm\:h-\[78px\] { height: max(4.875rem, 44px); }
+
+    .tpl-site .sm\:leading-\[34px\] { line-height: 2.125rem; }
+
+    .tpl-site .sm\:mb-\[60px\] { margin-bottom: 3.75rem; }
+
+    .tpl-site .sm\:mt-\[60px\] { margin-top: 3.75rem; }
+
+    .tpl-site .sm\:px-\[30px\] { padding-left: 1.875rem; padding-right: 1.875rem; }
+
+    .tpl-site .sm\:py-\[60px\] { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+
+    .tpl-site .sm\:text-\[32px\] { font-size: clamp(1.600rem, calc(32 * var(--fx)), 32px); }
+
+    .tpl-site .sm\:text-\[39px\] { font-size: clamp(1.950rem, calc(39 * var(--fx)), 39px); }
+
+    .tpl-site .sm\:text-\[68px\] { font-size: clamp(2.125rem, calc(68 * var(--fx)), 68px); }
+
+}
+ 
+@media (min-width: 1024px) {
+
+    .tpl-site .lg\:gap-\[34px\] { gap: 2.125rem; }
+
+    .tpl-site .lg\:h-\[66px\] { height: max(4.125rem, 44px); }
+
+    .tpl-site .lg\:leading-\[34px\] { line-height: 2.125rem; }
+
+    .tpl-site .lg\:min-h-\[68px\] { min-height: max(4.25rem, 44px); }
+
+    .tpl-site .lg\:py-\[25px\] { padding-top: 1.5625rem; padding-bottom: 1.5625rem; }
+
+    .tpl-site .lg\:py-\[60px\] { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+
+    .tpl-site .lg\:text-\[13px\] { font-size: 0.8125rem; }
+
+    .tpl-site .lg\:text-\[14px\] { font-size: 0.875rem; }
+
+    .tpl-site .lg\:text-\[15px\] { font-size: 0.9375rem; }
+
+    .tpl-site .lg\:text-\[18px\] { font-size: 1.125rem; }
+
+    .tpl-site .lg\:text-\[25px\] { font-size: clamp(1.250rem, calc(25 * var(--fx)), 25px); }
+
+    .tpl-site .lg\:text-\[48px\] { font-size: clamp(2.040rem, calc(48 * var(--fx)), 48px); }
+
+    .tpl-site .lg\:text-\[60px\] { font-size: clamp(1.875rem, calc(60 * var(--fx)), 60px); }
+
+    .tpl-site .lg\:text-\[76px\] { font-size: clamp(2.1875rem, calc(70 * var(--fx)), 70px); }
+
+    .tpl-site .lg\:text-\[80px\] { font-size: clamp(2.500rem, calc(80 * var(--fx)), 80px); }
+
+}
+ 
+@media (min-width: 1280px) {
+
+    .tpl-site .xl\:gap-\[30px\] { gap: 1.875rem; }
+
+    .tpl-site .xl\:mt-\[50px\] { margin-top: 3.125rem; }
+
+    .tpl-site .xl\:text-\[38px\] { font-size: clamp(1.900rem, calc(38 * var(--fx)), 38px); }
+
+    .tpl-site .xl\:text-\[68px\] { font-size: clamp(2.125rem, calc(68 * var(--fx)), 68px); }
+
+}
+ 
+@media (min-width: 1536px) {
+
+    .tpl-site .\32xl\:leading-\[34px\] { line-height: 2.125rem; }
+
+}
+ 
+/* Keep the pricing cards, setup card, and comparison table on one left edge. */
+
+.tpl-site #pricing > div > div.grid,
+
+.tpl-site #pricing > div > aside {
+
+    width: min(100%, 75rem);
+
+    max-width: 75rem;
+
+    margin-inline: auto;
+
+}
+ 
+.tpl-site #pricing > div > section {
+
+    padding-inline: 0;
+
+}
+ 
+.tpl-site #pricing > div > section > div {
+
+    width: min(75rem, calc(100% - 2.5rem));
+
+    max-width: 75rem;
+
+    margin-inline: auto;
+
+    padding-inline: 0;
+
+}
+ 
+@media (min-width: 640px) {
+
+    .tpl-site #pricing > div > section > div {
+
+        width: min(75rem, calc(100% - 4rem));
+
+    }
+
+}
+ 
+@media (min-width: 1024px) {
+
+    .tpl-site #pricing > div > section > div {
+
+        width: min(75rem, calc(100% - 6rem));
+
+    }
+
+}
+ 
+@keyframes landing-hero-enter {
+
+from {
+
+        opacity: 0;
+
+        transform: translateY(14px);
+
+    }
+ 
+to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+ 
+.tpl-site .landing-hero-copy {
+
+    animation: landing-hero-enter 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+}
+ 
+.tpl-site .landing-hero-visual {
+
+    animation: landing-hero-enter 800ms 120ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+}
+ 
+.tpl-site .scroll-reveal {
+
+    opacity: 0;
+
+    transform: translateY(18px);
+
+    transition: opacity 600ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+}
+ 
+.tpl-site .scroll-reveal.is-visible {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+
+    .tpl-site .landing-hero-copy,
+
+    .tpl-site .landing-hero-visual,
+
+    .tpl-site .scroll-reveal {
+
+        animation: none;
+
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
+
+    }
+
+}
+ 
+/* Pixel-based sizes for the adjusted primary page titles. */
+
+@media (max-width: 639px) {
+
+    .tpl-site .pricing-page-title,
+
+    .tpl-site .contact-page-title { font-size: 21px; }
+
+    .tpl-site .book-demo-page-title,
+
+    .tpl-site .login-page-title { font-size: 20px; }
+
+}
+ 
+@media (min-width: 380px) and (max-width: 639px) {
+
+    .tpl-site .pricing-page-title,
+
+    .tpl-site .login-page-title { font-size: 23px; }
+
+}
+ 
+@media (min-width: 640px) and (max-width: 1023px) {
+
+    .tpl-site .pricing-page-title,
+
+    .tpl-site .login-page-title { font-size: 35px; }
+
+    .tpl-site .contact-page-title { font-size: 25px; }
+
+    .tpl-site .book-demo-page-title { font-size: 30px; }
+
+}
+ 
+@media (min-width: 1024px) and (max-width: 1279px) {
+
+    .tpl-site .pricing-page-title { font-size: 52px; }
+
+    .tpl-site .contact-page-title { font-size: 34px; }
+
+    .tpl-site .book-demo-page-title { font-size: 35px; }
+
+    .tpl-site .login-page-title { font-size: 28px; }
+
+}
+ 
+@media (min-width: 1280px) and (max-width: 1535px) {
+
+    .tpl-site .pricing-page-title { font-size: 52px; }
+
+    .tpl-site .contact-page-title { font-size: 43px; }
+
+    .tpl-site .book-demo-page-title { font-size: 45px; }
+
+    .tpl-site .login-page-title { font-size: 36px; }
+
+}
+ 
+@media (min-width: 1536px) and (max-width: 1919px) {
+
+    .tpl-site .pricing-page-title { font-size: 52px; }
+
+    .tpl-site .contact-page-title { font-size: 52px; }
+
+    .tpl-site .book-demo-page-title { font-size: 55px; }
+
+    .tpl-site .login-page-title { font-size: 44px; }
+
+}
+ 
+@media (min-width: 1920px) {
+
+    .tpl-site .pricing-page-title { font-size: 52px; }
+
+    .tpl-site .contact-page-title { font-size: 66px; }
+
+    .tpl-site .book-demo-page-title { font-size: 66px; }
+
+    .tpl-site .login-page-title { font-size: 56px; }
+
+}
+ 
+/* Reduce non-hero landing card headings by 4px; keep the hero untouched. */
+
+@media (max-width: 639px) {
+
+    .tpl-site .scroll-reveal h2.text-4xl { font-size: clamp(17px, calc(8vw - 4px), 23px); }
+
+    .tpl-site .scroll-reveal h2.text-5xl { font-size: clamp(19px, calc(8.5vw - 4px), 25px); }
+
+    .tpl-site .scroll-reveal h2.text-6xl { font-size: clamp(19px, calc(9vw - 4px), 29px); }
+
+}
+ 
+@media (min-width: 640px) and (max-width: 1029px) {
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-5xl"] { font-size: 35px; }
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-6xl"] { font-size: 45px; }
+
+}
+ 
+@media (min-width: 1030px) and (max-width: 1919px) {
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-5xl"] { font-size: calc(24.5px + 1.02vw); }
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-6xl"] { font-size: calc(31.625px + 1.275vw); }
+
+}
+ 
+@media (min-width: 1024px) and (max-width: 1919px) {
+
+    .tpl-site .scroll-reveal h2[class~="lg:text-[76px]"] { font-size: calc(3.645833vw - 4px); }
+
+}
+ 
+@media (min-width: 1280px) and (max-width: 1919px) {
+
+    .tpl-site .scroll-reveal h2[class~="xl:text-[68px]"] { font-size: calc(3.541667vw - 4px); }
+
+}
+ 
+@media (min-width: 1920px) {
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-6xl"] { font-size: 56px; }
+
+    .tpl-site .scroll-reveal h2[class~="lg:text-[76px]"] { font-size: 66px; }
+
+    .tpl-site .scroll-reveal h2[class~="xl:text-[68px]"] { font-size: 64px; }
+
+    .tpl-site .scroll-reveal h2[class~="sm:text-5xl"] { font-size: 44px; }
+
+}
+ 
+/* Hero heading (landing) */
+
+.tpl-site section#top h1[class] {
+
+    font-size: clamp(28px, calc(2.5vw + 20px), 84px);
+
+    font-weight: 500;
+
+}
+ 
+/* All other headings */
+
+.tpl-site .scroll-reveal h2[class],
+
+.tpl-site section#cta h2[class],
+
+.tpl-site #pricing h1[class],
+
+.tpl-site #pricing h2[class*="text-4xl"],
+
+.tpl-site h1.contact-page-title,
+
+.tpl-site h1.book-demo-page-title,
+
+.tpl-site h1.login-page-title,
+
+.tpl-site article h1[class] {
+
+    font-size: clamp(28px, calc(14.4px + 3.62vw), 66px);
+
+}
+ 
+html body .tpl-site section[id] .landing-card-heading {
+  font-size: clamp(28px, calc(2.5vw + 14px), 76px);
+  font-weight: 500;
+}
+
+html body .tpl-site #pricing h1.pricing-page-title,
+html body .tpl-site h1.contact-page-title {
+  font-size: clamp(28px, calc(2.5vw + 13px), 76px);
+  font-weight: 500;
+}

@@ -480,7 +480,8 @@ input[type="tel"] {
 
 /* Hero heading (landing) */
 html body section#top h1[class] {
-  font-size: clamp(32px, calc(18.4px + 3.62vw), 74px);
+  font-size: clamp(28px, calc(2.5vw + 20px), 84px);
+  font-weight: 500;
 }
 
 /* All other headings */

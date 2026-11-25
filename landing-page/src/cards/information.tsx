@@ -18,7 +18,7 @@ export default function Information() {
     <section id="information-problem" className="bg-[#0a0a0a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24 2xl:px-0">
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The information problem</p>
-        <h2 className="max-w-[950px] text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[76px]">
+        <h2 className="landing-card-heading max-w-[950px] leading-[1.08] tracking-tight">
           The project ends. <br className="hidden sm:block" /> The <span className="text-[#08a9ed]">information</span><br className="hidden sm:block" /> shouldn’t.
         </h2>
         <p className="mt-8 max-w-[900px] text-xl leading-[1.65] text-white/85 sm:text-xl">

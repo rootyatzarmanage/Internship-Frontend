@@ -15,7 +15,7 @@ export default function Hero() {
             Digital project and asset management
           </p>
 
-          <h1 className="max-w-[850px] text-[28px] font-bold leading-[1.15] tracking-tight min-[375px]:text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[66px]">
+          <h1 className="max-w-[850px] text-[56px] font-medium leading-[1.15] tracking-tight">
             One connected record
             <br />
             <span className="normal-case">for</span> every{' '}
@@ -51,10 +51,10 @@ export default function Hero() {
 
         {/* Infinity Animation */}
         <div
-          className="landing-hero-visual mx-auto w-full max-w-[600px] lg:ml-auto"
+          className="landing-hero-visual mx-auto w-full max-w-[600px] lg:max-w-[760px] lg:ml-auto"
           aria-label="Information from project to asset management"
         >
-          <div className="h-[150px] w-full sm:h-[220px] md:h-[280px] lg:h-[280px]">
+          <div className="h-[300px] w-full sm:h-[220px] md:h-[280px] lg:h-[400px]">
             <img
               src={infinite}
               alt=""

@@ -34,13 +34,13 @@ export default function AnnouncementBanner() {
   if (!visible) return null;
 
   return (
-    <div className="relative z-20 flex min-h-[42px] w-full items-center justify-center bg-[#08A9ED] px-10 py-2 text-white sm:px-12 sm:py-1">
-      <div className="mx-auto flex w-fit max-w-full min-w-0 flex-nowrap items-center justify-center gap-2 sm:gap-4 lg:gap-[34px]">
-        <span className="flex h-6 w-11 shrink-0 items-center justify-center rounded-sm bg-white px-2 py-[2px] text-sm leading-none text-[#0A0A0A] sm:h-7 sm:w-[51px] sm:text-base">
+    <div className="relative z-20 flex min-h-[26px] w-full items-center justify-center bg-[#08A9ED] px-10 py-2 text-white sm:px-12 sm:py-1">
+      <div className="mx-auto flex w-fit max-w-full min-w-0 flex-nowrap items-center justify-center gap-2 sm:gap-2 lg:gap-3">
+        <span className="flex h-6 w-12 shrink-0 items-center justify-center rounded-sm bg-white px-1 py-[2px] text-xs leading-none text-[#0A0A0A]">
           New
         </span>
 
-        <p className="min-w-0 text-center text-[11px] leading-4 tracking-normal text-[#FAFAFA] sm:text-sm sm:leading-6 lg:text-xl lg:leading-[34px]">
+        <p className="min-w-0 text-center text-base leading-4 tracking-normal text-[#FAFAFA]">
           The AI feature available on Yatzar Manage!
           <a
             href="#announcement"
