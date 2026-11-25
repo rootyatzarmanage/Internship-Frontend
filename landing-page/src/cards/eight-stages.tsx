@@ -30,7 +30,7 @@ export default function EightStages() {
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-lg uppercase tracking-wide text-[#08b5f5]">One record. Eight stages.</p>
         <h2 className="landing-card-heading max-w-[950px] leading-[1.08] tracking-tight">
-          Information moves<br className="hidden sm:block" /> with the <span className="text-[#08a9ed]">asset</span>.
+          Information Moves<br className="hidden sm:block" /> With The <span className="text-[#08a9ed]">Asset</span>.
         </h2>
         <p className="mt-6 max-w-[750px] text-lg leading-7 text-white/85 sm:mt-8 sm:text-xl">
           Stages and information flows follow ISO 19650. What the design team writes in week one is what the facility manager reads in year twenty.

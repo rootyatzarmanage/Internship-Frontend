@@ -19,7 +19,7 @@ export default function Information() {
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The information problem</p>
         <h2 className="landing-card-heading max-w-[950px] leading-[1.08] tracking-tight">
-          The project ends. <br className="hidden sm:block" /> The <span className="text-[#08a9ed]">information</span><br className="hidden sm:block" /> shouldn’t.
+          The Project Ends. <br className="hidden sm:block" /> The <span className="text-[#08a9ed]">Information</span><br className="hidden sm:block" /> Shouldn’t.
         </h2>
         <p className="mt-8 max-w-[900px] text-xl leading-[1.65] text-white/85 sm:text-xl">
           Many teams create information, in many tools, and much of it is lost at handover. Yatzar Manage carries it forward into the working life of the asset.

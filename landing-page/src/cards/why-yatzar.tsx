@@ -18,7 +18,7 @@ export default function WhyYatzar() {
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Why Yatzar Manage</p>
         <h2 className="landing-card-heading max-w-[720px] leading-[1.08] tracking-tight">
-          More than <span className="text-[#08a9ed]">project<br className="hidden sm:block" /> management</span>.
+          More Than <span className="text-[#08a9ed]">Project<br className="hidden sm:block" /> Management</span>.
         </h2>
         <p className="mt-8 max-w-[800px] text-base leading-[1.65] text-white/85 sm:text-lg">
           Most workflows treat handover as the finish line. Yatzar Manage treats it as the move from project information to asset information.

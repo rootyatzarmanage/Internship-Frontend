@@ -26,7 +26,14 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
-          {showLoginAction && <Link to="/login" className="h-10 rounded-md border border-white px-3 py-2 text-sm transition hover:bg-white/10 xl:px-4 xl:text-base">Login / Sign-Up</Link>}
+          <Link
+            to="/login"
+            aria-hidden={!showLoginAction}
+            tabIndex={showLoginAction ? undefined : -1}
+            className={`h-10 rounded-md border border-white px-3 py-2 text-sm transition hover:bg-white/10 xl:px-4 xl:text-base ${showLoginAction ? '' : 'invisible pointer-events-none'}`}
+          >
+            Login / Sign-Up
+          </Link>
         </div>
 
         <button type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)} className="rounded p-2 hover:bg-white/10 hover:cursor-pointer lg:hidden">

@@ -37,7 +37,7 @@ export default function Viewer() {
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">See the connection</p>
         <h2 className="landing-card-heading max-w-full leading-[1.12] tracking-[-0.02em]">
-          From a model element to<br className="hidden sm:block" /> its <span className="text-[#08a9ed]">records</span>.
+          From A Model Element To<br className="hidden sm:block" /> Its <span className="text-[#08a9ed]">Records</span>.
         </h2>
         <p className="mt-6 max-w-[780px] text-lg leading-7 text-white/85 sm:mt-8 sm:text-xl">
           Select an element in the IFC model and see the asset ID, class, level and the records attached to it: manuals, warranties and work orders.

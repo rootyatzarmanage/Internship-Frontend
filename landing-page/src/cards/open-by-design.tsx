@@ -12,7 +12,7 @@ export default function OpenByDesign() {
       <div className="mx-auto w-full max-w-[1600px]">
         <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">Open by design</p>
         <h2 className="landing-card-heading max-w-[1000px] leading-[1.08] tracking-tight">
-          Built around information,<br className="hidden sm:block" /> not <span className="text-[#08a9ed]">lock-in</span>.
+          Built Around Information,<br className="hidden sm:block" /> Not <span className="text-[#08a9ed]">Lock-In</span>.
         </h2>
 
         <div className="mt-16">

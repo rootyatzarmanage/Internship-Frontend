@@ -15,7 +15,7 @@ export default function Platform() {
         <div>
           <p className="mb-8 text-base uppercase tracking-wide text-[#08b5f5]">The platform</p>
           <h2 className="landing-card-heading max-w-[700px] leading-[1.08] tracking-tight">
-            One login. One<br className="hidden sm:block" /> connected <span className="text-[#08a9ed]">record</span>.
+            One Login. One<br className="hidden sm:block" /> Connected <span className="text-[#08a9ed]">Record</span>.
           </h2>
 
           <div className="mt-8">

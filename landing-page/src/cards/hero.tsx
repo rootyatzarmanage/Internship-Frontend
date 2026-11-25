@@ -1,9 +1,34 @@
+import { useLayoutEffect, useRef } from 'react'
 import { Link } from '@tanstack/react-router'
+import { gsap } from 'gsap'
+import { SplitText } from 'gsap/SplitText'
 import infinite from '../assets/Infinity animation 1.gif'
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    const hero = heroRef.current
+    if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    gsap.registerPlugin(SplitText)
+    const lines = hero.querySelectorAll<HTMLElement>('.hero-line-reveal')
+    const split = SplitText.create(lines, { type: 'lines', mask: 'lines' })
+    const heading = hero.querySelector('h1')
+
+    const timeline = gsap.timeline()
+    if (heading) timeline.fromTo(heading, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out' })
+    timeline.fromTo(split.lines, { yPercent: 110 }, { yPercent: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out' }, '-=0.12')
+
+    return () => {
+      timeline.kill()
+      split.revert()
+    }
+  }, [])
+
   return (
     <section
+      ref={heroRef}
       id="top"
       className="flex min-h-[calc(100vh-120px)] items-center overflow-hidden bg-black text-white"
     >
@@ -11,7 +36,7 @@ export default function Hero() {
 
         {/* Hero Content */}
         <div className="landing-hero-copy min-w-0">
-          <p className="mb-5 text-sm uppercase tracking-wide text-[#08b5f5] sm:mb-8 sm:text-base">
+          <p className="hero-line-reveal mb-5 text-sm uppercase tracking-wide text-[#08b5f5] sm:mb-8 sm:text-base">
             Digital project and asset management
           </p>
 
@@ -28,7 +53,7 @@ export default function Hero() {
             <span className="text-[#08a9ed]">AI.</span>
           </h1>
 
-          <p className="mt-5 max-w-[850px] text-base leading-relaxed text-white/80 sm:mt-8 sm:text-lg lg:text-xl">
+          <p className="hero-line-reveal mt-5 max-w-[850px] text-base leading-relaxed text-white/80 sm:mt-8 sm:text-lg lg:text-xl">
             Yatzar Manage connects the information created during design and construction with the asset records needed for operation, maintenance and renewal.
           </p>
 
